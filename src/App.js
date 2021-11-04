@@ -1,12 +1,16 @@
-import React from "react";
-import "./App.scss";
-import Dashboard from './pages/dashboard/Dashboard'
+import React from 'react';
+import { BrowserRouter as Router,Route, Routes } from 'react-router-dom';
+import './App.scss';
+import Auth from './pages/auth/Auth';
 
-
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <Dashboard />
+      <Router>
+          <Routes>
+            <Route exact path="/login" element={<Auth/>} />
+          </Routes>
+      </Router>
     </div>
   );
 }
