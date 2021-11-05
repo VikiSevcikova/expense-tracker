@@ -4,6 +4,7 @@ import "./App.scss";
 import Auth from "./pages/auth/Auth";
 import Navbar from "./features/navbar/Navbar";
 import Dashboard from "./pages/dashboard/Dashboard";
+import AllTransaction from "./pages/allTransaction/AllTransaction";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <Route exact path="/login" element={<Auth />} />
           <Navbar>
             <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/alltransaction" element={<AllTransaction />} />
           </Navbar>
         </Routes>
       </Router>
