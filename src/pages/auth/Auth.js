@@ -1,13 +1,19 @@
 import React from 'react';
-
+import LoginForm from '../../features/loginForm/LoginForm';
+import './Auth.scss';
+import {
+ Container, Row, Col
+} from 'react-bootstrap';
 const Auth = () => {
-  console.log("login")
+
   return (
-    <div className="auth-container">
-       <p>
-         Auth
-       </p>
-    </div>
+    <>
+      <Container fluid className="auth-container d-flex align-items-center">
+          <Col md={5} className="align-items-center m-5"> 
+            <LoginForm/>
+          </Col>
+      </Container>
+    </>
   );
 }
 

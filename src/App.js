@@ -5,18 +5,25 @@ import Auth from "./pages/auth/Auth";
 import Wrapper from "./features/wrapper/Wrapper";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AllTransaction from "./pages/allTransaction/AllTransaction";
+import PublicRoute from "./routes/PublicRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 
 const App = () => {
   return (
     <div className="App">
       <Router>
-        <Wrapper>
           <Routes>
-            <Route exact path="/login" element={<Auth />} />
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route exact path="/alltransaction" element={<AllTransaction />} />
+            <Route element={<PublicRoute />}>
+              <Route path={"login"} element={<Auth />} />
+            </Route>
+
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/alltransaction" element={<AllTransaction />} />
+            </Route>
+
+
           </Routes>
-        </Wrapper>
       </Router>
     </div>
   );
