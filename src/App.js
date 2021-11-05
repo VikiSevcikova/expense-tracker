@@ -6,6 +6,7 @@ import Navbar from "./features/navbar/Navbar";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AllTransaction from "./pages/allTransaction/AllTransaction";
 
+
 const App = () => {
   return (
     <div className="App">
