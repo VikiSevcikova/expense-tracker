@@ -1,0 +1,15 @@
+@import "../../utils/component";
+
+.auth-container{
+    background-color: $bgColor;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: 55% top;
+    background-repeat: no-repeat;
+    position: relative;
+    background-image: linear-gradient(to right, $bgColor 1%, rgba(57, 59, 73, 0)) , url('/images/bg-image.jpg');
+    @include media-breakpoint-up(sm) {
+        background-image: linear-gradient(to right, $bgColor 50%, rgba(57, 59, 73, 0)) , url('/images/bg-image.jpg')
+    }
+}
