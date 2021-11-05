@@ -22,7 +22,7 @@ export default function Navbar() {
             alt="expense_tracker_logo"
             className="w-75"
           />
-          <p className="et-logo">ET</p>
+     
         </Nav.Item>
         <Nav.Link className="navBtn">
           <RiProfileLine size={50} />
