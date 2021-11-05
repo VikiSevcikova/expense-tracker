@@ -1,12 +1,6 @@
 import React from "react";
-import Nav from "../../features/navbar/Navbar";
+import "./Dashboard.scss";
 
 export default function Dashboard() {
-  return (
-    <div
-      // style={{ backgroundColor: "#282A38", height: "100vh", width: "100vw" }}
-    >
-      <Nav />
-    </div>
-  );
+  return <div className="dashBoard_wrapper">This is dashboard.</div>;
 }
