@@ -1,6 +1,6 @@
 import React from 'react';
-import Greeting from '../../features/greeting/Greeting';
-import SearchBar from '../../features/searchBar/SearchBar';
+import Greeting from '../../features/greetings/Greeting';
+import SearchBar from '../../features/search/SearchBar';
 
 const AllTransaction = () => {
   return (
