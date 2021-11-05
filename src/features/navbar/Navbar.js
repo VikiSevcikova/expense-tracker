@@ -2,10 +2,5 @@ import React from "react";
 import Nav from "react-bootstrap/Nav";
 
 export default function Navbar() {
-  return (
-    <div>
-      this is nav
-      <Nav className=" bg-black h-100 w-25 "/>
-    </div>
-  );
+  return <div>this is nav</div>;
 }
