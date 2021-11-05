@@ -1,0 +1,43 @@
+.et-logo {
+  position: absolute;
+  top: 60%;
+  left: 38%;
+  transform: translate(-50%, -50%);
+  font-size: 37px;
+  font-family: "Racing Sans One", cursive;
+  color: white;
+  user-select: none;
+}
+
+.navBtn {
+  color: black;
+  text-decoration: none;
+  &__active {
+    color: white;
+  }
+  &__active:hover {
+    user-select: none;
+    cursor:default;
+    color: white;
+  }
+  &__active:focus {
+    user-select: none;
+    cursor:default;
+    color: white;
+  }
+}
+
+.navBtn:hover {
+  color: gray;
+  text-decoration: none;
+}
+
+.navBtn:focus {
+  color: black;
+}
+
+p {
+  font-size: 15px;
+  font-family: "Josefin Sans", sans-serif;
+  text-align: center;
+}

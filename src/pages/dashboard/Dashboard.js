@@ -6,7 +6,6 @@ export default function Dashboard() {
     <div
       style={{ backgroundColor: "#282A38", height: "100vh", width: "100vw" }}
     >
-      <p style={{color:'white'}}>this is dashboard</p>
       <Nav />
     </div>
   );
