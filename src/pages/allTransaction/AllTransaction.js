@@ -1,6 +1,7 @@
 import React from 'react';
 import Greeting from '../../features/greetings/Greeting';
 import SearchBar from '../../features/search/SearchBar';
+import "./AllTransaction.scss"
 
 const AllTransaction = () => {
   return (
