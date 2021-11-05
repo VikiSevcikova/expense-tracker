@@ -5,6 +5,7 @@ import {
   Button
 } from 'react-bootstrap';
 
+
 const SearchBar = () => {
   return (
     <>
