@@ -4,6 +4,7 @@ import {
   FormControl,
   Button
 } from 'react-bootstrap';
+import "./SearchBar.scss";
 
 
 const SearchBar = () => {
