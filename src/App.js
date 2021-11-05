@@ -4,6 +4,7 @@ import './App.scss';
 import Auth from './pages/auth/Auth';
 import AllTransaction from './pages/allTransaction/AllTransaction';
 
+
 const App = () => {
   return (
     <div className="App">
