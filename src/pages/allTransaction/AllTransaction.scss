@@ -1,9 +1,14 @@
 @import "../../utils/component";
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  color: $txtColor1;
+.transactionContainer {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    color: $txtColor1;
+    .pageTitle {
+      text-shadow: -5px -2px 5px rgba(253, 252, 252, 0.7);
+    }
+  }
 }

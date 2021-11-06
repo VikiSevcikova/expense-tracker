@@ -1,4 +1,24 @@
+@import "../../utils/component";
+
 .searchBar {
   width: 100%;
-  background-color: rebeccapurple;
+  background-color: transparent;
+  .searchIcon {
+    color: $txtColor1;
+  }
+  .searchInput {
+    border-radius: 10vw;
+    background-color: transparent;
+    &:focus {
+      box-shadow: none;
+      border: 0.2rem solid $accentColor2;
+    }
+  }
+  .searchBtn {
+    background-color: $accentColor1;
+    border-radius: 10vw;
+    width: 8vw;
+    background-color: $accentColor1;
+    border: none;
+  }
 }
