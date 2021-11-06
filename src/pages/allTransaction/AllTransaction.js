@@ -1,17 +1,25 @@
 import React from 'react';
 import Greeting from '../../features/greetings/Greeting';
 import SearchBar from '../../features/search/SearchBar';
-import "./AllTransaction.scss"
+import Filter from "../../features/filter/Filter";
+import "./AllTransaction.scss";
+import {
+  Container,
+} from 'react-bootstrap';
 
 const AllTransaction = () => {
   return (
     <>
-
-      <header>
-        <Greeting />
-        <h1 className="pageTitle">All Transaction</h1>
-      </header>
-      <SearchBar />
+      <Container
+        className="transactionContainer"
+        fluid>
+        <header>
+          <Greeting />
+          <h1 className="pageTitle">All Transaction</h1>
+        </header>
+        <SearchBar />
+        <Filter />
+      </Container>
     </>
   );
 };
