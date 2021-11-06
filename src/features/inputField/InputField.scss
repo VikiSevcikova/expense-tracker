@@ -1,0 +1,13 @@
+@import '../../utils/component';
+
+.dark{
+    color: $txtColor1;
+    background-color: $boxColor;
+    border: none;
+    &:focus{
+        color: $txtColor1;
+        background-color: $boxColor;
+        outline: 0.2rem solid $accentColor1;
+        box-shadow: none;
+    }
+}

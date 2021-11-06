@@ -9,7 +9,7 @@ const Auth = () => {
   return (
     <>
       <Container fluid className="auth-container d-flex align-items-center">
-          <Col md={5} className="align-items-center m-5"> 
+          <Col md={5} className="m-5"> 
             <LoginForm/>
           </Col>
       </Container>
