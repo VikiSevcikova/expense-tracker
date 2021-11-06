@@ -7,7 +7,7 @@
     &:focus{
         color: $txtColor1;
         background-color: $boxColor;
-        outline: solid 3px $accentColor1;
+        outline: 0.2rem solid $accentColor1;
         box-shadow: none;
     }
 }
