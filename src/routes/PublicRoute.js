@@ -1,24 +1,12 @@
-import { Route, Redirect } from "react-router";
+import { Navigate, Outlet } from "react-router-dom";
 
-const PublicRoute = ({ children, ...rest }) => {
+const PublicRoute = () => {
   const loggedInUser = localStorage.getItem("loggedInUser");
 
-  return (
-    <Route
-      {...rest}
-      render={() =>
-        !loggedInUser ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-            }}
-          />
-        )
-      }
-    />
-  );
+  if (loggedInUser) {
+    return <Navigate to="/dashboard"/>;
+  }
+  return <Outlet />;
 };
 
 export default PublicRoute;

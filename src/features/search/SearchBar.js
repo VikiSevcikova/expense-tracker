@@ -4,19 +4,23 @@ import {
   FormControl,
   Button
 } from 'react-bootstrap';
+import "./SearchBar.scss";
+import { BsSearch } from "react-icons/bs";
 
 
 const SearchBar = () => {
   return (
     <>
       <InputGroup className="searchBar">
+
         <FormControl
-          placeholder="Search Transaction Item"
-          aria-label="Search Transaction Item"
-          aria-describedby="basic-addon2"
+          className="searchInput"
+          placeholder=" Search transaction item here..."
         />
-        <Button variant="outline-secondary" id="button-addon2">
-          Search
+        <Button
+          className="searchBtn"
+        >
+          <BsSearch className="searchIcon" />
         </Button>
       </InputGroup>
     </>

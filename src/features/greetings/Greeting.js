@@ -1,10 +1,11 @@
 import React from 'react';
+import "./Greeting.scss";
 
 const Greeting = (userName) => {
   return (
-    <div className="greeting">
+    <h2 className="greeting">
       {`Welcome back ${userName} :)`}
-    </div>
+    </h2>
   );
 };
 
