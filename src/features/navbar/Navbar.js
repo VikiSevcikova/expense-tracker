@@ -4,21 +4,16 @@ import Image from "react-bootstrap/Image";
 import "./Navbar.scss";
 import { RiProfileLine } from "react-icons/ri";
 import { AiOutlineTransaction } from "react-icons/ai";
-import { GrLogout } from "react-icons/gr";
+import { MdLogout } from "react-icons/md";
 
-export default function Navbar({ children }) {
-  const btnOnClick = (e) => {
-    let name = e.target.parentElement.classList.add("active");
-    console.log(e.target.parentElement.childNodes[1]);
-    console.log(e.target.parentElement.childNodes[0]);
-    // e.target.parentElement.classList
-  };
+
+export default function Navbar() {
 
   return (
-      <div style={{ width: "100px", height: "100vh" }}>
+      <div className="nav_wrapper">
         <Nav
-          className="h-100 w-100 align-items-center justify-content-center"
-          style={{ backgroundColor: "#3F85A4" }}
+          className="navbar h-100 w-100 align-items-center justify-content-center"
+         
         >
           <Nav.Item className="position-relative">
             <Image
@@ -30,7 +25,7 @@ export default function Navbar({ children }) {
           <Nav.Link
             href="/dashboard"
             className="navBtn"
-            onClick={(e) => btnOnClick(e)}
+            // onClick={(e) => btnOnClick(e)}
           >
             <RiProfileLine size={50} />
             <p>Dashboard</p>
@@ -39,7 +34,7 @@ export default function Navbar({ children }) {
             <AiOutlineTransaction size={50} />
             <p>Transactions</p>
           </Nav.Link>
-          <Nav.Link className="navBtn">
+          <Nav.Link href="/" className="navBtn">
             <Image
               src="https://via.placeholder.com/50"
               alt="profile_image"
@@ -48,7 +43,7 @@ export default function Navbar({ children }) {
             <p>Account</p>
           </Nav.Link>
           <Nav.Item className="navBtn">
-            <GrLogout size={40} />
+            <MdLogout size={40} />
             <p>Logout</p>
           </Nav.Item>
         </Nav>
