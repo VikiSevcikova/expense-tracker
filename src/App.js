@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Auth from "./pages/auth/Auth";
-import Wrapper from "./features/wrapper/Wrapper";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AllTransaction from "./pages/allTransaction/AllTransaction";
 import PublicRoute from "./routes/PublicRoute";
