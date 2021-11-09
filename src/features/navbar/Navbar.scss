@@ -1,11 +1,102 @@
-@import '../../utils/component';
+@import "../../utils/component";
 
-.nav_wrapper {
-  width: 100px;
-  height: 100vh;
+.navbar {
+  height: fit-content;
+  padding: 0;
 
-  .navbar {
+  @include media-breakpoint-up(sm) {
+    flex-direction: column;
+  }
+
+  .nav-banner {
+    height: 70px;
+    width: 100vw;
     background-color: $accentColor1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include media-breakpoint-up(sm) {
+      height: 100vh;
+      width: 100px;
+      flex-direction: column;
+    }
+
+    .nav-menu {
+      @include media-breakpoint-up(sm) {
+        display: none;
+      }
+    }
+
+    .et-title {
+      font-size: 30px;
+      font-family: "Josefin Sans", sans-serif;
+      text-align: center;
+      margin: 0;
+
+      @include media-breakpoint-up(sm) {
+        display: none;
+      }
+    }
+    .nav-logo {
+      width: 50px;
+      margin-right: 20px;
+      @include media-breakpoint-up(sm) {
+        display: none;
+      }
+    }
+  }
+
+  .nav-dropdown {
+    display: none;
+    background-color: $accentColor2;
+
+    .navBtn {
+      display: block;
+      width: 100vw;
+      color: white;
+      border: 2px solid $bgColor;
+      border-style: none solid solid;
+      text-align: left;
+      img {
+        height: 30px;
+      }
+      svg {
+        height: 30px;
+      }
+      p {
+        display: inline;
+        margin-left: 15px;
+        font-size: 18px;
+      }
+    }
+    .navBtn:nth-child(1) {
+      border-style: solid solid solid;
+    }
+    .navBtn:nth-child(4) {
+      border-style: none solid none;
+    }
+  }
+  .nav-dropdown-active {
+    display: block;
+  }
+
+  .nav-icon {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:center;
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+
+    .nav-logo{
+      width: 80px;
+      display: block;
+      margin:20px 0 0 ;
+    }
 
     .navBtn {
       color: white;
@@ -35,11 +126,43 @@
     .navBtn:focus {
       color: white;
     }
-
-    p {
-      font-size: 15px;
-      font-family: "Josefin Sans", sans-serif;
-      text-align: center;
-    }
   }
 }
+
+// .navbar {
+//   background-color: $accentColor1;
+
+//   .navBtn {
+//     color: white;
+//     text-decoration: none;
+//     &__active {
+//       color: white;
+//     }
+//     &__active:hover {
+//       user-select: none;
+//       cursor: default;
+//       color: white;
+//     }
+//     &__active:focus {
+//       user-select: none;
+//       cursor: default;
+//       color: white;
+//     }
+//   }
+
+//   .navBtn:hover {
+//     color: white;
+//     text-decoration: none;
+//     transform: scale(1.05);
+//     transition: all 0.5s ease-in-out;
+//   }
+
+//   .navBtn:focus {
+//     color: white;
+//   }
+
+//   p {
+//     font-size: 15px;
+//     font-family: "Josefin Sans", sans-serif;
+//     text-align: center;
+//   }
