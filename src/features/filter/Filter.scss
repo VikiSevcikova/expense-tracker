@@ -1,32 +1,100 @@
 @import "../../utils/component";
 
 .filterContainer {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 1rem;
   background-color: $boxColor;
   padding: 1rem;
   border-radius: 30px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  margin: 1rem auto;
+  //=========== desktop =============
+  @include media-breakpoint-up(lg) {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+  }
+  //=========== desktop =============
   .filterOptions {
+    margin-bottom: 1rem;
+    .col {
+      .incomeFilter,
+      .expenseFilter {
+        width: 100%;
+        border-radius: 10vw;
+        border: none;
+        box-shadow: none;
+        background-color: $accentColor1;
+        transition: all 0.1s ease-in-out;
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+  .buttons {
+    .filterColLeft {
+      .dateFilter {
+        font-size: 0.8rem;
+        z-index: 10;
+        background-color: transparent;
+        color: $txtColor1;
+        border-radius: 10vw;
+        border: solid 0.1rem $txtColor1;
+        padding: 0.3rem;
+        width: 100%;
+        text-align: center;
+        &:focus {
+          outline: none;
+          border: 0.1rem solid $accentColor1 !important;
+        }
+      }
+    }
+    .filterColCenter {
+      svg {
+        font-size: 2rem;
+        margin: 0 0.5rem;
+        height: 100%;
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+    .filterColRight {
+      svg {
+        font-size: 2rem;
+        margin: 0 0.5rem;
+        height: 100%;
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+      .deleteBtn {
+        color: $accentColor3;
+      }
+      .editBtn {
+        color: $accentColor1;
+      }
+    }
+  }
+
+  //======== Desktop, large desktop, and larger desktop ===========
+  .filterOptionsDesktop {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: row;
     gap: 1rem;
-    .incomeFilter {
-      border-radius: 10vw;
-      background-color: $accentColor3;
-      width: 8vw;
-      border: none;
-    }
+    .incomeFilter,
     .expenseFilter {
       border-radius: 10vw;
+      background-color: $accentColor1;
       width: 8vw;
-      background-color: $accentColor4;
       border: none;
+      box-shadow: none;
+      transition: all 0.1s ease-in-out;
+      &:hover {
+        transform: scale(1.05);
+      }
     }
     .dateFilter {
       background-color: transparent;
@@ -38,11 +106,11 @@
       text-align: center;
       &:focus {
         outline: none;
-        border: 0.2rem solid $accentColor2 !important;
+        border: 0.1rem solid $accentColor1 !important;
       }
     }
   }
-  .buttons {
+  .buttonsDesktop {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -54,13 +122,20 @@
       background-color: $accentColor1;
       border: none;
       color: $txtColor1;
+      box-shadow: none;
+      &:hover {
+        transform: scale(1.05);
+      }
     }
     .deleteBtn {
       border-radius: 10vw;
       width: 8vw;
-      background-color: $accentColor1;
+      background-color: $accentColor3;
       border: none;
-      color: $accentColor3;
+      box-shadow: none;
+      &:hover {
+        transform: scale(1.05);
+      }
     }
   }
 }
