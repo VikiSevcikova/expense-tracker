@@ -11,7 +11,7 @@
     background-color: transparent;
     &:focus {
       box-shadow: none;
-      border: 0.2rem solid $accentColor2;
+      border: 0.1rem solid $accentColor1;
     }
   }
   .searchBtn {
@@ -20,5 +20,9 @@
     width: 8vw;
     background-color: $accentColor1;
     border: none;
+    box-shadow: none;
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 }
