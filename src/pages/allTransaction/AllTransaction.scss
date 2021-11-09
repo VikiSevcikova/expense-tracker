@@ -2,13 +2,13 @@
 
 .transactionContainer {
   header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    color: $txtColor1;
-    .pageTitle {
-      text-shadow: -5px -2px 5px rgba(253, 252, 252, 0.7);
+    margin: 1rem 0;
+    @include media-breakpoint-up(lg) {
+      //desktop
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
     }
   }
 }
