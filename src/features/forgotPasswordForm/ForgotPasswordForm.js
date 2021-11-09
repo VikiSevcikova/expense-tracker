@@ -11,6 +11,19 @@ import InputField from "../inputField/InputField";
 const ForgotPasswordForm = () => {
   const [submitted, setSubmitted] = useState(false);
 
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
   return (
     <>
       <Row className="mb-4 align-items-center">
@@ -30,8 +43,8 @@ const ForgotPasswordForm = () => {
           <Row className="mb-4 text-start">
             <h5>Enter the email address associated to you account and we’ll send you a link to reset your password.</h5>
           </Row>
-          <Form>
-            <InputField id="email" type="email" label="Email" />
+          <Form onSubmit={handleSubmit}>
+            <InputField id="email" type="email" label="Email" value={values.email} handleChange={handleChange}/>
             <FormBtn type="submit" name="Submit"/>
           </Form>
         </>

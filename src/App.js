@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./App.scss";
+import "./utils/main.scss";
 import Auth from "./pages/auth/Auth";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AllTransaction from "./pages/allTransaction/AllTransaction";
@@ -16,7 +16,7 @@ const App = () => {
               <Route path={"login"} element={<Auth />} />
               <Route path={"registration"} element={<Auth />} />
               <Route path={"forgot-password"} element={<Auth />} />
-              <Route path={"reset-password"} element={<Auth />} />
+              <Route path={"reset-password/:token"} element={<Auth />} />
             </Route>
 
             <Route element={<PrivateRoute />}>

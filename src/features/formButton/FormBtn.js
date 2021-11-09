@@ -2,7 +2,6 @@ import {
     Button,
   } from "react-bootstrap";
 import "./FormBtn.scss";
-import {BsGoogle} from "react-icons/bs";
 
 const FormBtn = ({name, type, icon}) => {
 
