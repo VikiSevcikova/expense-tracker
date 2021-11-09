@@ -10,6 +10,7 @@
 a{
   // text-decoration: none;
   color: $txtColor1;
+  transition: all 0.5s ease-in-out;
   &:hover{
     color: $accentColor1;
   }
