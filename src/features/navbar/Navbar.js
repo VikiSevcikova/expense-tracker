@@ -25,7 +25,7 @@ export default function Navbar() {
   }
 
   return (
-    <Nav className="navbar">
+    <Nav className="navbar text-center">
       <div className="nav-banner">
         <div className="nav-menu" onClick={() => setMenuOnClick(!menuOnClick)}>
           <BiMenu size={50} />
