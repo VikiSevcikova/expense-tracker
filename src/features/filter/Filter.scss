@@ -24,7 +24,7 @@
         border: none;
         box-shadow: none;
         background-color: $accentColor1;
-        transition: all 0.1s ease-in-out;
+        transition: all 0.5s ease-in-out;
         &:hover {
           transform: scale(1.05);
         }
@@ -54,6 +54,7 @@
         font-size: 2rem;
         margin: 0 0.5rem;
         height: 100%;
+        transition: all 0.5s ease-in-out;
         &:hover {
           transform: scale(1.05);
         }
@@ -64,6 +65,7 @@
         font-size: 2rem;
         margin: 0 0.5rem;
         height: 100%;
+        transition: all 0.5s ease-in-out;
         &:hover {
           transform: scale(1.05);
         }
@@ -91,7 +93,7 @@
       width: 8vw;
       border: none;
       box-shadow: none;
-      transition: all 0.1s ease-in-out;
+      transition: all 0.5s ease-in-out;
       &:hover {
         transform: scale(1.05);
       }
@@ -123,6 +125,7 @@
       border: none;
       color: $txtColor1;
       box-shadow: none;
+      transition: all 0.5s ease-in-out;
       &:hover {
         transform: scale(1.05);
       }
@@ -133,6 +136,7 @@
       background-color: $accentColor3;
       border: none;
       box-shadow: none;
+      transition: all 0.5s ease-in-out;
       &:hover {
         transform: scale(1.05);
       }

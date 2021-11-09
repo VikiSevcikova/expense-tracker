@@ -5,12 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 
-const LoginForm = () => {
+const RegistrationForm = () => {
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const handleSubmit = (e) => {
@@ -34,11 +36,18 @@ const LoginForm = () => {
           <Image src="/images/et-logo.png" alt="expense_tracker_logo" fluid />
         </Col>
         <Col xs={9} className="justify-content-start align-items-center">
-          <h1 className="m-0 text-start">Login to the app.</h1>
+          <h1 className="m-0 text-start">Create new account.</h1>
         </Col>
       </Row>
 
       <Form onSubmit={handleSubmit}>
+        <InputField
+          id="name"
+          type="text"
+          label="Name"
+          value={values.name}
+          handleChange={handleChange}
+        />
         <InputField
           id="email"
           type="email"
@@ -46,9 +55,6 @@ const LoginForm = () => {
           value={values.email}
           handleChange={handleChange}
         />
-        <Link to="/forgot-password">
-          <p className="text-end m-0"> Forgot password? </p>
-        </Link>
         <InputField
           id="password"
           type="password"
@@ -56,7 +62,14 @@ const LoginForm = () => {
           value={values.password}
           handleChange={handleChange}
         />
-        <FormBtn type="submit" name="Login" />
+        <InputField
+          id="confirmPassword"
+          type="password"
+          label="Confirm Password"
+          value={values.confirmPassword}
+          handleChange={handleChange}
+        />
+        <FormBtn type="submit" name="Sign up" />
       </Form>
 
       <p className="line-text m-0">
@@ -69,10 +82,10 @@ const LoginForm = () => {
       />
 
       <p className="m-0 text-center">
-        Don't have account? <Link to="/registration">Sign up</Link>
+        Already have an account? <Link to="/login">Login</Link>
       </p>
     </>
   );
 };
 
-export default LoginForm;
+export default RegistrationForm;

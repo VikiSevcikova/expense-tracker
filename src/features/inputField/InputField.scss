@@ -4,10 +4,26 @@
     color: $txtColor1;
     background-color: $boxColor;
     border: none;
+    border-radius: 15px;
     &:focus{
         color: $txtColor1;
         background-color: $boxColor;
-        outline: 0.2rem solid $accentColor1;
+        outline: 0.15rem solid $accentColor1;
         box-shadow: none;
     }
+    &:-webkit-autofill{
+        color: $txtColor1 !important;
+        background-color: $boxColor !important;
+        &:hover, &:focus{
+            color: $txtColor1 !important;
+            background-color: $boxColor !important;
+        }
+    }
+}
+.dark:-webkit-autofill,
+.dark:-webkit-autofill:hover, 
+.dark:-webkit-autofill:focus, 
+.dark:-webkit-autofill:active{
+    -webkit-text-fill-color: $txtColor1 !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
