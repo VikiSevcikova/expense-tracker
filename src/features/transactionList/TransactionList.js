@@ -3,6 +3,7 @@ import useMedia from "use-media";
 import {
   Container,
   Col,
+  Row,
   Button,
   Table
 } from 'react-bootstrap';
@@ -14,6 +15,7 @@ import {
   MdCheckBoxOutlineBlank,
   MdCheckBox
 } from "react-icons/md";
+import Paging from '../pagination/Paging';
 
 const TransactionList = () => {
 
@@ -27,7 +29,6 @@ const TransactionList = () => {
   return (
     <>
       <Container fluid className="transactionListContainer">
-
         {!(isLG || isXL || isXXL) ? (
           <>
             {/* Mobile view */}
@@ -88,6 +89,9 @@ const TransactionList = () => {
                     <p>2021/11/08</p>
                   </td>
                 </tr>
+                <tr className="paging">
+                  <td colSpan="6"><Paging /></td>
+                </tr>
               </tbody>
             </Table>
           </>
@@ -138,14 +142,14 @@ const TransactionList = () => {
                   <td>Chocolate, pizza, groceries</td>
                   <td className="negativeAmount">-$120</td>
                 </tr>
+                <tr className="paging">
+                  <td colSpan="6"><Paging /></td>
+                </tr>
               </tbody>
             </Table>
 
           </>
         )}
-
-
-
       </Container>
     </>
   );

@@ -55,6 +55,11 @@
           }
         }
       }
+      .paging {
+        td {
+          border-bottom: unset;
+        }
+      }
     }
   }
 }
