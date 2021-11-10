@@ -48,6 +48,9 @@
           border: 0.1rem solid $accentColor1 !important;
         }
       }
+      .react-datepicker-popper {
+        z-index: 1000;
+      }
     }
     .filterColCenter {
       svg {
