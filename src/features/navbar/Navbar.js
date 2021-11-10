@@ -63,7 +63,7 @@ export default function Navbar() {
           /> */}
             <p>Account</p>
           </Nav.Link>
-          <Nav.Link className="navBtn">
+          <Nav.Link className="navBtn" onClick={handleLogout}>
             <MdLogout size={50} />
             <p>Logout</p>
           </Nav.Link>
