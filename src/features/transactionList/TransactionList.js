@@ -20,8 +20,6 @@ import Paging from '../pagination/Paging';
 const TransactionList = () => {
 
   //Media query
-  // const isSM = useMedia({ minWidth: "576px" }); //sm landscape
-  // const isMD = useMedia({ minWidth: "768px" }); //md
   const isLG = useMedia({ minWidth: "992px" }); //lg
   const isXL = useMedia({ minWidth: "1200px" }); //xl
   const isXXL = useMedia({ minWidth: "1400px" }); //xxl

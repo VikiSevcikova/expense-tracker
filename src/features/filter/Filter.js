@@ -15,19 +15,23 @@ import {
 } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import EditTransaction from '../editTransaction/EditTransaction';
 
 const Filter = () => {
+
+  //Media query
+  const isLG = useMedia({ minWidth: "992px" }); //lg
+  const isXL = useMedia({ minWidth: "1200px" }); //xl
+  const isXXL = useMedia({ minWidth: "1400px" }); //xxl
 
   //Calendar filter
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
+  //Modal pop up
+  const [show, setShow] = useState(false);
 
-  //Media query
-  // const isSM = useMedia({ minWidth: "576px" }); //sm landscape
-  // const isMD = useMedia({ minWidth: "768px" }); //md
-  const isLG = useMedia({ minWidth: "992px" }); //lg
-  const isXL = useMedia({ minWidth: "1200px" }); //xl
-  const isXXL = useMedia({ minWidth: "1400px" }); //xxl
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -74,10 +78,12 @@ const Filter = () => {
                 <MdPayment />
               </Col>
               <Col className="filterColRight">
-                <MdModeEdit className="editBtn" />
+                <MdModeEdit className="editBtn" onClick={handleShow} />
                 <MdDelete className="deleteBtn" />
               </Col>
             </Row>
+            {/* Modal */}
+            {show && <EditTransaction show={show} handleClose={handleClose} />}
           </>
         ) : (
           <>
@@ -109,6 +115,7 @@ const Filter = () => {
             <Col className="buttonsDesktop">
               <Button
                 className="editBtn"
+                onClick={handleShow}
               >
                 Edit
               </Button>
