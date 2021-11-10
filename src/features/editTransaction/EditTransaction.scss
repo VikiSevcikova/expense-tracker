@@ -19,16 +19,99 @@
         }
       }
       .modal-body {
-        form {
+        .editForm {
           .transactionType {
             display: flex;
             justify-content: space-evenly;
             align-items: center;
             flex-direction: row;
+            margin: 1rem 0;
+          }
+          .transactionDate {
+            margin: 1rem 0;
+            input {
+              color: $txtColor1;
+              background-color: transparent;
+              border: none;
+              border-bottom: solid 0.1rem $txtColor1;
+              width: 100%;
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+          .transactionCategory {
+            margin: 1rem 0;
+            .form-select {
+              color: $txtColor1;
+              background-color: transparent;
+              border: none;
+              border-bottom: solid 0.1rem $txtColor1;
+              background-image: url("http://www.w3.org/2000/svg");
+              &:focus {
+                outline: none;
+                box-shadow: none;
+              }
+              option {
+                background-color: transparent;
+              }
+            }
+          }
+          .transactionAmount {
+            margin: 1rem 0;
+            .form-control {
+              color: $txtColor1;
+              background-color: transparent;
+              border: none;
+              border-bottom: solid 0.1rem $txtColor1;
+              &:focus {
+                outline: none;
+                box-shadow: none;
+              }
+            }
+          }
+          .transactionDescription {
+            margin: 1rem 0;
+            .form-control {
+              color: $txtColor1;
+              background-color: transparent;
+              border: none;
+              border-bottom: solid 0.1rem $txtColor1;
+              &:focus {
+                outline: none;
+                box-shadow: none;
+              }
+            }
+          }
+          .paymentMethod {
+            margin: 1rem 0;
+            .form-check {
+              margin-bottom: 1rem;
+            }
           }
         }
       }
       .modal-footer {
+        border: unset;
+        justify-content: center;
+        button {
+          width: 30vw;
+          border-radius: 10vw;
+          border: none;
+          box-shadow: none;
+          transition: all 0.5s ease-in-out;
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+        .saveBtn {
+          background-color: $accentColor1;
+          margin-right: 0.5rem;
+        }
+        .deleteBtn {
+          background-color: $accentColor3;
+          margin-left: 0.5rem;
+        }
       }
     }
   }
