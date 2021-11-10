@@ -1,0 +1,15 @@
+@import "../../utils/component";
+
+.paginationContainer {
+  .pagination {
+    justify-content: center;
+    margin-top: 1rem;
+    .page-item {
+      .page-link {
+        background-color: transparent;
+        color: $txtColor1;
+        border: none;
+      }
+    }
+  }
+}
