@@ -48,6 +48,12 @@
             color: $accentColor3;
           }
         }
+        //desktop
+        @include media-breakpoint-up(lg) {
+          .negativeAmount {
+            color: $accentColor3;
+          }
+        }
       }
     }
   }
