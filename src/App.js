@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import AllTransaction from "./pages/allTransaction/AllTransaction";
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
+import { AlertMessage } from "./features/alertMessage/AlertMessage";
 
 const App = () => {
   return (
@@ -23,10 +24,9 @@ const App = () => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/alltransaction" element={<AllTransaction />} />
             </Route>
-
-
           </Routes>
       </Router>
+      <AlertMessage/>
     </div>
   );
 };
