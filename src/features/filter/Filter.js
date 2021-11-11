@@ -125,6 +125,8 @@ const Filter = () => {
                 Delete
               </Button>
             </Col>
+            {/* Modal */}
+            {show && <EditTransaction show={show} handleClose={handleClose} />}
           </>
         )}
       </Container>

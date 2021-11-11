@@ -45,35 +45,36 @@ const EditTransaction = (props) => {
                 <Form.Check type="radio" label="Expense" />
               </Form.Group>
 
-              <Form.Group className="transactionDate">
-                <Form.Label>Choose a Date *</Form.Label>
-                <DatePicker
-                  required
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)} />
-              </Form.Group>
+              <Container fluid>
+                <Form.Group className="transactionDate">
+                  <Form.Label>Choose a Date *</Form.Label>
+                  <DatePicker
+                    required
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)} />
+                </Form.Group>
 
-              <Form.Group className="transactionCategory">
-                <Form.Label>Select a Category *</Form.Label>
-                <Form.Select required defaultValue="Choose...">
-                  <option>Choose...</option>
-                  <option>Food</option>
-                  <option>Food</option>
-                  <option>Food</option>
-                  <option>Food</option>
-                </Form.Select>
-              </Form.Group>
+                <Form.Group className="transactionCategory">
+                  <Form.Label>Select a Category *</Form.Label>
+                  <Form.Select required defaultValue="Choose...">
+                    <option>Choose...</option>
+                    <option>Food</option>
+                    <option>Food</option>
+                    <option>Food</option>
+                    <option>Food</option>
+                  </Form.Select>
+                </Form.Group>
 
-              <Form.Group className="transactionAmount" >
-                <Form.Label>Enter an Amount *</Form.Label>
-                <Form.Control required type="text" placeholder="$" />
-              </Form.Group>
+                <Form.Group className="transactionAmount" >
+                  <Form.Label>Enter an Amount *</Form.Label>
+                  <Form.Control required type="text" placeholder="$" />
+                </Form.Group>
 
-              <Form.Group className="transactionDescription" >
-                <Form.Label>Desctription</Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="Enter item description..." />
-              </Form.Group>
-
+                <Form.Group className="transactionDescription" >
+                  <Form.Label>Desctription</Form.Label>
+                  <Form.Control type="text" placeholder="Enter item description..." />
+                </Form.Group>
+              </Container>
               <Form.Group className="paymentMethod">
                 <Form.Label>Payment Method *</Form.Label>
                 <Form.Check type="radio" label="Debit Card" />
