@@ -27,9 +27,9 @@ const Filter = () => {
   //Calendar filter
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
+
   //Modal pop up
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -125,6 +125,8 @@ const Filter = () => {
                 Delete
               </Button>
             </Col>
+            {/* Modal */}
+            {show && <EditTransaction show={show} handleClose={handleClose} />}
           </>
         )}
       </Container>
