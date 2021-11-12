@@ -63,8 +63,9 @@ export default function Navbar() {
         </div>
       </div>
       <div
-        className="nav-dropdown"
-        style={menuOnClick ? { display: "block" } : { display: "none" }}
+        className={menuOnClick ? "nav-dropdown__active" : "nav-dropdown"}
+
+        // style={menuOnClick ? { display: "block" } : { display: "none" }}
       >
         <Nav.Link href="/dashboard" className="navBtn">
           <RiProfileLine size={50} />
