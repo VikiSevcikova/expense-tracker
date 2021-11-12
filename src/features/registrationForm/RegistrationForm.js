@@ -1,12 +1,19 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Image, Row, Col, Form } from "react-bootstrap";
 import { BsGoogle } from "react-icons/bs";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
+import {
+  showAlert,
+  hideAlert
+} from '../alertMessage/alertMessageSlice';
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [values, setValues] = useState({
     name: "",
@@ -15,14 +22,45 @@ const RegistrationForm = () => {
     confirmPassword: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (user) {
-    localStorage.setItem("loggedInUser", values.email);
-    navigate("/dashboard");
-    // } else {
-    // console.log("Invalid email or password")
-    // }
+
+    const config = {
+      header: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    if(values.password !== values.confirmPassword){
+      setValues({
+        ...values,
+        password: "",
+        confirmPassword: ""
+      });
+      setTimeout(()=>{
+        dispatch(hideAlert());
+      }, 5000);
+      dispatch(showAlert({message: "Passwords do not match.", variant: "danger"}));
+      return;
+    }
+
+    try{
+      const user = {
+        username: values.name,
+        email: values.email,
+        password: values.password
+      }
+      const { data } = await axios.post("/auth/register", user, config);
+
+      localStorage.setItem("authToken", data.token);
+
+      navigate("/dashboard");
+    }catch(error){
+      dispatch(showAlert({message: error.response.data.error ? error.response.data.error : "Sorry, there is an issues on the server.", variant: "danger"}));
+      setTimeout(()=>{
+        dispatch(hideAlert());
+      }, 5000);
+    }
   };
 
   const handleChange = (prop) => (event) => {

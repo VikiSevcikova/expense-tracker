@@ -7,6 +7,7 @@ import AllTransaction from "./pages/allTransaction/AllTransaction";
 import Account from "./pages/account/Account";
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
+import { AlertMessage } from "./features/alertMessage/AlertMessage";
 
 const App = () => {
   return (
@@ -19,7 +20,6 @@ const App = () => {
             <Route path={"forgot-password"} element={<Auth />} />
             <Route path={"reset-password/:token"} element={<Auth />} />
           </Route>
-
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/alltransaction" element={<AllTransaction />} />
@@ -27,6 +27,7 @@ const App = () => {
           </Route>
         </Routes>
       </Router>
+      <AlertMessage/>
     </div>
   );
 };
