@@ -1,0 +1,65 @@
+@import "../../utils/component";
+
+.transactionListContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  margin: 1rem auto;
+  margin-top: 1rem;
+  background-color: $boxColor;
+  padding: 1rem;
+  border-radius: 30px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  .transactionList {
+    color: $txtColor1;
+    .tableTitle {
+      font-size: 1.2rem;
+      tr {
+        .titleCategory {
+          text-align: left;
+        }
+        .titleAmount {
+          text-align: right;
+        }
+      }
+    }
+    .tableBody {
+      tr {
+        .tdLeft {
+          p {
+            margin: 0;
+            text-align: left;
+          }
+          .category {
+            font-weight: bold;
+          }
+          .paymentMethod {
+            color: $accentColor1;
+            font-weight: bold;
+          }
+        }
+        .tdRight {
+          p {
+            margin: 0;
+            text-align: right;
+          }
+          .negativeAmount {
+            color: $accentColor3;
+          }
+        }
+        //desktop
+        @include media-breakpoint-up(lg) {
+          .negativeAmount {
+            color: $accentColor3;
+          }
+        }
+      }
+      .paging {
+        td {
+          border-bottom: unset;
+        }
+      }
+    }
+  }
+}

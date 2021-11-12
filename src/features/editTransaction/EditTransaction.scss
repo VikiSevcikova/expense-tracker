@@ -1,0 +1,163 @@
+@import "../../utils/component";
+
+.editModal {
+  padding-left: 0 !important;
+  width: unset;
+  .modal-fullscreen {
+    min-height: 100%;
+    .modal-content {
+      background-color: $bgColor;
+      padding: 0 1rem;
+      .editTransactionContainer {
+        flex: 1;
+        background-color: $boxColor;
+        padding: 1rem;
+        border-radius: 30px;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        margin: 1rem auto;
+        .modal-header {
+          .modal-title {
+            font-size: 3rem;
+          }
+          .modalClsBtn {
+            font-size: 2rem;
+          }
+        }
+        .modal-body {
+          .editForm {
+            .transactionType {
+              display: flex;
+              justify-content: space-evenly;
+              align-items: center;
+              flex-direction: row;
+              margin: 1rem 0;
+              @include media-breakpoint-up(lg) {
+                justify-content: flex-start;
+                gap: 2rem;
+              }
+            }
+            .container-fluid {
+              padding: 0;
+              @include media-breakpoint-up(lg) {
+                display: grid;
+                grid-column-gap: 3rem;
+              }
+              .transactionDate {
+                margin: 1rem 0;
+                @include media-breakpoint-up(lg) {
+                  grid-row: 1;
+                  grid-column: 2;
+                }
+                input {
+                  color: $txtColor1;
+                  background-color: transparent;
+                  border: none;
+                  border-bottom: solid 0.1rem $txtColor1;
+                  width: 100%;
+                  &:focus {
+                    outline: none;
+                  }
+                }
+              }
+              .transactionCategory {
+                margin: 1rem 0;
+                @include media-breakpoint-up(lg) {
+                  grid-column: 1;
+                  grid-row: 1;
+                }
+                .form-select {
+                  color: $txtColor1;
+                  background-color: $boxColor;
+                  border: none;
+                  border-bottom: solid 0.1rem $txtColor1;
+                  background-image: url("http://www.w3.org/2000/svg");
+                  &:focus {
+                    outline: none;
+                    box-shadow: none;
+                  }
+                }
+              }
+              .transactionAmount {
+                margin: 1rem 0;
+                @include media-breakpoint-up(lg) {
+                  grid-row: 2;
+                  grid-column: 1;
+                }
+                .form-control {
+                  color: $txtColor1;
+                  background-color: transparent;
+                  border: none;
+                  border-bottom: solid 0.1rem $txtColor1;
+                  &:focus {
+                    outline: none;
+                    box-shadow: none;
+                  }
+                }
+              }
+              .transactionDescription {
+                margin: 1rem 0;
+                @include media-breakpoint-up(lg) {
+                  grid-row: 2;
+                  grid-column: 2;
+                }
+                .form-control {
+                  color: $txtColor1;
+                  background-color: transparent;
+                  border: none;
+                  border-bottom: solid 0.1rem $txtColor1;
+                  &:focus {
+                    outline: none;
+                    box-shadow: none;
+                  }
+                }
+              }
+            }
+            .paymentMethod {
+              margin: 1rem 0;
+              .form-label {
+                @include media-breakpoint-up(lg) {
+                  display: block;
+                }
+              }
+              .form-check {
+                margin-bottom: 1rem;
+                @include media-breakpoint-up(lg) {
+                  display: inline-block;
+                  margin-right: 2rem;
+                }
+              }
+            }
+          }
+        }
+        .modal-footer {
+          border: unset;
+          justify-content: center;
+          @include media-breakpoint-up(lg) {
+            justify-content: flex-end;
+          }
+          button {
+            width: 30vw;
+            border-radius: 10vw;
+            border: none;
+            box-shadow: none;
+            transition: all 0.5s ease-in-out;
+            @include media-breakpoint-up(lg) {
+              width: 15vw;
+            }
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+          .saveBtn {
+            background-color: $accentColor1;
+            margin-right: 0.5rem;
+          }
+          .deleteBtn {
+            background-color: $accentColor3;
+            margin-left: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}

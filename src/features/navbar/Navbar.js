@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import "./Navbar.scss";
@@ -9,6 +10,7 @@ import { BiMenu } from "react-icons/bi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   // const menuOnClick = () =>{
   //   const dropdown = document.getElementsByClassName('nav-dropdown')[0]
   //   console.log(dropdown.style.display = 'block')
@@ -17,8 +19,13 @@ export default function Navbar() {
 
   const [menuOnClick, setMenuOnClick] = useState(false);
 
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    navigate("/login");
+  }
+
   return (
-    <Nav className="navbar">
+    <Nav className="navbar text-center">
       <div className="nav-banner">
         <div className="nav-menu" onClick={() => setMenuOnClick(!menuOnClick)}>
           <BiMenu size={50} />
@@ -56,7 +63,7 @@ export default function Navbar() {
           /> */}
             <p>Account</p>
           </Nav.Link>
-          <Nav.Link className="navBtn">
+          <Nav.Link className="navBtn" onClick={handleLogout}>
             <MdLogout size={50} />
             <p>Logout</p>
           </Nav.Link>
@@ -84,7 +91,7 @@ export default function Navbar() {
           /> */}
           <p>Account</p>
         </Nav.Link>
-        <Nav.Link className="navBtn">
+        <Nav.Link className="navBtn" onClick={handleLogout}>
           <MdLogout size={50} />
           <p>Logout</p>
         </Nav.Link>
