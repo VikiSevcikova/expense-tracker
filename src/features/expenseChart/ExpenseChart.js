@@ -8,7 +8,7 @@ export default function ExpenseChart() {
       "Shopping",
       "Grocery",
       "Utilities",
-      "Transport/ automobiles",
+      "Transport & automobiles",
       "Insurance",
       "Medical",
       "Travel",
@@ -54,7 +54,7 @@ export default function ExpenseChart() {
 
   return (
     <div>
-      ExpenseChart
+     <h5>ExpenseChart</h5>
       <Doughnut data={data} options={config} />
     </div>
   );
