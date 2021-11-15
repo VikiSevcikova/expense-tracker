@@ -1,0 +1,60 @@
+@import "../../utils/component";
+
+.delConfModal {
+  padding-left: 0 !important;
+  width: unset;
+  .modal-dialog {
+    min-height: 100%;
+    .modal-content {
+      background-color: $bgColor;
+      padding: 0 1rem;
+      .delConfContainer {
+        flex: 1;
+        background-color: $boxColor;
+        padding: 1rem;
+        border-radius: 30px;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        margin: 1rem auto;
+        .modal-header {
+          border: none;
+          justify-content: end;
+          .modalClsBtn {
+            font-size: 2rem;
+          }
+        }
+        .modal-body {
+          p {
+            font-size: 2rem;
+            text-align: center;
+          }
+        }
+        .modal-footer {
+          display: block;
+          border: none;
+          text-align: center;
+          button {
+            width: 30vw;
+            border-radius: 10vw;
+            border: none;
+            box-shadow: none;
+            transition: all 0.5s ease-in-out;
+            @include media-breakpoint-up(lg) {
+              width: 15vw;
+            }
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+          .cancelBtn {
+            background-color: $accentColor1;
+            margin-right: 0.5rem;
+          }
+          .deleteBtn {
+            background-color: $accentColor3;
+            margin-left: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
