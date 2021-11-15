@@ -62,6 +62,7 @@ const Filter = () => {
                 xs={5} sm={5} md={5}
                 className="filterColLeft">
                 <DatePicker
+                  portalId="root-portal"
                   className="dateFilter"
                   dateFormat="yyyy/MM/dd"
                   monthsShown={2}
