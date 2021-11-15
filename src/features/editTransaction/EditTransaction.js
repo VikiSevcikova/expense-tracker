@@ -1,32 +1,36 @@
 import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
 import "./EditTransaction.scss";
-import useMedia from "use-media";
 import {
   Container,
   Form,
   Button,
   Modal,
-  Dropdown,
-  DropdownButton
 } from 'react-bootstrap';
 import { FaTimesCircle } from "react-icons/fa";
 import { BsFillCaretDownFill } from "react-icons/bs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  showAlert,
+  hideAlert
+} from '../alertMessage/alertMessageSlice';
 
 const EditTransaction = (props) => {
 
   console.log(props);//coming from filter.js
 
+  const dispatch = useDispatch();
+
   //Calendar filter
   const [date, setDate] = useState(new Date());
 
   //checkbox choices
-  const [trxType, setTrxType] = useState({})
+  const [trxType, setTrxType] = useState({});
 
   //private state
   const [transaction, setTransaction] = useState({
-    expense: true,
+    transactionType: "",
     categoryName: "",
     date: date,
     amount: 0,
@@ -36,8 +40,6 @@ const EditTransaction = (props) => {
 
   //method
   const handleChange = (prop) => (e) => {
-    console.log(prop);
-    console.log(e);
     setTransaction({ ...transaction, [prop]: e.target.value });
   };
 
@@ -46,6 +48,13 @@ const EditTransaction = (props) => {
     console.log(transaction);
 
     //validation check
+    if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
+      setTimeout(() => {
+        dispatch(hideAlert());
+      }, 5000);
+      dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
+      return;
+    }
   };
 
   return (
@@ -69,21 +78,17 @@ const EditTransaction = (props) => {
             <Form
               className="editForm"
               onSubmit={handleSubmit}>
-              <Form.Group
-                className="transactionType"
-              >
+              <Form.Group className="transactionType">
                 <Form.Check
                   type="radio"
                   value="income"
                   label="Income"
-                  name="income"
-                  onChange={handleChange("expense")} />
+                  onChange={handleChange("transactionType")} />
                 <Form.Check
                   type="radio"
                   value="expense"
                   label="Expense"
-                  name="expense"
-                  onChange={handleChange("expense")} />
+                  onChange={handleChange("transactionType")} />
               </Form.Group>
 
               <Container fluid>
@@ -131,14 +136,23 @@ const EditTransaction = (props) => {
                 </Form.Group>
               </Container>
 
-              <Form.Group
-                className="paymentMethod"
-                value={transaction.paymentMethod}
-                onChange={handleChange("paymentMethod")}>
+              <Form.Group className="paymentMethod">
                 <Form.Label>Payment Method *</Form.Label>
-                <Form.Check type="radio" label="Debit Card" />
-                <Form.Check type="radio" label="Credit Card" />
-                <Form.Check type="radio" label="Cash" />
+                <Form.Check
+                  type="radio"
+                  label="Debit Card"
+                  value="Debit Card"
+                  onChange={handleChange("paymentMethod")} />
+                <Form.Check
+                  type="radio"
+                  label="Credit Card"
+                  value="Credit Card"
+                  onChange={handleChange("paymentMethod")} />
+                <Form.Check
+                  type="radio"
+                  label="Cash"
+                  value="Cash"
+                  onChange={handleChange("paymentMethod")} />
               </Form.Group>
 
               <Container className="buttons">
