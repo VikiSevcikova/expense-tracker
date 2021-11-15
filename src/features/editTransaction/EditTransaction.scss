@@ -127,34 +127,34 @@
                 }
               }
             }
-          }
-        }
-        .modal-footer {
-          border: unset;
-          justify-content: center;
-          @include media-breakpoint-up(lg) {
-            justify-content: flex-end;
-          }
-          button {
-            width: 30vw;
-            border-radius: 10vw;
-            border: none;
-            box-shadow: none;
-            transition: all 0.5s ease-in-out;
-            @include media-breakpoint-up(lg) {
-              width: 15vw;
+            .buttons {
+              text-align: center;
+              margin-top: 2rem;
+              @include media-breakpoint-up(lg) {
+                text-align: right;
+              }
+              button {
+                width: 30vw;
+                border-radius: 10vw;
+                border: none;
+                box-shadow: none;
+                transition: all 0.5s ease-in-out;
+                @include media-breakpoint-up(lg) {
+                  width: 15vw;
+                }
+                &:hover {
+                  transform: scale(1.05);
+                }
+              }
+              .saveBtn {
+                background-color: $accentColor1;
+                margin-right: 0.5rem;
+              }
+              .deleteBtn {
+                background-color: $accentColor3;
+                margin-left: 0.5rem;
+              }
             }
-            &:hover {
-              transform: scale(1.05);
-            }
-          }
-          .saveBtn {
-            background-color: $accentColor1;
-            margin-right: 0.5rem;
-          }
-          .deleteBtn {
-            background-color: $accentColor3;
-            margin-left: 0.5rem;
           }
         }
       }
