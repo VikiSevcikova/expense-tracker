@@ -25,9 +25,6 @@ const EditTransaction = (props) => {
   //Calendar filter
   const [date, setDate] = useState(new Date());
 
-  //checkbox choices
-  const [trxType, setTrxType] = useState({});
-
   //private state
   const [transaction, setTransaction] = useState({
     transactionType: "",
@@ -164,8 +161,6 @@ const EditTransaction = (props) => {
           </Modal.Body>
         </Container>
       </Modal>
-
-
     </>
   );
 };

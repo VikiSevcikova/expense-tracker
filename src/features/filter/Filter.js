@@ -16,6 +16,7 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EditTransaction from '../editTransaction/EditTransaction';
+import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 
 const Filter = () => {
 
@@ -28,10 +29,15 @@ const Filter = () => {
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
 
-  //Modal pop up
+  //Modal pop up (edit transaction)
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  //Modal pop up (delete conf)
+  const [delConf, setShowDelConf] = useState(false);
+  const closeDelConf = () => setShowDelConf(false);
+  const showDelConf = () => setShowDelConf(true);
 
   return (
     <>
@@ -79,12 +85,17 @@ const Filter = () => {
                 <MdPayment />
               </Col>
               <Col className="filterColRight">
-                <MdModeEdit className="editBtn" onClick={handleShow} />
-                <MdDelete className="deleteBtn" />
+                <MdModeEdit
+                  className="editBtn"
+                  onClick={handleShow} />
+                <MdDelete
+                  className="deleteBtn"
+                  onClick={showDelConf} />
               </Col>
             </Row>
             {/* Modal */}
             {show && <EditTransaction show={show} handleClose={handleClose} />}
+            {delConf && <DeleteConfirmation show={delConf} closeDelConf={closeDelConf} />}
           </>
         ) : (
           <>
@@ -101,6 +112,7 @@ const Filter = () => {
                 Expense
               </Button>
               <DatePicker
+                portalId="root-portal"
                 className="dateFilter"
                 dateFormat="yyyy/MM/dd"
                 monthsShown={2}
@@ -122,17 +134,17 @@ const Filter = () => {
               </Button>
               <Button
                 className="deleteBtn"
+                onClick={showDelConf}
               >
                 Delete
               </Button>
             </Col>
             {/* Modal */}
             {show && <EditTransaction show={show} handleClose={handleClose} />}
+            {delConf && <DeleteConfirmation show={delConf} closeDelConf={closeDelConf} />}
           </>
         )}
       </Container>
-
-
     </>
   );
 };
