@@ -21,7 +21,7 @@ const App = () => {
             <Route path={"reset-password/:token"} element={<Auth />} />
           </Route>
           <Route element={<PrivateRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/alltransaction" element={<AllTransaction />} />
             <Route path="/account" element={<Account />} />
           </Route>
