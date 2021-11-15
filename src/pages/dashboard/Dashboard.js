@@ -2,7 +2,7 @@ import React from "react";
 import "./Dashboard.scss";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import Greeting from "../../features/greetings/Greeting";
-import DatePicker from "react-datepicker";
+import Calender from "../../features/calender/Calender";
 import Currency from "../../features/currency/Currency";
 import BalancePieChart from "../../features/balancePieChart/BalancePieChart";
 import BalanceLineChart from "../../features/balanceLineChart/BalanceLineChart";
@@ -19,10 +19,10 @@ export default function Dashboard() {
       </Container>
       <Container fluid className="box_wrapper">
         <Row>
-          <Col xs={6}>
-            <DatePicker />
+          <Col xs={9}>
+            <Calender />
           </Col>
-          <Col xs={6}>
+          <Col xs={3}>
             <Currency />
           </Col>
         </Row>
@@ -39,7 +39,6 @@ export default function Dashboard() {
       <Container fluid className="box_wrapper">
         <RecentTransaction />
       </Container>
-
     </div>
   );
 }
