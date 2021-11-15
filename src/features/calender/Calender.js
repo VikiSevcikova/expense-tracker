@@ -16,7 +16,6 @@ export default function Calender() {
         startDate={startDate}
         endDate={endDate}
         selectsRange={true}
-        style={{ borderRadius: "30px" }}
       />
     </div>
   );

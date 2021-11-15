@@ -10,33 +10,27 @@ export default function BalancePieChart() {
         label: "balance",
         data: [90, 270],
         backgroundColor: ["#de4c4c", "#5fa43f"],
-        borderColor: ["#282a38"],
-        borderWidth: 1,
+        borderColor: ["#393b49"],
+        borderWidth: 5,
         hoverOffset: 2,
       },
     ],
     animation: {
       animateRotate: true,
     },
-    options: {
-      responsive: false,
-      plugins: {
-        legend: {
-          align: "right",
-        },
+  };
 
-        title: {
-            display: true,
-            text: 'Custom Chart Title'
-        },
-      },
+  const config = {
+    plugins: {
+      legend:{
+        position:'right'
+      }
     },
   };
 
   return (
     <div>
-      balancePieChart
-      <Pie data={data} />
+      <Pie data={data} options={config}/>
     </div>
   );
 }
