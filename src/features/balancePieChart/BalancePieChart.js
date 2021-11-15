@@ -24,12 +24,18 @@ export default function BalancePieChart() {
     plugins: {
       legend:{
         position:'right'
-      }
+      },
+      // title:{
+      //   display: true,
+      //   text:"Total balance: $3000"
+
+      // }
     },
   };
 
   return (
     <div>
+      <h5>Total balance: $3000</h5>
       <Pie data={data} options={config}/>
     </div>
   );
