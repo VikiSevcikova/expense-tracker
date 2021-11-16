@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LoginForm from "../../features/loginForm/LoginForm";
 import "./Auth.scss";
-import { Container, Col } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 import RegistrationForm from "../../features/registrationForm/RegistrationForm";
 import { useLocation } from "react-router";
 import ForgotPasswordForm from "../../features/forgotPasswordForm/ForgotPasswordForm";
@@ -32,9 +32,14 @@ const Auth = () => {
   return (
     <>
       <Container fluid className="auth-container d-flex align-items-center">
-        <Col md={5} className="m-5">
-          {content}
+        <Col md={6} className="m-3">
+        <Row>
+        <Col md={6} className="m-auto">
+            {content}
+          </Col>
+        </Row>
         </Col>
+         
       </Container>
     </>
   );
