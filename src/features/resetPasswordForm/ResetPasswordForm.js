@@ -4,6 +4,7 @@ import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router";
 
 const ResetPasswordSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
@@ -16,12 +17,14 @@ const ResetPasswordSchema = Yup.object().shape({
   }),
 });
 
-
-const handleSubmit = (values) => {
-  console.log(values);
-};
-
 const ResetPasswordForm = () => {
+  const navigate = useNavigate();
+  
+  const handleSubmit = (values) => {
+    console.log(values);
+    navigate("/login");
+  };
+
   return (
     <>
       <Row className="mb-4 align-items-center">
