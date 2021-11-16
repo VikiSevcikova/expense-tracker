@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useMedia from "use-media";
+import { useLocation } from 'react-router-dom';
 import {
   Container,
   Table
@@ -15,6 +16,17 @@ import {
 import Paging from '../pagination/Paging';
 
 const TransactionList = () => {
+
+  const location = useLocation();
+  console.log(location.state);
+
+  //private state : transaction list
+  const [transactionList, setTransactionList] = useState();
+
+  useEffect(() => {
+    //get request to get all transaction list when the component is mounted
+
+  }, [location.state]);
 
   //Media query
   const isLG = useMedia({ minWidth: "992px" }); //lg
