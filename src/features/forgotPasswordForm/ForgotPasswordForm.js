@@ -4,6 +4,7 @@ import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
 const ForgotPasswordSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -64,6 +65,9 @@ const ForgotPasswordForm = () => {
               </Form>
             )}
           </Formik>
+          <p className="m-0 text-center">
+            Did you just remember?  <Link to="/login">Login</Link>
+          </p>
         </>
       )}
     </>
