@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
-import "./EditTransaction.scss";
+import "./EnterTransaction.scss";
 import {
   Container,
   Form,
@@ -15,6 +15,7 @@ import {
   showAlert,
   hideAlert
 } from '../alertMessage/alertMessageSlice';
+import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 
 const EditTransaction = (props) => {
 
@@ -34,6 +35,11 @@ const EditTransaction = (props) => {
     description: "",
     paymentMethod: ""
   });
+
+  //Modal pop up (delete conf)
+  const [delConf, setShowDelConf] = useState(false);
+  const closeDelConf = () => setShowDelConf(false);
+  const showDelConf = () => setShowDelConf(true);
 
   //method
   const handleChange = (prop) => (e) => {
@@ -64,7 +70,7 @@ const EditTransaction = (props) => {
         <Container fluid className="editTransactionContainer">
           {/* Header */}
           <Modal.Header>
-            <Modal.Title>Edit Transaction</Modal.Title>
+            <Modal.Title>Enter Transaction</Modal.Title>
             <FaTimesCircle
               className="modalClsBtn"
               onClick={props.handleClose} />
@@ -154,7 +160,11 @@ const EditTransaction = (props) => {
 
               <Container className="buttons">
                 <Button className="saveBtn" type="submit">Save</Button>
-                <Button className="deleteBtn">Delete</Button>
+                <Button
+                  className="deleteBtn"
+                  onClick={showDelConf}>Delete</Button>
+
+                {delConf && <DeleteConfirmation show={delConf} closeDelConf={closeDelConf} />}
               </Container>
 
             </Form>

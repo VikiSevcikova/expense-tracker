@@ -2,7 +2,8 @@
 
 .delConfModal {
   padding-left: 0 !important;
-  width: unset;
+  background-color: $bgColorTR;
+  //width: unset;
   .modal-dialog {
     min-height: 100%;
     .modal-content {
@@ -29,9 +30,13 @@
           }
         }
         .modal-footer {
-          display: block;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
           border: none;
           text-align: center;
+          flex-wrap: nowrap;
           button {
             width: 30vw;
             border-radius: 10vw;

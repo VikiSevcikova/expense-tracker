@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useMedia from "use-media";
 import {
   Container,
-  Col,
-  Row,
-  Button,
   Table
 } from 'react-bootstrap';
 import "./TransactionList.scss";
