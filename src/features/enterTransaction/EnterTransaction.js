@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { useDispatch } from "react-redux";
 import "./EnterTransaction.scss";
 import {
@@ -22,6 +24,7 @@ const EditTransaction = (props) => {
   console.log(props);//coming from filter.js
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //Calendar filter
   const [date, setDate] = useState(new Date());
@@ -46,17 +49,42 @@ const EditTransaction = (props) => {
     setTransaction({ ...transaction, [prop]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(transaction);
 
-    //validation check
-    if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
-      setTimeout(() => {
-        dispatch(hideAlert());
-      }, 5000);
-      dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
-      return;
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      },
+    };
+
+    try {
+      //validation check
+      if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
+        setTimeout(() => {
+          dispatch(hideAlert());
+        }, 5000);
+        dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
+        return;
+      } else {
+        //send data to backend
+        //"http://localhost:5000/alltransaction/add"
+        const response = await axios.post("http://localhost:5000/alltransaction/add", transaction, config);
+        console.log(response);
+        if (response.statusText !== "OK") {
+          throw response.statusText;
+        } else {
+          //dispatch
+          console.log("new data added!!!", response.data);
+          //go back to alltransaction page
+          navigate("/alltransaction", {
+            state: response.data
+          });
+        }
+      }
+    } catch (error) {
+      console.error(`${error}: Something wrong on the server side`);
+      return error;
     }
   };
 
