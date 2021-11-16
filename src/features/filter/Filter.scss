@@ -121,6 +121,18 @@
     align-items: center;
     flex-direction: row;
     gap: 1rem;
+    .addNewBtn {
+      border-radius: 10vw;
+      width: 8vw;
+      background-color: $accentColor1;
+      border: none;
+      color: $txtColor1;
+      box-shadow: none;
+      transition: all 0.5s ease-in-out;
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
     .editBtn {
       border-radius: 10vw;
       width: 8vw;

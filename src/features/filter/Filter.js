@@ -15,7 +15,7 @@ import {
 } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import EditTransaction from '../editTransaction/EditTransaction';
+import EnterTransaction from '../enterTransaction/EnterTransaction';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 
 const Filter = () => {
@@ -31,13 +31,20 @@ const Filter = () => {
 
   //Modal pop up (edit transaction)
   const [show, setShow] = useState(false);
+  const [operationType, setOperationType] = useState("");
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (operation) => {
+    setOperationType(operation);
+    setShow(true);
+  };
 
   //Modal pop up (delete conf)
   const [delConf, setShowDelConf] = useState(false);
   const closeDelConf = () => setShowDelConf(false);
   const showDelConf = () => setShowDelConf(true);
+
+  //add or edit button visibility
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
     <>
@@ -86,15 +93,20 @@ const Filter = () => {
               </Col>
               <Col className="filterColRight">
                 <MdModeEdit
-                  className="editBtn"
-                  onClick={handleShow} />
+                  className="addNewBtn"
+                  onClick={() => handleShow("add")} />
+                  {isEditing && 
+                                  <MdModeEdit
+                                  className="editBtn"
+                                  onClick={() => handleShow("edit")} />
+                  }
                 <MdDelete
                   className="deleteBtn"
                   onClick={showDelConf} />
               </Col>
             </Row>
             {/* Modal */}
-            {show && <EditTransaction show={show} handleClose={handleClose} />}
+            {show && <EnterTransaction show={show} operationType={operationType} handleClose={handleClose} />}
             {delConf && <DeleteConfirmation show={delConf} closeDelConf={closeDelConf} />}
           </>
         ) : (
@@ -127,11 +139,18 @@ const Filter = () => {
 
             <Col className="buttonsDesktop">
               <Button
-                className="editBtn"
-                onClick={handleShow}
+                className="addNewBtn"
+                onClick={() => handleShow("add")}
               >
-                Edit
+                Add
               </Button>
+              {isEditing &&
+                <Button
+                  className="editBtn"
+                  onClick={() => handleShow("edit")}
+                >
+                  Edit
+                </Button>}
               <Button
                 className="deleteBtn"
                 onClick={showDelConf}
@@ -140,7 +159,7 @@ const Filter = () => {
               </Button>
             </Col>
             {/* Modal */}
-            {show && <EditTransaction show={show} handleClose={handleClose} />}
+            {show && <EnterTransaction show={show} operationType={operationType} handleClose={handleClose} />}
             {delConf && <DeleteConfirmation show={delConf} closeDelConf={closeDelConf} />}
           </>
         )}
