@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import uuid from 'react-uuid';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -18,6 +19,7 @@ import {
   hideAlert
 } from '../alertMessage/alertMessageSlice';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
+import { categories } from '../../utils/Categories';
 
 const EditTransaction = (props) => {
 
@@ -29,14 +31,20 @@ const EditTransaction = (props) => {
   //Calendar filter
   const [date, setDate] = useState(new Date());
 
+  console.log(categories);
+
   //private state
   const [transaction, setTransaction] = useState({
-    transactionType: "",
-    categoryName: "",
+    id: uuid(),
     date: date,
-    amount: 0,
+    categoryId: 0, //need to get from backend
+    categoryName: "",
+    transactionType: "",
     description: "",
-    paymentMethod: ""
+    currency: "CAD",
+    amount: 0,
+    paymentMethod: "",
+    isDeleted: false
   });
 
   //Modal pop up (delete conf)
@@ -68,7 +76,6 @@ const EditTransaction = (props) => {
         return;
       } else {
         //send data to backend
-        //"http://localhost:5000/alltransaction/add"
         const response = await axios.post("http://localhost:5000/alltransaction/add", transaction, config);
         console.log(response);
         if (response.statusText !== "OK") {
