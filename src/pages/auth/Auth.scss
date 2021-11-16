@@ -8,7 +8,7 @@
     background-position: 55% top;
     background-repeat: no-repeat;
     position: relative;
-    background-image: linear-gradient(to right, $bgColor 10%, rgba(57, 59, 73, 0)) , url('/images/bg-image.jpg');
+    background-image: linear-gradient(to right, $bgColor 10%, rgba(57, 59, 73, 0.5)) , url('/images/bg-image.jpg');
     @include media-breakpoint-up(md) {
         background-image: linear-gradient(to right, $bgColor 50%, rgba(57, 59, 73, 0)) , url('/images/bg-image.jpg')
     }
