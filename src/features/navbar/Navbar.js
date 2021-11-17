@@ -10,6 +10,8 @@ import { BiMenu } from "react-icons/bi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../userProfile/userSlice";
+import axios from "axios";
+import { showAlert } from "../alertMessage/alertMessageSlice";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -23,9 +25,12 @@ export default function Navbar() {
 
   const [menuOnClick, setMenuOnClick] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem("ET-token");
+    const { data } = await axios.get("/auth/logout");
+    console.log(data)
     dispatch(removeUser());
+    dispatch(showAlert(data.message, "info"))
     navigate("/login");
   }
 
@@ -51,7 +56,7 @@ export default function Navbar() {
               className=" w-100"
             />
           </Nav.Item>
-          <Nav.Link href="/dashboard" className="navBtn">
+          <Nav.Link href="/" className="navBtn">
             <RiProfileLine size={50} />
             <p>Dashboard</p>
           </Nav.Link>
@@ -59,7 +64,7 @@ export default function Navbar() {
             <AiOutlineTransaction size={50} />
             <p>Transactions</p>
           </Nav.Link>
-          <Nav.Link href="/" className="navBtn">
+          <Nav.Link href="/account" className="navBtn">
             <MdOutlineAccountCircle size={50} />
             {/* <Image
             src="https://via.placeholder.com/50"

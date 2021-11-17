@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../userProfile/userSlice";
+import { getUser } from "../../utils/utils";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -20,27 +21,16 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    console.log(values)
-    const user = {
+    const formData = {
       email: values.email,
       password: values.password,
     };
-    const { data } = await axios.post("/auth/login", user);
+    const { data } = await axios.post("/auth/login", formData);
     localStorage.setItem("ET-token", data.token)
-    const config = {
-      //headers not header!!
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${data.token}`,
-      },
-      data:{
-        userId: data.userId
-      }
-    };
-    const userData = await axios.get("/users/me", config);
-    console.log(userData)
 
-    dispatch(setUser(userData.data));
+    const { user } = await getUser(data.token);
+    dispatch(setUser(user));
+
     navigate("/");
   };
 

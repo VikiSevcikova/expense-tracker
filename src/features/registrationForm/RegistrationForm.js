@@ -10,6 +10,7 @@ import { showAlert, hideAlert } from "../alertMessage/alertMessageSlice";
 import { setUser } from "../userProfile/userSlice";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { getUser } from "../../utils/utils";
 
 const RegistrationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -30,15 +31,17 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const user = {
+      const formData = {
         username: values.name,
         email: values.email,
         password: values.password,
       };
-      const { data } = await axios.post("/auth/register", user);
-      localStorage.setItem("ET-token", data.token)
-      const { data : userData} = await axios.get("/users/me", data.userId);
-      dispatch(setUser(userData));
+      const { data } = await axios.post("/auth/register", formData);
+
+      localStorage.setItem("ET-token", data.token);
+
+      const { user } = await getUser(data.userId);
+      dispatch(setUser(user));
       navigate("/");
     } catch (error) {
       dispatch(

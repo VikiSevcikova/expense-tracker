@@ -49,6 +49,18 @@
           }
         }
         //desktop
+        .form-check-input {
+          box-shadow: none;
+          border: 0.1rem solid $txtColor1;
+          background-color: transparent;
+          &:checked {
+            box-shadow: none;
+            outline: unset;
+            border: 0.1rem solid $accentColor1;
+            background-color: $accentColor1;
+          }
+        }
+
         @include media-breakpoint-up(lg) {
           .negativeAmount {
             color: $accentColor3;

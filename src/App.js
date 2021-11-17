@@ -8,9 +8,9 @@ import Account from "./pages/account/Account";
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import { AlertMessage } from "./features/alertMessage/AlertMessage";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUser } from "./utils/utils";
-import { selectUser, setUser } from "./features/userProfile/userSlice";
+import { setUser } from "./features/userProfile/userSlice";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,8 +19,8 @@ const App = () => {
     const getTokenAndUser = async () => {
       const token = localStorage.getItem("ET-token");
       if(token){
-        const {data} = await getUser(token);
-        dispatch(setUser(data.user));
+        const { user } = await getUser(token);
+        dispatch(setUser(user));
       }
     }
     getTokenAndUser();

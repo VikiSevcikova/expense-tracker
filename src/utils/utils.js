@@ -7,21 +7,20 @@ export const getUser =  async (token) => {
           Authorization: `Bearer ${token}`,
         }
       };
-      const userData = await axios.get("/users/me", config);
-      return userData;
+      const { data } = await axios.get("/users/me", config);
+      return data;
 }
 
-// export const logoutUser = () => {
+// export const loginUser = async (formData) => {
+//     const { data } = await axios.post("/auth/login", formData);
+//     return data;
+// }
+
+// export const logout = async () => {
 //     const { data } = await axios.get("/auth/logout");
-//     return data;
 // }
 
-// export const loginUser = () => {
-//     const { data } = await axios.get("/auth/login");
-//     return data;
-// }
-
-// export const registerUser = () => {
-//     const { data } = await axios.get("/auth/register");
+// export const registerUser = async (formData) => {
+//     const { data } = await axios.post("/auth/register", formData);
 //     return data;
 // }
