@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 import {
   Container,
   Table
@@ -18,13 +20,39 @@ import Paging from '../pagination/Paging';
 const TransactionList = () => {
 
   const location = useLocation();
-  console.log(location.state);
+  console.log("this is coming from backend", location.state);
+
+  const dispatch = useDispatch();
 
   //private state : transaction list
   const [transactionList, setTransactionList] = useState();
 
+  //when the component is mounted
   useEffect(() => {
-    //get request to get all transaction list when the component is mounted
+
+    const config = {
+      headers: {
+        "Content-type": "application/json"
+      },
+    };
+
+    (async () => {
+      try {
+        //get all transaction data from backend
+        const response = await axios.get("http://localhost:5000/alltransaction/all", config);
+        if (response.statusText !== "OK") {
+          throw response.statusText;
+        } else {
+
+          //dispatch
+          console.log("all data is ready", response.data); //array
+
+        }
+      } catch (error) {
+        console.error(`${error}: Something wrong on the server side`);
+        return error;
+      }
+    })();
 
   }, [location.state]);
 
@@ -69,18 +97,6 @@ const TransactionList = () => {
                   </td>
                   <td className="tdRight">
                     <p className="negativeAmount">-$100</p>
-                    <p>2021/11/08</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><MdCheckBoxOutlineBlank /></td>
-                  <td className="tdLeft">
-                    <p className="category">Food</p>
-                    <p>Chocolate, pizza, groceries</p>
-                    <p className="paymentMethod">Debit card</p>
-                  </td>
-                  <td className="tdRight">
-                    <p>$100</p>
                     <p>2021/11/08</p>
                   </td>
                 </tr>
