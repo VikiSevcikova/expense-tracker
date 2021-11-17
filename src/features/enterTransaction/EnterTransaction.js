@@ -31,11 +31,8 @@ const EditTransaction = (props) => {
   //Calendar filter
   const [date, setDate] = useState(new Date());
 
-  console.log(categories);
-
   //private state
   const [transaction, setTransaction] = useState({
-    id: uuid(),
     date: date,
     categoryId: 0, //need to get from backend
     categoryName: "",
@@ -54,6 +51,12 @@ const EditTransaction = (props) => {
 
   //method
   const handleChange = (prop) => (e) => {
+    //get category id based on category name
+    if (prop === "categoryName") {
+      const targetCategory = categories.find(elem => elem.name === e.target.value);
+      console.log(targetCategory);
+      setTransaction({ ...transaction, categoryId: targetCategory.id });
+    }
     setTransaction({ ...transaction, [prop]: e.target.value });
   };
 
@@ -83,6 +86,8 @@ const EditTransaction = (props) => {
         } else {
           //dispatch
           console.log("new data added!!!", response.data);
+          //close modal pop-up
+          props.handleClose()
           //go back to alltransaction page
           navigate("/alltransaction", {
             state: response.data
@@ -147,10 +152,11 @@ const EditTransaction = (props) => {
                     value={transaction.categoryName}
                     onChange={handleChange("categoryName")}>
                     <option>Choose...</option>
-                    <option>Food</option>
-                    <option>House</option>
-                    <option>Transportation</option>
-                    <option>Other</option>
+                    {categories.map((elem, index) => (
+                      <>
+                        <option key={index}>{elem.name}</option>
+                      </>
+                    ))}
                   </Form.Select>
                 </Form.Group>
 
