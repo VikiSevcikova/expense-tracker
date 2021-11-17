@@ -1,10 +1,12 @@
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import { selectUser } from "../features/userProfile/userSlice";
 import Wrapper from "../features/wrapper/Wrapper";
 
 const PrivateRoute = () => {
-  const loggedInUser = localStorage.getItem("loggedInUser");
+  const {isAuth} = useSelector(selectUser);
 
-  if (!loggedInUser) {
+  if (!isAuth) {
     return <Navigate to="/login"/>;
   }
   return <Wrapper> <Outlet /> </Wrapper>;

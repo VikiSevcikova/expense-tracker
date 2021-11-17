@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./utils/main.scss";
 import Auth from "./pages/auth/Auth";
@@ -8,8 +8,24 @@ import Account from "./pages/account/Account";
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import { AlertMessage } from "./features/alertMessage/AlertMessage";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "./utils/utils";
+import { selectUser, setUser } from "./features/userProfile/userSlice";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getTokenAndUser = async () => {
+      const token = localStorage.getItem("ET-token");
+      if(token){
+        const {data} = await getUser(token);
+        dispatch(setUser(data.user));
+      }
+    }
+    getTokenAndUser();
+  },[])
+
   return (
     <div className="App">
       <Router>

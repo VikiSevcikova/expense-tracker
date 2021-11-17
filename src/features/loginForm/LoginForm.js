@@ -6,6 +6,9 @@ import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUser } from "../userProfile/userSlice";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -14,15 +17,31 @@ const LoginSchema = Yup.object().shape({
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values)
-    // if (user) {
-    localStorage.setItem("loggedInUser", values.email);
-    navigate("/dashboard");
-    // } else {
-    // console.log("Invalid email or password")
-    // }
+    const user = {
+      email: values.email,
+      password: values.password,
+    };
+    const { data } = await axios.post("/auth/login", user);
+    localStorage.setItem("ET-token", data.token)
+    const config = {
+      //headers not header!!
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${data.token}`,
+      },
+      data:{
+        userId: data.userId
+      }
+    };
+    const userData = await axios.get("/users/me", config);
+    console.log(userData)
+
+    dispatch(setUser(userData.data));
+    navigate("/");
   };
 
 

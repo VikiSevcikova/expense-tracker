@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { Form, FloatingLabel, InputGroup } from "react-bootstrap";
-import { AiOutlineEye } from "react-icons/ai";
+import { Form, FloatingLabel } from "react-bootstrap";
 import "./InputField.scss";
 
 const InputField = ({ id, type, label, value, handleChange, handleBlur, error}) => {

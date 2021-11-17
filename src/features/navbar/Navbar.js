@@ -8,9 +8,13 @@ import { AiOutlineTransaction } from "react-icons/ai";
 import { MdLogout } from "react-icons/md";
 import { BiMenu } from "react-icons/bi";
 import { MdOutlineAccountCircle } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { removeUser } from "../userProfile/userSlice";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   // const menuOnClick = () =>{
   //   const dropdown = document.getElementsByClassName('nav-dropdown')[0]
   //   console.log(dropdown.style.display = 'block')
@@ -20,7 +24,8 @@ export default function Navbar() {
   const [menuOnClick, setMenuOnClick] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("ET-token");
+    dispatch(removeUser());
     navigate("/login");
   }
 

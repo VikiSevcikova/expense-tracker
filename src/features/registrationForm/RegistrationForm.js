@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { showAlert, hideAlert } from "../alertMessage/alertMessageSlice";
+import { setUser } from "../userProfile/userSlice";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
@@ -28,23 +29,17 @@ const RegistrationForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
-    };
-
     try {
       const user = {
         username: values.name,
         email: values.email,
         password: values.password,
       };
-      const { data } = await axios.post("/auth/register", user, config);
-
-      localStorage.setItem("authToken", data.token);
-
-      navigate("/dashboard");
+      const { data } = await axios.post("/auth/register", user);
+      localStorage.setItem("ET-token", data.token)
+      const { data : userData} = await axios.get("/users/me", data.userId);
+      dispatch(setUser(userData));
+      navigate("/");
     } catch (error) {
       dispatch(
         showAlert({
@@ -67,7 +62,9 @@ const RegistrationForm = () => {
           <Image src="/images/et-logo.png" alt="expense_tracker_logo" fluid />
         </Col>
         <Col xs={9} className="justify-content-start align-items-center">
-          <h1 className="m-0 text-start">Create new account<span className="accent-color">.</span></h1>
+          <h1 className="m-0 text-start">
+            Create new account<span className="accent-color">.</span>
+          </h1>
         </Col>
       </Row>
 
