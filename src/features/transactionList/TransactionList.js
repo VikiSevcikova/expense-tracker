@@ -79,7 +79,7 @@ const TransactionList = () => {
                   {transactionList.map((elem, index) => (
                     <>
                       <tr key={index}>
-                        <td><MdCheckBoxOutlineBlank /></td>
+                        <td><MdCheckBoxOutlineBlank className="checkBox"/></td>
                         <td className="tdLeft">
                           <p className="category">{elem.categoryName}</p>
                           <p>{elem.description}</p>
@@ -116,7 +116,7 @@ const TransactionList = () => {
                   {transactionList.map((elem, index) => (
                     <>
                       <tr key={index}>
-                        <td><MdCheckBoxOutlineBlank /></td>
+                        <td><MdCheckBoxOutlineBlank className="checkBox"/></td>
                         <td>{elem.categoryName}</td>
                         <td>{elem.date.substr(0, 10).replace("-", "/")}</td>
                         <td>{elem.paymentMethod}</td>
