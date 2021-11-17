@@ -6,6 +6,10 @@ import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUser } from "../userProfile/userSlice";
+import { getUser } from "../../utils/utils";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -14,15 +18,20 @@ const LoginSchema = Yup.object().shape({
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values) => {
-    console.log(values)
-    // if (user) {
-    localStorage.setItem("loggedInUser", values.email);
-    navigate("/dashboard");
-    // } else {
-    // console.log("Invalid email or password")
-    // }
+  const handleSubmit = async (values) => {
+    const formData = {
+      email: values.email,
+      password: values.password,
+    };
+    const { data } = await axios.post("/auth/login", formData);
+    localStorage.setItem("ET-token", data.token)
+
+    const { user } = await getUser(data.token);
+    dispatch(setUser(user));
+
+    navigate("/");
   };
 
 

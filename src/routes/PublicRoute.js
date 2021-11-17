@@ -1,12 +1,12 @@
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import { selectUser } from "../features/userProfile/userSlice";
 
 const PublicRoute = () => {
-  const loggedInUser = localStorage.getItem("loggedInUser");
+  const {isAuth} = useSelector(selectUser);
 
-  if (loggedInUser) {
+  if (isAuth) {
     return <Navigate to="/" />;
-  } else if (!loggedInUser) {
-    <Navigate to="/login" />;
   }
   return <Outlet />;
 };

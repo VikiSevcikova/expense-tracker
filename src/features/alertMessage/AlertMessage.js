@@ -8,7 +8,7 @@ import './AlertMessage.scss';
 
 export function AlertMessage() {
   const alert = useSelector(selectAlert);
-console.log(alert)
+
   return (
     <Alert variant={alert.variant} show={alert.show} className="bottom-center">
         {alert.message}

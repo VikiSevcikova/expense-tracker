@@ -7,8 +7,10 @@ import { Link, useNavigate } from "react-router-dom";
 import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { showAlert, hideAlert } from "../alertMessage/alertMessageSlice";
+import { setUser } from "../userProfile/userSlice";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { getUser } from "../../utils/utils";
 
 const RegistrationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -28,23 +30,19 @@ const RegistrationForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
-    };
-
     try {
-      const user = {
+      const formData = {
         username: values.name,
         email: values.email,
         password: values.password,
       };
-      const { data } = await axios.post("/auth/register", user, config);
+      const { data } = await axios.post("/auth/register", formData);
 
-      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("ET-token", data.token);
 
-      navigate("/dashboard");
+      const { user } = await getUser(data.userId);
+      dispatch(setUser(user));
+      navigate("/");
     } catch (error) {
       dispatch(
         showAlert({
@@ -67,7 +65,9 @@ const RegistrationForm = () => {
           <Image src="/images/et-logo.png" alt="expense_tracker_logo" fluid />
         </Col>
         <Col xs={9} className="justify-content-start align-items-center">
-          <h1 className="m-0 text-start">Create new account<span className="accent-color">.</span></h1>
+          <h1 className="m-0 text-start">
+            Create new account<span className="accent-color">.</span>
+          </h1>
         </Col>
       </Row>
 
