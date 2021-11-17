@@ -84,8 +84,6 @@ const EditTransaction = (props) => {
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-          //dispatch
-          console.log("new data added!!!", response.data);
           //close modal pop-up
           props.handleClose()
           //go back to alltransaction page

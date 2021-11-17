@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "./DeleteConfirmation.scss";
 import { FaTimesCircle } from "react-icons/fa";
 import {

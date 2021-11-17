@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { transactionListSelector, getAllTransaction } from './transactionListSlice';
 import {
   Container,
   Table
@@ -22,10 +23,10 @@ const TransactionList = () => {
   const location = useLocation();
   console.log("this is coming from backend", location.state);
 
+  //redux
   const dispatch = useDispatch();
-
-  //private state : transaction list
-  const [transactionList, setTransactionList] = useState();
+  const transactionList = useSelector(transactionListSelector);
+  console.log(transactionList); //undefined
 
   //when the component is mounted
   useEffect(() => {
@@ -43,10 +44,8 @@ const TransactionList = () => {
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-
           //dispatch
-          console.log("all data is ready", response.data); //array
-
+          dispatch(getAllTransaction(response.data));
         }
       } catch (error) {
         console.error(`${error}: Something wrong on the server side`);
@@ -64,115 +63,77 @@ const TransactionList = () => {
   return (
     <>
       <Container fluid className="transactionListContainer">
-        {!(isLG || isXL || isXXL) ? (
-          <>
-            {/* Mobile view */}
-            <Table className="transactionList">
-              <thead className="tableTitle">
-                <tr>
-                  <th><MdCheckBoxOutlineBlank /></th>
-                  <th className="titleCategory"><MdOutlineCategory /> Category <BsFillCaretDownFill /></th>
-                  <th className="titleAmount"><MdAttachMoney /> <BsFillCaretDownFill /></th>
-                </tr>
-              </thead>
-              <tbody className="tableBody">
-                <tr>
-                  <td><MdCheckBoxOutlineBlank /></td>
-                  <td className="tdLeft">
-                    <p className="category">Food</p>
-                    <p>Chocolate, pizza, groceries</p>
-                    <p className="paymentMethod">Debit card</p>
-                  </td>
-                  <td className="tdRight">
-                    <p>$100</p>
-                    <p>2021/11/08</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><MdCheckBoxOutlineBlank /></td>
-                  <td className="tdLeft">
-                    <p className="category">Food</p>
-                    <p>Chocolate, pizza, groceries</p>
-                    <p className="paymentMethod">Credit card</p>
-                  </td>
-                  <td className="tdRight">
-                    <p className="negativeAmount">-$100</p>
-                    <p>2021/11/08</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><MdCheckBoxOutlineBlank /></td>
-                  <td className="tdLeft">
-                    <p className="category">Food</p>
-                    <p>Chocolate, pizza, groceries</p>
-                    <p className="paymentMethod">Debit card</p>
-                  </td>
-                  <td className="tdRight">
-                    <p>$100</p>
-                    <p>2021/11/08</p>
-                  </td>
-                </tr>
-                <tr className="paging">
-                  <td colSpan="6"><Paging /></td>
-                </tr>
-              </tbody>
-            </Table>
-          </>
-        ) : (
-          <>
-            {/* Desktop view */}
-            <Table className="transactionList">
-              <thead className="tableTitle">
-                <tr>
-                  <th><MdCheckBoxOutlineBlank /></th>
-                  <th className="titleCategory">Category <BsFillCaretDownFill /></th>
-                  <th className="titleCategory">Date <BsFillCaretDownFill /></th>
-                  <th className="titleCategory">Payment Method <BsFillCaretDownFill /></th>
-                  <th className="titleCategory">Description <BsFillCaretDownFill /></th>
-                  <th className="titleCategory">Amount <BsFillCaretDownFill /></th>
-                </tr>
-              </thead>
-              <tbody className="tableBody">
-                <tr>
-                  <td><MdCheckBoxOutlineBlank /></td>
-                  <td>Food</td>
-                  <td>2021/11/05</td>
-                  <td>Debit card</td>
-                  <td>Chocolate, pizza, groceries</td>
-                  <td>$20</td>
-                </tr>
-                <tr>
-                  <td><MdCheckBoxOutlineBlank /></td>
-                  <td>Food</td>
-                  <td>2021/11/05</td>
-                  <td>Debit card</td>
-                  <td>Chocolate, pizza, groceries</td>
-                  <td className="negativeAmount">-$20</td>
-                </tr>
-                <tr>
-                  <td><MdCheckBoxOutlineBlank /></td>
-                  <td>Food</td>
-                  <td>2021/11/05</td>
-                  <td>Debit card</td>
-                  <td>Chocolate, pizza, groceries</td>
-                  <td>$20</td>
-                </tr>
-                <tr>
-                  <td><MdCheckBoxOutlineBlank /></td>
-                  <td>Food</td>
-                  <td>2021/11/05</td>
-                  <td>Debit card</td>
-                  <td>Chocolate, pizza, groceries</td>
-                  <td className="negativeAmount">-$120</td>
-                </tr>
-                <tr className="paging">
-                  <td colSpan="6"><Paging /></td>
-                </tr>
-              </tbody>
-            </Table>
+        {!transactionList.length == 0 ? (<>
+          {!(isLG || isXL || isXXL) ? (
+            <>
+              {/* Mobile view */}
+              <Table className="transactionList">
+                <thead className="tableTitle">
+                  <tr>
+                    <th><MdCheckBoxOutlineBlank /></th>
+                    <th className="titleCategory"><MdOutlineCategory /> Category <BsFillCaretDownFill /></th>
+                    <th className="titleAmount"><MdAttachMoney /> <BsFillCaretDownFill /></th>
+                  </tr>
+                </thead>
+                <tbody className="tableBody">
+                  {transactionList.map((elem, index) => (
+                    <>
+                      <tr key={index}>
+                        <td><MdCheckBoxOutlineBlank /></td>
+                        <td className="tdLeft">
+                          <p className="category">{elem.categoryName}</p>
+                          <p>{elem.description}</p>
+                          <p className="paymentMethod">{elem.paymentMethod}</p>
+                        </td>
+                        <td className="tdRight">
+                          <p>${elem.amount}</p>
+                          <p>{elem.date.substr(0, 10).replace("-", "/")}</p>
+                        </td>
+                      </tr>
+                    </>
+                  ))}
+                  <tr className="paging">
+                    <td colSpan="6"><Paging /></td>
+                  </tr>
+                </tbody>
+              </Table>
+            </>
+          ) : (
+            <>
+              {/* Desktop view */}
+              <Table className="transactionList">
+                <thead className="tableTitle">
+                  <tr>
+                    <th><MdCheckBoxOutlineBlank /></th>
+                    <th className="titleCategory">Category <BsFillCaretDownFill /></th>
+                    <th className="titleCategory">Date <BsFillCaretDownFill /></th>
+                    <th className="titleCategory">Payment Method <BsFillCaretDownFill /></th>
+                    <th className="titleCategory">Description <BsFillCaretDownFill /></th>
+                    <th className="titleCategory">Amount <BsFillCaretDownFill /></th>
+                  </tr>
+                </thead>
+                <tbody className="tableBody">
+                  {transactionList.map((elem, index) => (
+                    <>
+                      <tr key={index}>
+                        <td><MdCheckBoxOutlineBlank /></td>
+                        <td>{elem.categoryName}</td>
+                        <td>{elem.date.substr(0, 10).replace("-", "/")}</td>
+                        <td>{elem.paymentMethod}</td>
+                        <td>{elem.categoryName}</td>
+                        <td>${elem.amount}</td>
+                      </tr>
+                    </>
+                  ))}
+                  <tr className="paging">
+                    <td colSpan="6"><Paging /></td>
+                  </tr>
+                </tbody>
+              </Table>
+            </>
+          )}
+        </>) : (<h2>No Transaction Added yet</h2>)}
 
-          </>
-        )}
       </Container>
     </>
   );

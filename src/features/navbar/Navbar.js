@@ -46,7 +46,7 @@ export default function Navbar() {
               className=" w-100"
             />
           </Nav.Item>
-          <Nav.Link href="/dashboard" className="navBtn">
+          <Nav.Link href="/" className="navBtn">
             <RiProfileLine size={50} />
             <p>Dashboard</p>
           </Nav.Link>
@@ -54,7 +54,7 @@ export default function Navbar() {
             <AiOutlineTransaction size={50} />
             <p>Transactions</p>
           </Nav.Link>
-          <Nav.Link href="/" className="navBtn">
+          <Nav.Link href="/account" className="navBtn">
             <MdOutlineAccountCircle size={50} />
             {/* <Image
             src="https://via.placeholder.com/50"
