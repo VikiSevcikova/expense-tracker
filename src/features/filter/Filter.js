@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import useMedia from "use-media";
+import { useSelector, useDispatch } from "react-redux";
+import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import "./Filter.scss";
 import {
   Container,
@@ -29,7 +31,7 @@ const Filter = () => {
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
 
-  //Modal pop up (edit transaction)
+  //Modal pop up (enter transaction)
   const [show, setShow] = useState(false);
   const [operationType, setOperationType] = useState("");
   const handleClose = () => setShow(false);
@@ -43,8 +45,10 @@ const Filter = () => {
   const closeDelConf = () => setShowDelConf(false);
   const showDelConf = () => setShowDelConf(true);
 
-  //add or edit button visibility
-  const [isEditing, setIsEditing] = useState(false);
+  //redux
+  const dispatch = useDispatch()
+  const operation = useSelector(enterTransactionSelector);
+  console.log(operation);
 
   return (
     <>
@@ -95,11 +99,11 @@ const Filter = () => {
                 <MdModeEdit
                   className="addNewBtn"
                   onClick={() => handleShow("add")} />
-                  {isEditing && 
-                                  <MdModeEdit
-                                  className="editBtn"
-                                  onClick={() => handleShow("edit")} />
-                  }
+                {operation.editMode &&
+                  <MdModeEdit
+                    className="editBtn"
+                    onClick={() => handleShow("edit")} />
+                }
                 <MdDelete
                   className="deleteBtn"
                   onClick={showDelConf} />
@@ -144,7 +148,7 @@ const Filter = () => {
               >
                 Add
               </Button>
-              {isEditing &&
+              {operation.editMode &&
                 <Button
                   className="editBtn"
                   onClick={() => handleShow("edit")}

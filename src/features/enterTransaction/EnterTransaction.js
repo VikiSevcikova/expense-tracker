@@ -34,14 +34,15 @@ const EditTransaction = (props) => {
   //private state
   const [transaction, setTransaction] = useState({
     date: date,
-    categoryId: 0, //need to get from backend
+    categoryId: 0, //default 0 : need to get from backend
     categoryName: "",
     transactionType: "",
     description: "",
     currency: "CAD",
     amount: 0,
     paymentMethod: "",
-    isDeleted: false
+    isDeleted: false,
+    isEditing: false
   });
 
   //Modal pop up (delete conf)
@@ -54,13 +55,20 @@ const EditTransaction = (props) => {
     //get category id based on category name
     if (prop === "categoryName") {
       const targetCategory = categories.find(elem => elem.name === e.target.value);
-      console.log(targetCategory);
-      setTransaction({ ...transaction, categoryId: targetCategory.id });
+      setTransaction(
+        {
+          ...transaction,
+          ["categoryId"]: targetCategory.id,
+          [prop]: e.target.value
+        }
+      );
+    } else {
+      setTransaction({ ...transaction, [prop]: e.target.value });
     }
-    setTransaction({ ...transaction, [prop]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
+    console.log(transaction);
     e.preventDefault();
 
     const config = {
@@ -85,7 +93,7 @@ const EditTransaction = (props) => {
           throw response.statusText;
         } else {
           //close modal pop-up
-          props.handleClose()
+          props.handleClose();
           //go back to alltransaction page
           navigate("/alltransaction", {
             state: response.data

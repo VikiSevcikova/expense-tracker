@@ -3,10 +3,12 @@ import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { transactionListSelector, getAllTransaction } from './transactionListSlice';
+import { transactionListSelector, getAllTransaction, checkTransaction } from './transactionListSlice';
+import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import {
   Container,
-  Table
+  Table,
+  Form
 } from 'react-bootstrap';
 import "./TransactionList.scss";
 import { BsFillCaretDownFill } from "react-icons/bs";
@@ -20,14 +22,20 @@ import Paging from '../pagination/Paging';
 
 const TransactionList = () => {
 
+  //Media query
+  const isLG = useMedia({ minWidth: "992px" }); //lg
+  const isXL = useMedia({ minWidth: "1200px" }); //xl
+  const isXXL = useMedia({ minWidth: "1400px" }); //xxl
   const location = useLocation();
-  console.log("this is coming from backend", location.state);
 
   //redux
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
-  console.log(transactionList); //undefined
+  console.log(transactionList);
 
+  const operation = useSelector(enterTransactionSelector);
+
+  //method
   //when the component is mounted
   useEffect(() => {
 
@@ -55,10 +63,51 @@ const TransactionList = () => {
 
   }, [location.state]);
 
-  //Media query
-  const isLG = useMedia({ minWidth: "992px" }); //lg
-  const isXL = useMedia({ minWidth: "1200px" }); //xl
-  const isXXL = useMedia({ minWidth: "1400px" }); //xxl
+  //checkbox
+  const handleCheck = (id, e) => {
+    const payload = transactionList.filter(e => e._id == id);
+    console.log(payload);
+
+    //when it is checked, delete or edit action
+    if (e.target.checked) {
+      transactionList.map((elem, index) => elem._id);
+      //change isEditing true only for the selected item
+      dispatch(checkTransaction({
+        id: payload[0]._id,
+        date: payload[0].date,
+        categoryId: payload[0].categoryId,
+        categoryName: payload[0].categoryName,
+        transactionType: payload[0].transactionType,
+        description: payload[0].description,
+        currency: payload[0].currency,
+        amount: payload[0].amount,
+        paymentMethod: payload[0].paymentMethod,
+        isDeleted: payload[0].isDeleted,
+        isEditing: true
+      }));
+      //make edit button visible - editing mode on
+      dispatch(changeOperation(true));
+    } else {
+      //change isEditing false only for the selected item
+      ////////////////////// this is not gonna happen since it is disabled!!!!
+      dispatch(checkTransaction({
+        id: payload[0]._id,
+        date: payload[0].date,
+        categoryId: payload[0].categoryId,
+        categoryName: payload[0].categoryName,
+        transactionType: payload[0].transactionType,
+        description: payload[0].description,
+        currency: payload[0].currency,
+        amount: payload[0].amount,
+        paymentMethod: payload[0].paymentMethod,
+        isDeleted: payload[0].isDeleted,
+        isEditing: false
+      }));
+      //make edit button invisible - editing mode off
+      dispatch(changeOperation(false));
+    }
+
+  };
 
   return (
     <>
@@ -79,7 +128,9 @@ const TransactionList = () => {
                   {transactionList.map((elem, index) => (
                     <>
                       <tr key={index}>
-                        <td><MdCheckBoxOutlineBlank className="checkBox"/></td>
+                        <td><Form.Check
+                          disabled={elem.isEditing ? false : false}
+                          onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td className="tdLeft">
                           <p className="category">{elem.categoryName}</p>
                           <p>{elem.description}</p>
@@ -116,7 +167,9 @@ const TransactionList = () => {
                   {transactionList.map((elem, index) => (
                     <>
                       <tr key={index}>
-                        <td><MdCheckBoxOutlineBlank className="checkBox"/></td>
+                        <td><Form.Check
+                          disabled={elem.isEditing ? true : false}
+                          onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td>{elem.categoryName}</td>
                         <td>{elem.date.substr(0, 10).replace("-", "/")}</td>
                         <td>{elem.paymentMethod}</td>
