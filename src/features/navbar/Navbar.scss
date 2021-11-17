@@ -3,6 +3,9 @@
 .navbar {
   height: fit-content;
   padding: 0;
+  @include media-breakpoint-up(sm) {
+    position: fixed;
+  }
 
   @include media-breakpoint-up(sm) {
     flex-direction: column;

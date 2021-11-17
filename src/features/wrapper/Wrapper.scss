@@ -12,4 +12,7 @@
   background-color: $bgColor;
   min-height: 100vh;
   width: 100vw;
+  @include media-breakpoint-up(sm) {
+    margin-left: 100px;
+  }
 }
