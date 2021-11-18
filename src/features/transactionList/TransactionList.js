@@ -31,6 +31,7 @@ const TransactionList = () => {
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
+  console.log("tranList.js", operation)
 
   //method
   //when the component is mounted
@@ -62,7 +63,6 @@ const TransactionList = () => {
 
   //checkbox
   const [checkedItem, setCheckedItem] = useState([]);
-  console.log("checkedItem is", checkedItem);
 
   const handleCheck = (id, e) => {
     const payload = transactionList.filter(e => e._id == id);
@@ -83,30 +83,36 @@ const TransactionList = () => {
       //   isDeleted: payload[0].isDeleted,
       //   isEditing: true
       // }));
+
       //make edit button visible - editing mode on
       dispatch(changeOperation({
-        editMode: true,
+        editBtnVisible: true,
         checkedItem: payload //array
       }));
     }
-    //else {
-    //change isEditing false only for the selected item
-    // dispatch(checkTransaction({
-    //   id: payload[0]._id,
-    //   date: payload[0].date,
-    //   categoryId: payload[0].categoryId,
-    //   categoryName: payload[0].categoryName,
-    //   transactionType: payload[0].transactionType,
-    //   description: payload[0].description,
-    //   currency: payload[0].currency,
-    //   amount: payload[0].amount,
-    //   paymentMethod: payload[0].paymentMethod,
-    //   isDeleted: payload[0].isDeleted,
-    //   isEditing: false
-    // }));
-    //make edit button invisible - editing mode off
-    // dispatch(changeOperation(false));
-    //}
+    else {
+      setCheckedItem([]);
+      //change isEditing false only for the selected item
+      // dispatch(checkTransaction({
+      //   id: payload[0]._id,
+      //   date: payload[0].date,
+      //   categoryId: payload[0].categoryId,
+      //   categoryName: payload[0].categoryName,
+      //   transactionType: payload[0].transactionType,
+      //   description: payload[0].description,
+      //   currency: payload[0].currency,
+      //   amount: payload[0].amount,
+      //   paymentMethod: payload[0].paymentMethod,
+      //   isDeleted: payload[0].isDeleted,
+      //   isEditing: false
+      // }));
+
+      //make edit button invisible - editing mode off
+      dispatch(changeOperation({
+        editBtnVisible: false,
+        checkedItem: []
+      }));
+    }
   };
 
   return (

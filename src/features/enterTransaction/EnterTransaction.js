@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -24,37 +23,19 @@ import { categories } from '../../utils/Categories';
 
 const EditTransaction = (props) => {
 
-  console.log(props);//coming from filter.js
+  console.log("props is", props);//coming from filter.js
 
   //router
   const navigate = useNavigate();
 
   //redux
   const dispatch = useDispatch();
-
-  // const preloadedValues = {
-  //   date: props.checkedItem[0].date,
-  //   categoryId: props.checkedItem[0].categoryId,
-  //   categoryName: props.checkedItem[0].categoryName,
-  //   transactionType: props.checkedItem[0].transactionType,
-  //   description: props.checkedItem[0].description,
-  //   currency: props.checkedItem[0].currency,
-  //   amount: props.checkedItem[0].amount,
-  //   paymentMethod: props.checkedItem[0].paymentMethod,
-  //   // isDeleted: props.checkedItem[0].isDeleted,
-  //   // isEditing: props.checkedItem[0].isEditing
-  // };
-
-  // const { register } = useForm({
-  //   defaultValues: preloadedValues
-  // });
-
-  //Calendar filter
-  const [date, setDate] = useState(new Date());
+  const operation = useSelector(enterTransactionSelector);
+  console.log("enterTran.js", operation);
 
   //private state
   const [transaction, setTransaction] = useState({
-    date: date,
+    date:  new Date(),
     categoryId: 0, //default 0 : need to get from backend
     categoryName: "",
     transactionType: "",
@@ -106,7 +87,7 @@ const EditTransaction = (props) => {
     }
   };
 
-  //onSubmit
+  //onSubmit -- save
   const handleSubmit = async (e) => {
 
     console.log(e);
@@ -147,6 +128,12 @@ const EditTransaction = (props) => {
       return error;
     }
 
+    //edit transaction
+    //hide edit button
+    dispatch(changeOperation({
+      editBtnVisible: false,
+      checkedItem: []
+    }));
   };
 
   return (
@@ -193,9 +180,8 @@ const EditTransaction = (props) => {
                   <Form.Label>Choose a Date *</Form.Label>
                   <DatePicker
                     required
-                    selected={date}
-                    value={transaction.date}
-                    onChange={(date) => setDate(date)} />
+                    selected={new Date(transaction.date)}
+                    onChange={(selectedDate) => setTransaction({ ...transaction, date: selectedDate })} />
                 </Form.Group>
 
                 <Form.Group className="transactionCategory">
