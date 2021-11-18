@@ -3,10 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const enterTransactionSlice = createSlice({
   name: 'operation',
-  initialState: { editMode: false },
+  initialState: {
+    editMode: false,
+    checkedItem: []
+  },
   reducers: {
     changeOperation: (state, action) => {
-      return { ...state, editMode: action.payload };
+      return action.payload
     },
   }
 });
