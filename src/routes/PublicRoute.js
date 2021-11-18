@@ -6,7 +6,7 @@ const PublicRoute = () => {
   const {isAuth} = useSelector(selectUser);
 
   if (isAuth) {
-    return <Navigate to="/" />;
+    return <Navigate to="/alltransaction" />;
   }
   return <Outlet />;
 };
