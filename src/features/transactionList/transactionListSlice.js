@@ -8,7 +8,6 @@ export const transactionListSlice = createSlice({
       return action.payload;
     },
     checkTransaction: (state, action) => {
-      console.log("I'm in transaction Slice", action.payload);//id
       state.map((elem, index) => elem._id == action.payload.id ? state.splice(index, 1, action.payload) : elem);
     }
   }

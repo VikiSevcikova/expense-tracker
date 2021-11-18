@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import "./Navbar.scss";
@@ -16,7 +16,7 @@ import { removeUser } from "../userProfile/userSlice";
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // const menuOnClick = () =>{
   //   const dropdown = document.getElementsByClassName('nav-dropdown')[0]
   //   console.log(dropdown.style.display = 'block')
@@ -98,7 +98,7 @@ export default function Navbar() {
       <div
         className={menuOnClick ? "nav-dropdown__active" : "nav-dropdown"}
 
-        // style={menuOnClick ? { display: "block" } : { display: "none" }}
+      // style={menuOnClick ? { display: "block" } : { display: "none" }}
       >
         <Nav.Link href="/dashboard" className="navBtn">
           <RiProfileLine size={50} />
@@ -108,7 +108,7 @@ export default function Navbar() {
           <AiOutlineTransaction size={50} />
           <p>Transactions</p>
         </Nav.Link>
-        <Nav.Link href="/" className="navBtn">
+        <Nav.Link href="/account" className="navBtn">
           <MdOutlineAccountCircle size={50} />
           {/* <Image
             src="https://via.placeholder.com/50"

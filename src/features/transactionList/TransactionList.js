@@ -16,7 +16,6 @@ import {
   MdOutlineCategory,
   MdAttachMoney,
   MdCheckBoxOutlineBlank,
-  MdCheckBox
 } from "react-icons/md";
 import Paging from '../pagination/Paging';
 
@@ -31,8 +30,6 @@ const TransactionList = () => {
   //redux
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
-  console.log(transactionList);
-
   const operation = useSelector(enterTransactionSelector);
 
   //method
@@ -64,49 +61,52 @@ const TransactionList = () => {
   }, [location.state]);
 
   //checkbox
+  const [checkedItem, setCheckedItem] = useState([]);
+  console.log("checkedItem is", checkedItem);
+
   const handleCheck = (id, e) => {
     const payload = transactionList.filter(e => e._id == id);
-    console.log(payload);
-
-    //when it is checked, delete or edit action
+    //when it is checked, delete or edit action can be done
     if (e.target.checked) {
-      transactionList.map((elem, index) => elem._id);
+      setCheckedItem(payload);
       //change isEditing true only for the selected item
-      dispatch(checkTransaction({
-        id: payload[0]._id,
-        date: payload[0].date,
-        categoryId: payload[0].categoryId,
-        categoryName: payload[0].categoryName,
-        transactionType: payload[0].transactionType,
-        description: payload[0].description,
-        currency: payload[0].currency,
-        amount: payload[0].amount,
-        paymentMethod: payload[0].paymentMethod,
-        isDeleted: payload[0].isDeleted,
-        isEditing: true
-      }));
+      // dispatch(checkTransaction({
+      //   id: payload[0]._id,
+      //   date: payload[0].date,
+      //   categoryId: payload[0].categoryId,
+      //   categoryName: payload[0].categoryName,
+      //   transactionType: payload[0].transactionType,
+      //   description: payload[0].description,
+      //   currency: payload[0].currency,
+      //   amount: payload[0].amount,
+      //   paymentMethod: payload[0].paymentMethod,
+      //   isDeleted: payload[0].isDeleted,
+      //   isEditing: true
+      // }));
       //make edit button visible - editing mode on
-      dispatch(changeOperation(true));
-    } else {
-      //change isEditing false only for the selected item
-      ////////////////////// this is not gonna happen since it is disabled!!!!
-      dispatch(checkTransaction({
-        id: payload[0]._id,
-        date: payload[0].date,
-        categoryId: payload[0].categoryId,
-        categoryName: payload[0].categoryName,
-        transactionType: payload[0].transactionType,
-        description: payload[0].description,
-        currency: payload[0].currency,
-        amount: payload[0].amount,
-        paymentMethod: payload[0].paymentMethod,
-        isDeleted: payload[0].isDeleted,
-        isEditing: false
+      dispatch(changeOperation({
+        editMode: true,
+        checkedItem: payload //array
       }));
-      //make edit button invisible - editing mode off
-      dispatch(changeOperation(false));
     }
-
+    //else {
+    //change isEditing false only for the selected item
+    // dispatch(checkTransaction({
+    //   id: payload[0]._id,
+    //   date: payload[0].date,
+    //   categoryId: payload[0].categoryId,
+    //   categoryName: payload[0].categoryName,
+    //   transactionType: payload[0].transactionType,
+    //   description: payload[0].description,
+    //   currency: payload[0].currency,
+    //   amount: payload[0].amount,
+    //   paymentMethod: payload[0].paymentMethod,
+    //   isDeleted: payload[0].isDeleted,
+    //   isEditing: false
+    // }));
+    //make edit button invisible - editing mode off
+    // dispatch(changeOperation(false));
+    //}
   };
 
   return (
@@ -127,9 +127,9 @@ const TransactionList = () => {
                 <tbody className="tableBody">
                   {transactionList.map((elem, index) => (
                     <>
-                      <tr key={index}>
+                      <tr key={elem._id}>
                         <td><Form.Check
-                          disabled={elem.isEditing ? false : false}
+                          disabled={operation.editMode && !elem.isEditing ? true : false}
                           onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td className="tdLeft">
                           <p className="category">{elem.categoryName}</p>
@@ -166,14 +166,15 @@ const TransactionList = () => {
                 <tbody className="tableBody">
                   {transactionList.map((elem, index) => (
                     <>
-                      <tr key={index}>
+
+                      <tr key={elem._id}>
                         <td><Form.Check
-                          disabled={elem.isEditing ? true : false}
+                          // disabled={operation.editMode && !elem.isEditing ? true : false}
                           onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td>{elem.categoryName}</td>
                         <td>{elem.date.substr(0, 10).replace("-", "/")}</td>
                         <td>{elem.paymentMethod}</td>
-                        <td>{elem.categoryName}</td>
+                        <td>{elem.description}</td>
                         <td>${elem.amount}</td>
                       </tr>
                     </>
