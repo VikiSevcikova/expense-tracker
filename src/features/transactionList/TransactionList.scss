@@ -48,7 +48,6 @@
             color: $accentColor3;
           }
         }
-        //desktop
         .form-check-input {
           box-shadow: none;
           border: 0.1rem solid $txtColor1;
@@ -60,7 +59,7 @@
             background-color: $accentColor1;
           }
         }
-
+        //desktop
         @include media-breakpoint-up(lg) {
           .negativeAmount {
             color: $accentColor3;

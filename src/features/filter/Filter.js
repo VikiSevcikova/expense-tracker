@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useMedia from "use-media";
-import { useSelector, useDispatch } from "react-redux";
-import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
+import { useSelector } from "react-redux";
+import { enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import "./Filter.scss";
 import {
   Container,
@@ -46,9 +46,8 @@ const Filter = () => {
   const showDelConf = () => setShowDelConf(true);
 
   //redux
-  const dispatch = useDispatch()
   const operation = useSelector(enterTransactionSelector);
-  console.log(operation);
+  console.log("in filter.js", operation);
 
   return (
     <>
@@ -110,8 +109,16 @@ const Filter = () => {
               </Col>
             </Row>
             {/* Modal */}
-            {show && <EnterTransaction show={show} operationType={operationType} handleClose={handleClose} />}
-            {delConf && <DeleteConfirmation show={delConf} closeDelConf={closeDelConf} />}
+            {show &&
+              <EnterTransaction show={show}
+                operationType={operationType}
+                checkedItem={operation.checkedItem}
+                handleClose={handleClose} />}
+            {delConf &&
+              <DeleteConfirmation
+                show={delConf}
+                checkedItem={operation.checkedItem}
+                closeDelConf={closeDelConf} />}
           </>
         ) : (
           <>
@@ -163,8 +170,17 @@ const Filter = () => {
               </Button>
             </Col>
             {/* Modal */}
-            {show && <EnterTransaction show={show} operationType={operationType} handleClose={handleClose} />}
-            {delConf && <DeleteConfirmation show={delConf} closeDelConf={closeDelConf} />}
+            {show &&
+              <EnterTransaction
+                show={show}
+                operationType={operationType}
+                checkedItem={operation.checkedItem}
+                handleClose={handleClose} />}
+            {delConf &&
+              <DeleteConfirmation
+                show={delConf}
+                checkedItem={operation.checkedItem}
+                closeDelConf={closeDelConf} />}
           </>
         )}
       </Container>
