@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
@@ -16,7 +16,6 @@ import {
   MdOutlineCategory,
   MdAttachMoney,
   MdCheckBoxOutlineBlank,
-  MdCheckBox
 } from "react-icons/md";
 import Paging from '../pagination/Paging';
 
@@ -34,6 +33,7 @@ const TransactionList = () => {
   console.log(transactionList);
 
   const operation = useSelector(enterTransactionSelector);
+  console.log("operation mode is", operation);
 
   //method
   //when the component is mounted
@@ -66,9 +66,8 @@ const TransactionList = () => {
   //checkbox
   const handleCheck = (id, e) => {
     const payload = transactionList.filter(e => e._id == id);
-    console.log(payload);
 
-    //when it is checked, delete or edit action
+    //when it is checked, delete or edit action can be done
     if (e.target.checked) {
       transactionList.map((elem, index) => elem._id);
       //change isEditing true only for the selected item
@@ -89,7 +88,6 @@ const TransactionList = () => {
       dispatch(changeOperation(true));
     } else {
       //change isEditing false only for the selected item
-      ////////////////////// this is not gonna happen since it is disabled!!!!
       dispatch(checkTransaction({
         id: payload[0]._id,
         date: payload[0].date,
@@ -106,7 +104,6 @@ const TransactionList = () => {
       //make edit button invisible - editing mode off
       dispatch(changeOperation(false));
     }
-
   };
 
   return (
@@ -129,7 +126,7 @@ const TransactionList = () => {
                     <>
                       <tr key={index}>
                         <td><Form.Check
-                          disabled={elem.isEditing ? false : false}
+                          disabled={operation.editMode && !elem.isEditing ? true : false}
                           onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td className="tdLeft">
                           <p className="category">{elem.categoryName}</p>
@@ -168,7 +165,7 @@ const TransactionList = () => {
                     <>
                       <tr key={index}>
                         <td><Form.Check
-                          disabled={elem.isEditing ? true : false}
+                          disabled={operation.editMode && !elem.isEditing ? true : false}
                           onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td>{elem.categoryName}</td>
                         <td>{elem.date.substr(0, 10).replace("-", "/")}</td>
