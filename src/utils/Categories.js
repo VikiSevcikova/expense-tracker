@@ -28,46 +28,46 @@ export const categories = [
   {
     id: 6,
     name: "Insurance",
-    icon: "Insurance"
+    icon: "FaFileMedical"
   },
   {
     id: 7,
     name: "Medical",
-    icon: "Medical"
+    icon: "MdOutlineMedicalServices"
   },
   {
     id: 8,
     name: "Travel",
-    icon: "Travel"
+    icon: "IoAirplaneOutline"
   },
   {
     id: 9,
     name: "Housing",
-    icon: "Housing"
+    icon: "BiBuildingHouse"
   },
   {
     id: 10,
     name: "Mobile",
-    icon: "Mobile"
+    icon: "FaMobileAlt"
   },
   {
     id: 11,
     name: "Leisure",
-    icon: "Leisure"
+    icon: "FaUmbrellaBeach"
   },
   {
     id: 12,
     name: "Education",
-    icon: "Education"
+    icon: "MdOutlineSchool"
   },
   {
     id: 13,
     name: "Investment",
-    icon: "Investment"
+    icon: "BiLineChart"
   },
   {
     id: 14,
     name: "Other",
-    icon: "Other"
+    icon: "MdAttachMoney"
   },
 ];

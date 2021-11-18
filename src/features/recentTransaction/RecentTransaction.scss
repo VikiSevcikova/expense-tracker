@@ -1,16 +1,10 @@
 @import "../../utils/component";
 
-// .transaction_wrap {
-//   .categoryicon {
-//       border: 1px solid white;
-//   }
-//   .date {
-//     border: 1px solid white;
-//   }
-//   .description {
-//     border: 1px solid white;
-//   }
-//   .amount {
-//     border: 1px solid white;
-//   }
-// }
+
+.description{
+    text-align: center;
+}
+
+.amount{
+    text-align: right;
+}
