@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const enterTransactionSlice = createSlice({
   name: 'operation',
   initialState: {
-    editMode: false,
+    editBtnVisible: false,
     checkedItem: []
   },
   reducers: {

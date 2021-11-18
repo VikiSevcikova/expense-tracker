@@ -97,7 +97,7 @@ const Filter = () => {
                 <MdModeEdit
                   className="addNewBtn"
                   onClick={() => handleShow("add")} />
-                {operation.editMode &&
+                {operation.editBtnVisible &&
                   <MdModeEdit
                     className="editBtn"
                     onClick={() => handleShow("edit")} />
@@ -154,7 +154,7 @@ const Filter = () => {
               >
                 Add
               </Button>
-              {operation.editMode &&
+              {operation.editBtnVisible &&
                 <Button
                   className="editBtn"
                   onClick={() => handleShow("edit")}
