@@ -4,11 +4,11 @@ import { selectUser } from '../userProfile/userSlice';
 import "./Greeting.scss";
 
 const Greeting = () => {
-  const { userInfo } = useSelector(selectUser); 
+  const { user } = useSelector(selectUser); 
 
   return (
     <h2 className="greeting">
-      {`Welcome back ${userInfo.username} :)`}
+      {`Welcome back ${user?.username} :)`}
     </h2>
   );
 };
