@@ -138,7 +138,7 @@ const TransactionList = () => {
                         </td>
                         <td className="tdRight">
                           <p>${elem.amount}</p>
-                          <p>{elem.date.substr(0, 10).replace("-", "/")}</p>
+                          <p>{elem.date.substr(0, 10).replace(/-/g, "/")}</p>
                         </td>
                       </tr>
                     </>
@@ -172,7 +172,7 @@ const TransactionList = () => {
                           // disabled={operation.editMode && !elem.isEditing ? true : false}
                           onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td>{elem.categoryName}</td>
-                        <td>{elem.date.substr(0, 10).replace("-", "/")}</td>
+                        <td>{elem.date.substr(0, 10).replace(/-/g, "/")}</td>
                         <td>{elem.paymentMethod}</td>
                         <td>{elem.description}</td>
                         <td>${elem.amount}</td>
