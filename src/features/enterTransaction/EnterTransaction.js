@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -31,6 +32,23 @@ const EditTransaction = (props) => {
   //redux
   const dispatch = useDispatch();
 
+  // const preloadedValues = {
+  //   date: props.checkedItem[0].date,
+  //   categoryId: props.checkedItem[0].categoryId,
+  //   categoryName: props.checkedItem[0].categoryName,
+  //   transactionType: props.checkedItem[0].transactionType,
+  //   description: props.checkedItem[0].description,
+  //   currency: props.checkedItem[0].currency,
+  //   amount: props.checkedItem[0].amount,
+  //   paymentMethod: props.checkedItem[0].paymentMethod,
+  //   // isDeleted: props.checkedItem[0].isDeleted,
+  //   // isEditing: props.checkedItem[0].isEditing
+  // };
+
+  // const { register } = useForm({
+  //   defaultValues: preloadedValues
+  // });
+
   //Calendar filter
   const [date, setDate] = useState(new Date());
 
@@ -54,6 +72,24 @@ const EditTransaction = (props) => {
   const showDelConf = () => setShowDelConf(true);
 
   //method
+  //prefill edit form
+  useEffect(() => {
+    console.log("I am prefilling the form", props.operationType);
+    setTransaction({
+      date: props.checkedItem[0].date.substr(0, 10).replace(/-/g, "/"),
+      categoryId: props.checkedItem[0].categoryId,
+      categoryName: props.checkedItem[0].categoryName,
+      transactionType: props.checkedItem[0].transactionType,
+      description: props.checkedItem[0].description,
+      currency: props.checkedItem[0].currency,
+      amount: props.checkedItem[0].amount,
+      paymentMethod: props.checkedItem[0].paymentMethod,
+      isDeleted: props.checkedItem[0].isDeleted,
+      isEditing: props.checkedItem[0].isEditing
+    });
+  }, [props.operationType === "edit"]);
+
+  //onChange
   const handleChange = (prop) => (e) => {
     //get category id based on category name
     if (prop === "categoryName") {
@@ -70,8 +106,10 @@ const EditTransaction = (props) => {
     }
   };
 
+  //onSubmit
   const handleSubmit = async (e) => {
-    console.log(transaction);
+
+    console.log(e);
     e.preventDefault();
 
     const config = {
@@ -80,6 +118,7 @@ const EditTransaction = (props) => {
       },
     };
 
+    //Add new transaction
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
@@ -107,6 +146,7 @@ const EditTransaction = (props) => {
       console.error(`${error}: Something wrong on the server side`);
       return error;
     }
+
   };
 
   return (
@@ -121,7 +161,7 @@ const EditTransaction = (props) => {
           <Modal.Header>
             {/* <Modal.Title>Enter Transaction</Modal.Title> */}
             {props.operationType === "add" ?
-              <Modal.Title>Enter New Transaction</Modal.Title> :
+              <Modal.Title>Add New Transaction</Modal.Title> :
               <Modal.Title>Edit Transaction</Modal.Title>}
             <FaTimesCircle
               className="modalClsBtn"
@@ -137,13 +177,13 @@ const EditTransaction = (props) => {
                 <Form.Check
                   type="radio"
                   value="income"
-                  checked={props.operationType === "edit" && props.checkedItem[0].transactionType === "income" ? true : false}
+                  checked={transaction.transactionType === "income" && true}
                   label="Income"
                   onChange={handleChange("transactionType")} />
                 <Form.Check
                   type="radio"
                   value="expense"
-                  checked={props.operationType === "edit" && props.checkedItem[0].transactionType === "expense" ? true : false}
+                  checked={transaction.transactionType === "expense" && true}
                   label="Expense"
                   onChange={handleChange("transactionType")} />
               </Form.Group>
@@ -154,7 +194,7 @@ const EditTransaction = (props) => {
                   <DatePicker
                     required
                     selected={date}
-                    value={props.operationType === "edit" ? props.checkedItem[0].date.substr(0, 10).replace("-", "/") : transaction.date}
+                    value={transaction.date}
                     onChange={(date) => setDate(date)} />
                 </Form.Group>
 
@@ -163,7 +203,7 @@ const EditTransaction = (props) => {
                   <Form.Select
                     required
                     defaultValue="Choose..."
-                    value={props.operationType === "edit" ? props.checkedItem[0].categoryName : transaction.categoryName}
+                    value={transaction.categoryName}
                     onChange={handleChange("categoryName")}>
                     <option>Choose...</option>
                     {categories.map((elem, index) => (
@@ -179,7 +219,7 @@ const EditTransaction = (props) => {
                   <Form.Control
                     required type="text"
                     placeholder="$"
-                    value={props.operationType === "edit" ? props.checkedItem[0].amount : transaction.amount}
+                    value={transaction.amount}
                     onFocus={() => setTransaction({ ...transaction, ["amount"]: "" })}
                     onChange={handleChange("amount")} />
                 </Form.Group>
@@ -189,7 +229,8 @@ const EditTransaction = (props) => {
                   <Form.Control
                     type="text"
                     placeholder="Enter item description..."
-                    value={props.operationType === "edit" ? props.checkedItem[0].description : transaction.description}
+                    value={transaction.description}
+                    onFocus={() => setTransaction({ ...transaction, ["description"]: "" })}
                     onChange={handleChange("description")} />
                 </Form.Group>
               </Container>
@@ -200,19 +241,19 @@ const EditTransaction = (props) => {
                   type="radio"
                   label="Debit Card"
                   value="Debit Card"
-                  checked={props.operationType === "edit" && props.checkedItem[0].paymentMethod === "Debit Card" ? true : false}
+                  checked={transaction.paymentMethod === "Debit Card" && true}
                   onChange={handleChange("paymentMethod")} />
                 <Form.Check
                   type="radio"
                   label="Credit Card"
                   value="Credit Card"
-                  checked={props.operationType === "edit" && props.checkedItem[0].paymentMethod === "Credit Card" ? true : false}
+                  checked={transaction.paymentMethod === "Credit Card" && true}
                   onChange={handleChange("paymentMethod")} />
                 <Form.Check
                   type="radio"
                   label="Cash"
                   value="Cash"
-                  checked={props.operationType === "edit" && props.checkedItem[0].paymentMethod === "Cash" ? true : false}
+                  checked={transaction.paymentMethod === "Cash" && true}
                   onChange={handleChange("paymentMethod")} />
               </Form.Group>
 

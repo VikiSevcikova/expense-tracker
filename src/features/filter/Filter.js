@@ -47,7 +47,6 @@ const Filter = () => {
 
   //redux
   const operation = useSelector(enterTransactionSelector);
-  console.log("in filter.js", operation);
 
   return (
     <>
