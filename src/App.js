@@ -8,42 +8,92 @@ import Account from "./pages/account/Account";
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import { AlertMessage } from "./features/alertMessage/AlertMessage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./utils/utils";
-import { setUser } from "./features/userProfile/userSlice";
+import { removeUser, selectUser, setUser } from "./features/userProfile/userSlice";
+import { hideAlert, showAlert } from "./features/alertMessage/alertMessageSlice";
 
 const App = () => {
   const dispatch = useDispatch();
+  const {token} = useSelector(selectUser);
 
   useEffect(() => {
-    const getTokenAndUser = async () => {
-      const token = localStorage.getItem("ET-token");
-      if(token){
-        const { user } = await getUser(token);
-        dispatch(setUser(user));
+    const loadUser = async () => {
+      try{
+        if (token) {
+          const { user } = await getUser(token);
+          console.log("gettokenanduser",user);
+          dispatch(setUser(user));
+        }
+      }catch(error){
+        dispatch(removeUser());
+        dispatch(
+          showAlert({
+            message: error.response.data.error
+              ? error.response.data.error
+              : "Sorry, there is an issues on the server.",
+            variant: "danger",
+          })
+        );
+        setTimeout(() => {
+          dispatch(hideAlert());
+        }, 5000);
       }
-    }
-    getTokenAndUser();
-  },[])
+    };
+    loadUser();
+  }, [dispatch,token]);
 
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route element={<PublicRoute />}>
-            <Route path={"login"} element={<Auth />} />
-            <Route path={"registration"} element={<Auth />} />
-            <Route path={"forgot-password"} element={<Auth />} />
-            <Route path={"reset-password/:token"} element={<Auth />} />
-          </Route>
-          <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/alltransaction" element={<AllTransaction />} />
-            <Route path="/account" element={<Account />} />
-          </Route>
+            <Route path="/login" element={
+              <PublicRoute>
+                <Auth />
+              </PublicRoute>
+            } />
+            <Route path="/registration" element={
+              <PublicRoute>
+                <Auth />
+              </PublicRoute>
+            } />
+            <Route path="/forgot-password" element={
+              <PublicRoute>
+                <Auth />
+              </PublicRoute>
+            } />
+            <Route path="/reset-password/:userId/:token" element={
+              <PublicRoute>
+                <Auth />
+              </PublicRoute>
+            } />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/alltransaction"
+            element={
+              <PrivateRoute>
+                <AllTransaction />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <PrivateRoute>
+                <Account />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </Router>
-      <AlertMessage/>
+      <AlertMessage />
     </div>
   );
 };

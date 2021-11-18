@@ -10,6 +10,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../userProfile/userSlice";
 import { getUser } from "../../utils/utils";
+import { hideAlert, showAlert } from "../alertMessage/alertMessageSlice";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -21,17 +22,31 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    const formData = {
-      email: values.email,
-      password: values.password,
-    };
-    const { data } = await axios.post("/auth/login", formData);
-    localStorage.setItem("ET-token", data.token)
-
-    const { user } = await getUser(data.token);
-    dispatch(setUser(user));
-
-    navigate("/");
+    try{
+      const formData = {
+        email: values.email,
+        password: values.password,
+      };
+      const { data } = await axios.post("/auth/login", formData);
+      localStorage.setItem("ET-token", data.token)
+  
+      const { user } = await getUser(data.token);
+      dispatch(setUser(user));
+  
+      navigate("/");
+    }catch(error){
+      dispatch(
+        showAlert({
+          message: error.response.data.error
+            ? error.response.data.error
+            : "Sorry, there is an issues on the server.",
+          variant: "danger",
+        })
+      );
+      setTimeout(() => {
+        dispatch(hideAlert());
+      }, 5000);
+    }
   };
 
 
