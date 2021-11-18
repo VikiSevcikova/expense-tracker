@@ -7,15 +7,16 @@ import { Link, useNavigate } from "react-router-dom";
 import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { showAlert, hideAlert } from "../alertMessage/alertMessageSlice";
-import { setUser } from "../userProfile/userSlice";
+// import { setUser } from "../userProfile/userSlice";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { getUser } from "../../utils/utils";
+import { setUser } from "../userProfile/userSlice";
 
 const RegistrationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   email: Yup.string().email("Email is invalid").required("Email is required"),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string().min(6).required("Password is required"),
   confirmPassword: Yup.string().when("password", {
     is: (val) => (val && val.length > 0 ? true : false),
     then: Yup.string().oneOf(
@@ -40,7 +41,7 @@ const RegistrationForm = () => {
 
       localStorage.setItem("ET-token", data.token);
 
-      const { user } = await getUser(data.userId);
+      const { user } = await getUser(data.token);
       dispatch(setUser(user));
       navigate("/");
     } catch (error) {

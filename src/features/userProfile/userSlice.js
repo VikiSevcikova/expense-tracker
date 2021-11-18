@@ -1,18 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {userInfo: null, isAuth: false };
+const token = localStorage.getItem("ET-token");
+console.log("TOKEN",token)
+
+const initialState = token
+  ? { isAuth: true, user:null, token: token }
+  : { isAuth: false, user: null, token: null };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.userInfo = action.payload;
+      state.user = action.payload;
       state.isAuth = true;
     },
     removeUser: (state) => {
-      state.userInfo = null;
+      state.user = null;
       state.isAuth = false;
+      state.token = null;
     }
   }
 });

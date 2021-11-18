@@ -4,7 +4,7 @@ import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 const ResetPasswordSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
@@ -19,10 +19,22 @@ const ResetPasswordSchema = Yup.object().shape({
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate();
+  const {userId, token} = useParams();
   
-  const handleSubmit = (values) => {
-    console.log(values);
-    navigate("/login");
+  const handleSubmit = async (values) => {
+    try {
+      await axios.post(`/auth/reset-password/${userId}/${token}`, values.password);
+      navigate("/login");
+    } catch (error) {
+      dispatch(
+        showAlert({
+          message: error.response.data.error
+            ? error.response.data.error
+            : "Sorry, there is an issues on the server.",
+          variant: "danger",
+        })
+      );
+    }
   };
 
   return (

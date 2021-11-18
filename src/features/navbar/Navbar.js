@@ -9,9 +9,9 @@ import { MdLogout } from "react-icons/md";
 import { BiMenu } from "react-icons/bi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { removeUser } from "../userProfile/userSlice";
 import axios from "axios";
-import { showAlert } from "../alertMessage/alertMessageSlice";
+import { hideAlert, showAlert } from "../alertMessage/alertMessageSlice";
+import { removeUser } from "../userProfile/userSlice";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -26,13 +26,29 @@ export default function Navbar() {
   const [menuOnClick, setMenuOnClick] = useState(false);
 
   const handleLogout = async () => {
-    localStorage.removeItem("ET-token");
-    const { data } = await axios.get("/auth/logout");
-    console.log(data);
-    dispatch(removeUser());
-    dispatch(showAlert(data.message, "info"));
-    navigate("/login");
-  };
+    try{
+      localStorage.removeItem("ET-token");
+      const { data } = await axios.get("/auth/logout");
+      dispatch(removeUser());
+      dispatch(showAlert({
+        message: data.message,
+        variant: "info",
+      }))
+      navigate("/login");
+    }catch(error){
+      dispatch(
+        showAlert({
+          message: error.response.data.error
+            ? error.response.data.error
+            : "Sorry, there is an issues on the server.",
+          variant: "danger",
+        })
+      );
+      setTimeout(() => {
+        dispatch(hideAlert());
+      }, 5000);
+    }
+  }
 
   return (
     <Nav className="navbar text-center">

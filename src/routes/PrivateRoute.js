@@ -3,13 +3,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import { selectUser } from "../features/userProfile/userSlice";
 import Wrapper from "../features/wrapper/Wrapper";
 
-const PrivateRoute = () => {
-  const {isAuth} = useSelector(selectUser);
+const PrivateRoute = ({ children }) => {
+  const user = useSelector(selectUser);
+  console.log("publicroute", user)
 
-  if (!isAuth) {
-    return <Navigate to="/login"/>;
+  if (user.isAuth) {
+    return <Wrapper> {children} </Wrapper>;
   }
-  return <Wrapper> <Outlet /> </Wrapper>;
+  return <Navigate to="/login"/>;
 };
 
 export default PrivateRoute;

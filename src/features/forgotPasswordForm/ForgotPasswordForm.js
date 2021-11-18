@@ -5,6 +5,9 @@ import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showAlert } from "../alertMessage/alertMessageSlice";
 
 const ForgotPasswordSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -12,10 +15,22 @@ const ForgotPasswordSchema = Yup.object().shape({
 
 const ForgotPasswordForm = () => {
   const [submitted, setSubmitted] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values) => {
-    setSubmitted(true);
-    console.log(values);
+  const handleSubmit = async (values) => {
+    try {
+      await axios.post("/auth/reset-password", values.email);
+      setSubmitted(true);
+    } catch (error) {
+      dispatch(
+        showAlert({
+          message: error.response.data.error
+            ? error.response.data.error
+            : "Sorry, there is an issues on the server.",
+          variant: "danger",
+        })
+      );
+    }
   };
 
   return (
@@ -33,7 +48,8 @@ const ForgotPasswordForm = () => {
       </Row>
       {submitted ? (
         <h5 className="mb-4 text-start">
-          Please check your email and reset your password via link.
+          Please check your email and reset your password via link and{" "}
+          <Link to="/login">login.</Link>
         </h5>
       ) : (
         <>
@@ -66,7 +82,7 @@ const ForgotPasswordForm = () => {
             )}
           </Formik>
           <p className="m-0 text-center">
-            Did you just remember?  <Link to="/login">Login</Link>
+            Did you just remember? <Link to="/login">Login</Link>
           </p>
         </>
       )}
