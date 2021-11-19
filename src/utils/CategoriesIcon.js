@@ -4,7 +4,7 @@ import {
   IoWaterOutline,
   IoAirplaneOutline,
 } from "react-icons/io5";
-import { AiOutlineShopping } from "react-icons/ai";
+import { AiOutlineShopping, AiOutlineMoneyCollect } from "react-icons/ai";
 import {
   MdOutlineShoppingCart,
   MdOutlineTrain,
@@ -87,6 +87,11 @@ export default function CategoriesIcon({ id, size }) {
       name: "Other",
       icon: "MdAttachMoney",
     },
+    {
+      id: 15,
+      name: "Salary",
+      icon: "AiOutlineMoneyCollect",
+    },
   ];
 
   const iconName = categories.find((icon) => {
@@ -109,6 +114,7 @@ export default function CategoriesIcon({ id, size }) {
       {iconName === "MdOutlineSchool" && <MdOutlineSchool size={size}/>}
       {iconName === "BiLineChart" && <BiLineChart size={size}/>}
       {iconName === "MdAttachMoney" && <MdAttachMoney size={size}/>}
+      {iconName === "AiOutlineMoneyCollect" && <AiOutlineMoneyCollect size={size}/>}
    </>
   );
 }
