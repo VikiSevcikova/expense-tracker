@@ -84,9 +84,9 @@ const TransactionList = () => {
       //   isEditing: true
       // }));
 
-      //make edit button visible - editing mode on
+      //make edit and delete button visible - editing mode on
       dispatch(changeOperation({
-        editBtnVisible: true,
+        editDelBtnVisible: true,
         checkedItem: payload //array
       }));
     }
@@ -107,9 +107,9 @@ const TransactionList = () => {
       //   isEditing: false
       // }));
 
-      //make edit button invisible - editing mode off
+      //make edit and delete button invisible - editing mode off
       dispatch(changeOperation({
-        editBtnVisible: false,
+        editDelBtnVisible: false,
         checkedItem: []
       }));
     }
