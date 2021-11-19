@@ -5,7 +5,7 @@ import Wrapper from "../features/wrapper/Wrapper";
 
 const PrivateRoute = ({ children }) => {
   const user = useSelector(selectUser);
-  console.log("publicroute", user)
+  console.log("privateroute", user)
 
   if (user.isAuth) {
     return <Wrapper> {children} </Wrapper>;

@@ -36,8 +36,8 @@ const Filter = () => {
   const [operationType, setOperationType] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = (operation) => {
-    setOperationType(operation);
-    setShow(true);
+    setOperationType(operation);//edit or add
+    setShow(true); //open modal
   };
 
   //Modal pop up (delete conf)
@@ -97,14 +97,17 @@ const Filter = () => {
                 <MdModeEdit
                   className="addNewBtn"
                   onClick={() => handleShow("add")} />
-                {operation.editBtnVisible &&
-                  <MdModeEdit
-                    className="editBtn"
-                    onClick={() => handleShow("edit")} />
+                {operation.editDelBtnVisible &&
+                  <>
+                    <MdModeEdit
+                      className="editBtn"
+                      onClick={() => handleShow("edit")} />
+                    <MdDelete
+                      className="deleteBtn"
+                      onClick={showDelConf} />
+                  </>
                 }
-                <MdDelete
-                  className="deleteBtn"
-                  onClick={showDelConf} />
+
               </Col>
             </Row>
             {/* Modal */}
@@ -117,7 +120,7 @@ const Filter = () => {
               <DeleteConfirmation
                 show={delConf}
                 checkedItem={operation.checkedItem}
-                closeDelConf={closeDelConf} />}
+                closeDelConf={closeDelConf}/>}
           </>
         ) : (
           <>
@@ -154,19 +157,22 @@ const Filter = () => {
               >
                 Add
               </Button>
-              {operation.editBtnVisible &&
-                <Button
-                  className="editBtn"
-                  onClick={() => handleShow("edit")}
-                >
-                  Edit
-                </Button>}
-              <Button
-                className="deleteBtn"
-                onClick={showDelConf}
-              >
-                Delete
-              </Button>
+              {operation.editDelBtnVisible &&
+                <>
+                  <Button
+                    className="editBtn"
+                    onClick={() => handleShow("edit")}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    className="deleteBtn"
+                    onClick={showDelConf}
+                  >
+                    Delete
+                  </Button>
+                </>
+              }
             </Col>
             {/* Modal */}
             {show &&
@@ -179,7 +185,7 @@ const Filter = () => {
               <DeleteConfirmation
                 show={delConf}
                 checkedItem={operation.checkedItem}
-                closeDelConf={closeDelConf} />}
+                closeDelConf={closeDelConf}/>}
           </>
         )}
       </Container>
