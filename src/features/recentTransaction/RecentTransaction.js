@@ -8,7 +8,7 @@ import { getRecentTransaction } from "./recentTransactionSlice";
 
 export default function RecentTransaction() {
   const [data, setData] = useState(undefined);
-  console.log(data);
+  // console.log(data);
   useEffect(() => {
     const fetchRecent = async () => {
       try {

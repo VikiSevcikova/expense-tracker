@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./DashBoardCards.scss";
 import { Container, Col, Row, Button } from "react-bootstrap";
 
@@ -12,9 +12,37 @@ import ExpenseChart from "../expenseChart/ExpenseChart";
 import RecentTransaction from "../recentTransaction/RecentTransaction";
 
 export default function DashBoardCards() {
-
   const [data, setData] = useState(undefined);
-  console.log(data);
+  const [startDate, setStartDate] = useState(new Date().toISOString());
+  const [endDate, setEndDate] = useState(new Date().toISOString());
+  const [datePicked, setDatePicked] = useState(false);
+
+  const setDate = (start, end) => {
+    setDatePicked(true);
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  useEffect(() => {
+    const fetchDateRange = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/transaction?startdate=${startDate}&enddate=${endDate}`
+        );
+        if (res.status === 200) {
+          setData(res.data);
+        }
+      } catch (err) {
+        return err;
+      }
+    };
+    if (datePicked) {
+      fetchDateRange();
+    } else {
+      return;
+    }
+  }, [startDate, endDate]);
+
   useEffect(() => {
     const fetchRecent = async () => {
       try {
@@ -29,20 +57,34 @@ export default function DashBoardCards() {
     fetchRecent();
   }, []);
 
-  console.log(data)
-
+  console.log(data);
 
   return (
     <>
       <Container fluid className="box_wrapper">
         <Row>
           <Greeting />
+          {/* // testing area */}
+          {data && (
+            <>
+              {data.map((tran, index) => {
+                return (
+                  <div key={index}>
+                    <p>
+                      {tran.date}
+                      {tran.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </Row>
       </Container>
       <Container fluid className="box_wrapper">
         <Row>
           <Col xs={9}>
-            <Calender />
+            <Calender setDate={setDate} />
           </Col>
           <Col xs={3}>
             <Currency />
