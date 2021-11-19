@@ -17,12 +17,6 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const menuOnClick = () =>{
-  //   const dropdown = document.getElementsByClassName('nav-dropdown')[0]
-  //   console.log(dropdown.style.display = 'block')
-  //   // dropdown.s
-  // }
-
   const [menuOnClick, setMenuOnClick] = useState(false);
 
   const handleLogout = async () => {
@@ -100,7 +94,7 @@ export default function Navbar() {
 
       // style={menuOnClick ? { display: "block" } : { display: "none" }}
       >
-        <Nav.Link href="/dashboard" className="navBtn">
+        <Nav.Link href="/" className="navBtn">
           <RiProfileLine size={50} />
           <p>Dashboard</p>
         </Nav.Link>
