@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import "./Navbar.scss";
@@ -66,15 +66,15 @@ export default function Navbar() {
               className=" w-100"
             />
           </Nav.Item>
-          <Nav.Link href="/" className="navBtn">
+          <Link to="/" className="navBtn">
             <RiProfileLine size={50} />
-            <p>Dashboard</p>
-          </Nav.Link>
-          <Nav.Link href="/alltransaction" className="navBtn">
+          <p>Dashboard</p>
+          </Link>
+          <Link to="/alltransaction" className="navBtn">
             <AiOutlineTransaction size={50} />
             <p>Transactions</p>
-          </Nav.Link>
-          <Nav.Link href="/account" className="navBtn">
+          </Link>
+          <Link to="/account" className="navBtn">
             <MdOutlineAccountCircle size={50} />
             {/* <Image
             src="https://via.placeholder.com/50"
@@ -82,7 +82,7 @@ export default function Navbar() {
             roundedCircle
           /> */}
             <p>Account</p>
-          </Nav.Link>
+          </Link>
           <Nav.Link className="navBtn" onClick={handleLogout}>
             <MdLogout size={50} />
             <p>Logout</p>

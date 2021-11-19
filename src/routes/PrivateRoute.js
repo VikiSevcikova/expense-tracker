@@ -6,7 +6,6 @@ import Wrapper from "../features/wrapper/Wrapper";
 
 const PrivateRoute = ({ children }) => {
   const user = useSelector(selectUser);
-  console.log("privateroute", user)
 
   if (user.isAuth) {
     if(!user.user) return <Wrapper> <LoadingSpinner/> </Wrapper>;
