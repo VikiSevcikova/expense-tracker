@@ -12,7 +12,7 @@ export default function RecentTransaction() {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/");
+        const res = await axios.get("http://localhost:5000/recent-transaction");
         if (res.status === 200) {
           setData(res.data);
         }
