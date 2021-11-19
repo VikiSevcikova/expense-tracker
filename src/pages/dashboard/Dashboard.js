@@ -8,8 +8,11 @@ import BalancePieChart from "../../features/balancePieChart/BalancePieChart";
 import BalanceLineChart from "../../features/balanceLineChart/BalanceLineChart";
 import ExpenseChart from "../../features/expenseChart/ExpenseChart";
 import RecentTransaction from "../../features/recentTransaction/RecentTransaction";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/userProfile/userSlice";
 
 export default function Dashboard() {
+  const user = useSelector(selectUser)
   return (
     <div className="dashBoard_wrapper">
       <Container fluid className="box_wrapper">

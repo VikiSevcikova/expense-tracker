@@ -22,7 +22,7 @@ const App = () => {
       try{
         if (token) {
           const { user } = await getUser(token);
-          console.log("gettokenanduser",user);
+          console.log("app.js render",user);
           dispatch(setUser(user));
         }
       }catch(error){
@@ -41,7 +41,7 @@ const App = () => {
       }
     };
     loadUser();
-  }, [dispatch,token]);
+  }, [dispatch, token]);
 
   return (
     <div className="App">
