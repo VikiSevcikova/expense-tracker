@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -11,7 +11,6 @@ import {
   Modal,
 } from 'react-bootstrap';
 import { FaTimesCircle } from "react-icons/fa";
-import { BsFillCaretDownFill } from "react-icons/bs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -30,12 +29,11 @@ const EditTransaction = (props) => {
 
   //redux
   const dispatch = useDispatch();
-  const operation = useSelector(enterTransactionSelector);
-  console.log("enterTran.js", operation);
 
   //private state
   const [transaction, setTransaction] = useState({
-    date:  new Date(),
+    id: "",
+    date: new Date(),
     categoryId: 0, //default 0 : need to get from backend
     categoryName: "",
     transactionType: "",
@@ -56,19 +54,23 @@ const EditTransaction = (props) => {
   //prefill edit form
   useEffect(() => {
     console.log("I am prefilling the form", props.operationType);
-    setTransaction({
-      date: props.checkedItem[0].date.substr(0, 10).replace(/-/g, "/"),
-      categoryId: props.checkedItem[0].categoryId,
-      categoryName: props.checkedItem[0].categoryName,
-      transactionType: props.checkedItem[0].transactionType,
-      description: props.checkedItem[0].description,
-      currency: props.checkedItem[0].currency,
-      amount: props.checkedItem[0].amount,
-      paymentMethod: props.checkedItem[0].paymentMethod,
-      isDeleted: props.checkedItem[0].isDeleted,
-      isEditing: props.checkedItem[0].isEditing
-    });
-  }, [props.operationType === "edit"]);
+    if (props.operationType === "edit") {
+      setTransaction({
+        id: props.checkedItem[0]._id,
+        date: props.checkedItem[0].date.substr(0, 10).replace(/-/g, "/"),
+        categoryId: props.checkedItem[0].categoryId,
+        categoryName: props.checkedItem[0].categoryName,
+        transactionType: props.checkedItem[0].transactionType,
+        description: props.checkedItem[0].description,
+        currency: props.checkedItem[0].currency,
+        amount: props.checkedItem[0].amount,
+        paymentMethod: props.checkedItem[0].paymentMethod,
+        isDeleted: props.checkedItem[0].isDeleted,
+        isEditing: props.checkedItem[0].isEditing
+      });
+    }
+
+  }, [props.operationType]);
 
   //onChange
   const handleChange = (prop) => (e) => {
@@ -89,8 +91,6 @@ const EditTransaction = (props) => {
 
   //onSubmit -- save
   const handleSubmit = async (e) => {
-
-    console.log(e);
     e.preventDefault();
 
     const config = {
@@ -99,7 +99,6 @@ const EditTransaction = (props) => {
       },
     };
 
-    //Add new transaction
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
@@ -109,8 +108,14 @@ const EditTransaction = (props) => {
         dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
         return;
       } else {
-        //send data to backend
+        //send data to backend - add new
         const response = await axios.post("http://localhost:5000/alltransaction/add", transaction, config);
+
+        //--------------------------------
+        //send data to backend - edit 
+        // under construction
+        //--------------------------------
+
         console.log(response);
         if (response.statusText !== "OK") {
           throw response.statusText;
@@ -129,9 +134,9 @@ const EditTransaction = (props) => {
     }
 
     //edit transaction
-    //hide edit button
+    //hide edit and delete button
     dispatch(changeOperation({
-      editBtnVisible: false,
+      editDelBtnVisible: false,
       checkedItem: []
     }));
   };
@@ -245,11 +250,16 @@ const EditTransaction = (props) => {
 
               <Container className="buttons">
                 <Button className="saveBtn" type="submit">Save</Button>
-                <Button
-                  className="deleteBtn"
-                  onClick={showDelConf}>Delete</Button>
-
-                {delConf && <DeleteConfirmation show={delConf} closeDelConf={closeDelConf} />}
+                {/* Delete button only visible when editing the transaction */}
+                {props.operationType === "edit" &&
+                  <Button
+                    className="deleteBtn"
+                    onClick={showDelConf}>Delete</Button>}
+                {delConf &&
+                  <DeleteConfirmation
+                    show={delConf}
+                    closeDelConf={closeDelConf}
+                    targetId={transaction.id} />}
               </Container>
 
             </Form>

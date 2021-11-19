@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const token = localStorage.getItem("ET-token");
-console.log("TOKEN",token)
+console.log("TOKEN", token);
 
 const initialState = token
-  ? { isAuth: true, user:null, token: token }
-  : { isAuth: false, user: null, token: null  };
+  ? { isAuth: true, user: null, token: token }
+  : { isAuth: false, user: null, token: null };
 
 export const userSlice = createSlice({
   name: 'user',
@@ -17,6 +17,7 @@ export const userSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuth = true;
+      state.token = token;
     },
     removeUser: (state) => {
       state.user = null;
