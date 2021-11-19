@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
+import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
   Container,
@@ -21,8 +21,6 @@ import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
 
 const EditTransaction = (props) => {
-
-  console.log("props is", props);//coming from filter.js
 
   //router
   const navigate = useNavigate();
@@ -53,7 +51,6 @@ const EditTransaction = (props) => {
   //method
   //prefill edit form
   useEffect(() => {
-    console.log("I am prefilling the form", props.operationType);
     if (props.operationType === "edit") {
       setTransaction({
         id: props.checkedItem[0]._id,
@@ -69,7 +66,6 @@ const EditTransaction = (props) => {
         isEditing: props.checkedItem[0].isEditing
       });
     }
-
   }, [props.operationType]);
 
   //onChange
@@ -108,15 +104,14 @@ const EditTransaction = (props) => {
         dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
         return;
       } else {
-        //send data to backend - add new
-        const response = await axios.post("http://localhost:5000/alltransaction/add", transaction, config);
-
-        //--------------------------------
-        //send data to backend - edit 
-        // under construction
-        //--------------------------------
-
-        console.log(response);
+        let response;
+        {
+          props.operationType === "edit" ?
+            //send data to backend - edit tran
+            response = await axios.post(`http://localhost:5000/alltransaction/update/${props.checkedItem[0]._id}`, transaction, config) :
+            //send data to backend - add new
+            response = await axios.post("http://localhost:5000/alltransaction/add", transaction, config);
+        }
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
@@ -133,7 +128,6 @@ const EditTransaction = (props) => {
       return error;
     }
 
-    //edit transaction
     //hide edit and delete button
     dispatch(changeOperation({
       editDelBtnVisible: false,
@@ -259,7 +253,8 @@ const EditTransaction = (props) => {
                   <DeleteConfirmation
                     show={delConf}
                     closeDelConf={closeDelConf}
-                    targetId={transaction.id} />}
+                    checkedItemId={transaction.id}
+                    handleClose={props.handleClose} />}
               </Container>
 
             </Form>

@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./DeleteConfirmation.scss";
 import { FaTimesCircle } from "react-icons/fa";
 import {
@@ -11,14 +13,15 @@ import {
 
 const DeleteConfirmation = (props) => {
 
-  console.log("I am in delconf.js", props);
-
   //router
   const navigate = useNavigate();
 
+  //redux
+  const dispatch = useDispatch();
+
   //method
   const handleDelete = async (id) => {
-    console.log(id);
+
     const config = {
       headers: {
         "Content-type": "application/json"
@@ -28,7 +31,7 @@ const DeleteConfirmation = (props) => {
     //send data to backend - delete single tran
     try {
       const response = await axios.delete(`http://localhost:5000/alltransaction/delete/${id}`, config);
-      console.log(response);
+
       if (response.statusText !== "OK") {
         throw response.statusText;
       } else {
@@ -43,6 +46,14 @@ const DeleteConfirmation = (props) => {
       console.error(`${error}: Something wrong on the server side`);
       return error;
     }
+
+    //close edit transaction modal
+    props.handleClose();
+    //hide edit and delete button on the filter
+    dispatch(changeOperation({
+      editDelBtnVisible: false,
+      checkedItem: []
+    }));
   };
 
   return (
@@ -68,7 +79,7 @@ const DeleteConfirmation = (props) => {
               onClick={props.closeDelConf}>Cancel</Button>
             <Button
               className="deleteBtn"
-              onClick={() => handleDelete(props.checkedItem[0]._id)}>Delete</Button>
+              onClick={() => handleDelete(props.checkedItemId)}>Delete</Button>
           </Modal.Footer>
         </Container>
       </Modal>
