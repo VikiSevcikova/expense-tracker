@@ -5,6 +5,10 @@ import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showAlert } from "../alertMessage/alertMessageSlice";
+import { Link } from "react-router-dom";
 
 const ResetPasswordSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
@@ -19,11 +23,18 @@ const ResetPasswordSchema = Yup.object().shape({
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {userId, token} = useParams();
   
   const handleSubmit = async (values) => {
     try {
-      await axios.post(`/auth/reset-password/${userId}/${token}`, values.password);
+      const { data } = await axios.post(`/auth/reset-password/${userId}/${token}`, {password: values.password});
+      dispatch(
+        showAlert({
+          message: data.message,
+          variant: "info",
+        })
+      );
       navigate("/login");
     } catch (error) {
       dispatch(
@@ -83,6 +94,9 @@ const ResetPasswordForm = () => {
           </Form>
         )}
       </Formik>
+      <p className="m-0 text-center">
+        Did you just remember? <Link to="/login">Login</Link>
+      </p>
     </>
   );
 };
