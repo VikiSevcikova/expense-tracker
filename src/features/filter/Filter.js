@@ -119,8 +119,9 @@ const Filter = () => {
             {delConf &&
               <DeleteConfirmation
                 show={delConf}
-                checkedItem={operation.checkedItem}
-                closeDelConf={closeDelConf}/>}
+                checkedItemId={operation.checkedItem[0]._id}
+                closeDelConf={closeDelConf}
+                handleClose={handleClose} />}
           </>
         ) : (
           <>
@@ -184,8 +185,9 @@ const Filter = () => {
             {delConf &&
               <DeleteConfirmation
                 show={delConf}
-                checkedItem={operation.checkedItem}
-                closeDelConf={closeDelConf}/>}
+                checkedItemId={operation.checkedItem[0]._id}
+                closeDelConf={closeDelConf}
+                handleClose={handleClose} />}
           </>
         )}
       </Container>

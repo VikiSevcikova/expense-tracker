@@ -31,7 +31,6 @@ const TransactionList = () => {
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
-  console.log("tranList.js", operation)
 
   //method
   //when the component is mounted
