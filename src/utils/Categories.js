@@ -70,4 +70,9 @@ export const categories = [
     name: "Other",
     icon: "MdAttachMoney"
   },
+  {
+    id: 15,
+    name: "Salary",
+    icon: "AiOutlineMoneyCollect",
+  },
 ];
