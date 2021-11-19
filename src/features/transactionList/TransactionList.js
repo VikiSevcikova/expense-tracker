@@ -31,8 +31,8 @@ const TransactionList = () => {
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
-  console.log("tranList.js", operation)
 
+  console.log("transaction list", transactionList);
   //method
   //when the component is mounted
   useEffect(() => {
@@ -61,55 +61,54 @@ const TransactionList = () => {
 
   }, [location.state]);
 
-  //checkbox
-  const [checkedItem, setCheckedItem] = useState([]);
-
   const handleCheck = (id, e) => {
     const payload = transactionList.filter(e => e._id == id);
+
+    console.log(payload);
     //when it is checked, delete or edit action can be done
     if (e.target.checked) {
-      setCheckedItem(payload);
-      //change isEditing true only for the selected item
-      // dispatch(checkTransaction({
-      //   id: payload[0]._id,
-      //   date: payload[0].date,
-      //   categoryId: payload[0].categoryId,
-      //   categoryName: payload[0].categoryName,
-      //   transactionType: payload[0].transactionType,
-      //   description: payload[0].description,
-      //   currency: payload[0].currency,
-      //   amount: payload[0].amount,
-      //   paymentMethod: payload[0].paymentMethod,
-      //   isDeleted: payload[0].isDeleted,
-      //   isEditing: true
-      // }));
 
-      //make edit button visible - editing mode on
+      //change isEditing true only for the selected item
+      dispatch(checkTransaction({
+        id: payload[0]._id,
+        date: payload[0].date,
+        categoryId: payload[0].categoryId,
+        categoryName: payload[0].categoryName,
+        transactionType: payload[0].transactionType,
+        description: payload[0].description,
+        currency: payload[0].currency,
+        amount: payload[0].amount,
+        paymentMethod: payload[0].paymentMethod,
+        isDeleted: payload[0].isDeleted,
+        isEditing: true
+      }));
+
+      //make edit and delete button visible - editing mode on
       dispatch(changeOperation({
-        editBtnVisible: true,
+        editDelBtnVisible: true,
         checkedItem: payload //array
       }));
     }
     else {
-      setCheckedItem([]);
-      //change isEditing false only for the selected item
-      // dispatch(checkTransaction({
-      //   id: payload[0]._id,
-      //   date: payload[0].date,
-      //   categoryId: payload[0].categoryId,
-      //   categoryName: payload[0].categoryName,
-      //   transactionType: payload[0].transactionType,
-      //   description: payload[0].description,
-      //   currency: payload[0].currency,
-      //   amount: payload[0].amount,
-      //   paymentMethod: payload[0].paymentMethod,
-      //   isDeleted: payload[0].isDeleted,
-      //   isEditing: false
-      // }));
 
-      //make edit button invisible - editing mode off
+      //change isEditing back to false
+      dispatch(checkTransaction({
+        id: payload[0]._id,
+        date: payload[0].date,
+        categoryId: payload[0].categoryId,
+        categoryName: payload[0].categoryName,
+        transactionType: payload[0].transactionType,
+        description: payload[0].description,
+        currency: payload[0].currency,
+        amount: payload[0].amount,
+        paymentMethod: payload[0].paymentMethod,
+        isDeleted: payload[0].isDeleted,
+        isEditing: false
+      }));
+
+      //make edit and delete button invisible - editing mode off
       dispatch(changeOperation({
-        editBtnVisible: false,
+        editDelBtnVisible: false,
         checkedItem: []
       }));
     }
@@ -135,7 +134,8 @@ const TransactionList = () => {
                     <>
                       <tr key={elem._id}>
                         <td><Form.Check
-                          disabled={operation.editMode && !elem.isEditing ? true : false}
+                          checked={elem.isEditing && true}
+                          // disabled={operation.editMode && !elem.isEditing ? true : false}
                           onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td className="tdLeft">
                           <p className="category">{elem.categoryName}</p>
@@ -143,7 +143,9 @@ const TransactionList = () => {
                           <p className="paymentMethod">{elem.paymentMethod}</p>
                         </td>
                         <td className="tdRight">
-                          <p>${elem.amount}</p>
+                          {elem.transactionType === "expense" ?
+                            <p className="negativeAmount">-${elem.amount}</p> :
+                            <p>${elem.amount}</p>}
                           <p>{elem.date.substr(0, 10).replace(/-/g, "/")}</p>
                         </td>
                       </tr>
@@ -175,13 +177,17 @@ const TransactionList = () => {
 
                       <tr key={elem._id}>
                         <td><Form.Check
+                          checked={elem.isEditing && true}
                           // disabled={operation.editMode && !elem.isEditing ? true : false}
                           onClick={(e) => handleCheck(elem._id, e)} /></td>
                         <td>{elem.categoryName}</td>
                         <td>{elem.date.substr(0, 10).replace(/-/g, "/")}</td>
                         <td>{elem.paymentMethod}</td>
                         <td>{elem.description}</td>
-                        <td>${elem.amount}</td>
+                        {elem.transactionType === "expense" ?
+                          <td className="negativeAmount">-${elem.amount}</td> :
+                          <td>${elem.amount}</td>}
+
                       </tr>
                     </>
                   ))}

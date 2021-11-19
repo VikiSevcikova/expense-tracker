@@ -1,19 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const token = localStorage.getItem("ET-token");
-console.log("TOKEN",token)
+console.log("TOKEN", token);
 
 const initialState = token
-  ? { isAuth: true, user:null, token: token }
+  ? { isAuth: true, user: null, token: token }
   : { isAuth: false, user: null, token: null };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuth = true;
+      state.token = token;
     },
     removeUser: (state) => {
       state.user = null;
@@ -23,7 +27,7 @@ export const userSlice = createSlice({
   }
 });
 
-export const { setUser, removeUser } = userSlice.actions;
+export const { setUser, removeUser, setToken } = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import useMedia from "use-media";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
+import { transactionListSelector, filterByTransactionType } from '../transactionList/transactionListSlice';
 import "./Filter.scss";
 import {
   Container,
@@ -36,8 +37,8 @@ const Filter = () => {
   const [operationType, setOperationType] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = (operation) => {
-    setOperationType(operation);
-    setShow(true);
+    setOperationType(operation);//edit or add
+    setShow(true); //open modal
   };
 
   //Modal pop up (delete conf)
@@ -46,7 +47,23 @@ const Filter = () => {
   const showDelConf = () => setShowDelConf(true);
 
   //redux
+  const dispatch = useDispatch();
   const operation = useSelector(enterTransactionSelector);
+  const transactionList = useSelector(transactionListSelector);
+
+  //method
+  const filterByIncome = () => {
+    //const incomeTran = transactionList.filter(e => e.transactionType === "income");
+    ////// FilterをBackendでやってからDispatchでtransactionListを更新する
+    //dispatch(filterByTransactionType(incomeTran));
+  };
+
+  const filterByExpense = () => {
+
+    ////// Filtering needs to be done at backend
+    //const expenseTran = transactionList.filter(e => e.transactionType === "expense");
+    //dispatch(filterByTransactionType(expenseTran));
+  };
 
   return (
     <>
@@ -59,6 +76,7 @@ const Filter = () => {
               <Col>
                 <Button
                   className="incomeFilter"
+                  onClick={filterByIncome}
                 >
                   Income
                 </Button>
@@ -66,6 +84,7 @@ const Filter = () => {
               <Col>
                 <Button
                   className="expenseFilter"
+                  onClick={filterByExpense}
                 >
                   Expense
                 </Button>
@@ -97,14 +116,17 @@ const Filter = () => {
                 <MdModeEdit
                   className="addNewBtn"
                   onClick={() => handleShow("add")} />
-                {operation.editBtnVisible &&
-                  <MdModeEdit
-                    className="editBtn"
-                    onClick={() => handleShow("edit")} />
+                {operation.editDelBtnVisible &&
+                  <>
+                    <MdModeEdit
+                      className="editBtn"
+                      onClick={() => handleShow("edit")} />
+                    <MdDelete
+                      className="deleteBtn"
+                      onClick={showDelConf} />
+                  </>
                 }
-                <MdDelete
-                  className="deleteBtn"
-                  onClick={showDelConf} />
+
               </Col>
             </Row>
             {/* Modal */}
@@ -116,8 +138,9 @@ const Filter = () => {
             {delConf &&
               <DeleteConfirmation
                 show={delConf}
-                checkedItem={operation.checkedItem}
-                closeDelConf={closeDelConf} />}
+                checkedItemId={operation.checkedItem[0]._id}
+                closeDelConf={closeDelConf}
+                handleClose={handleClose} />}
           </>
         ) : (
           <>
@@ -125,11 +148,13 @@ const Filter = () => {
             <Col className="filterOptionsDesktop">
               <Button
                 className="incomeFilter"
+                onClick={filterByIncome}
               >
                 Income
               </Button>
               <Button
                 className="expenseFilter"
+                onClick={filterByExpense}
               >
                 Expense
               </Button>
@@ -154,19 +179,22 @@ const Filter = () => {
               >
                 Add
               </Button>
-              {operation.editBtnVisible &&
-                <Button
-                  className="editBtn"
-                  onClick={() => handleShow("edit")}
-                >
-                  Edit
-                </Button>}
-              <Button
-                className="deleteBtn"
-                onClick={showDelConf}
-              >
-                Delete
-              </Button>
+              {operation.editDelBtnVisible &&
+                <>
+                  <Button
+                    className="editBtn"
+                    onClick={() => handleShow("edit")}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    className="deleteBtn"
+                    onClick={showDelConf}
+                  >
+                    Delete
+                  </Button>
+                </>
+              }
             </Col>
             {/* Modal */}
             {show &&
@@ -178,8 +206,9 @@ const Filter = () => {
             {delConf &&
               <DeleteConfirmation
                 show={delConf}
-                checkedItem={operation.checkedItem}
-                closeDelConf={closeDelConf} />}
+                checkedItemId={operation.checkedItem[0]._id}
+                closeDelConf={closeDelConf}
+                handleClose={handleClose} />}
           </>
         )}
       </Container>

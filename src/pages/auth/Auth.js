@@ -5,24 +5,25 @@ import { Container, Col, Row } from "react-bootstrap";
 import RegistrationForm from "../../features/registrationForm/RegistrationForm";
 import { useLocation } from "react-router";
 import ForgotPasswordForm from "../../features/forgotPasswordForm/ForgotPasswordForm";
+import ResetPasswordForm from "../../features/resetPasswordForm/ResetPasswordForm";
 
 const Auth = () => {
   const { pathname } = useLocation();
   const [content, setContent] = useState(null);
 
   useEffect(() => {
-    switch (pathname) {
-      case "/login":
+    switch (pathname.split("/")[1]) {
+      case "login":
         setContent(<LoginForm />);
         break;
-      case "/registration":
+      case "registration":
         setContent(<RegistrationForm />);
         break;
-      case "/forgot-password":
+      case "forgot-password":
         setContent(<ForgotPasswordForm />);
         break;
-      case "/reset-password":
-        setContent(<RegistrationForm />);
+      case "reset-password":
+        setContent(<ResetPasswordForm />);
         break;
       default:
         setContent("Not Found");

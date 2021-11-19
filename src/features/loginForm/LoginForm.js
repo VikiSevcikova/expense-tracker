@@ -8,7 +8,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setUser } from "../userProfile/userSlice";
+import { setToken, setUser } from "../userProfile/userSlice";
 import { getUser } from "../../utils/utils";
 import { hideAlert, showAlert } from "../alertMessage/alertMessageSlice";
 
@@ -29,6 +29,7 @@ const LoginForm = () => {
       };
       const { data } = await axios.post("/auth/login", formData);
       localStorage.setItem("ET-token", data.token)
+      dispatch(setToken(data.token));
   
       const { user } = await getUser(data.token);
       dispatch(setUser(user));
