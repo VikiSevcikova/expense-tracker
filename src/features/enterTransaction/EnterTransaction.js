@@ -40,7 +40,7 @@ const EditTransaction = (props) => {
     amount: 0,
     paymentMethod: "",
     isDeleted: false,
-    isEditing: false
+    isEditing: false,
   });
 
   //Modal pop up (delete conf)
@@ -63,7 +63,7 @@ const EditTransaction = (props) => {
         amount: props.checkedItem[0].amount,
         paymentMethod: props.checkedItem[0].paymentMethod,
         isDeleted: props.checkedItem[0].isDeleted,
-        isEditing: props.checkedItem[0].isEditing
+        isEditing: props.checkedItem[0].isEditing,
       });
     }
   }, [props.operationType]);
