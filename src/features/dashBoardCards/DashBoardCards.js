@@ -5,7 +5,7 @@ import "./DashBoardCards.scss";
 import { Container, Col, Row } from "react-bootstrap";
 
 import Greeting from "../greetings/Greeting";
-import Calender from "../calender/Calender";
+import Calendar from "../calendar/Calendar";
 import Currency from "../currency/Currency";
 import BalancePieChart from "../balancePieChart/BalancePieChart";
 import BalanceLineChart from "../balanceLineChart/BalanceLineChart";
@@ -96,7 +96,7 @@ export default function DashBoardCards() {
       <Container fluid className="box_wrapper">
         <Row>
           <Col xs={9}>
-            <Calender setDate={setDate} />
+            <Calendar setDate={setDate} />
           </Col>
           <Col xs={3}>
             <Currency />

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
-import "./Calender.scss";
+import "./Calendar.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
-export default function Calender({ setDate }) {
+export default function Calendar({ setDate }) {
   const startOfMonth = new Date(moment().startOf("month"));
   const endOfDay = new Date(moment().endOf("day"));
   // console.log(`Start Date ${startOfMonth}`);
@@ -22,7 +22,7 @@ export default function Calender({ setDate }) {
   }, [dateRange]);
 
   return (
-    <div className="calender-wrapper">
+    <div className="calendar-wrapper">
       <DatePicker
         portalId="root-portal"
         selected={startDate}
