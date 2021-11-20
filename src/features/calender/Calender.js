@@ -1,18 +1,25 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
-import './Calender.scss';
+import "./Calender.scss";
 import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
-export default function Calender({setDate}) {
-  const [dateRange, setDateRange] = useState([new Date(), null]);
+export default function Calender({ setDate }) {
+  const startOfMonth = new Date(moment().startOf("month"));
+  const endOfDay = new Date(moment().endOf("day"));
+  // console.log(`Start Date ${startOfMonth}`);
+  // console.log(`End Date ${endOfDay}`);
+
+  const [dateRange, setDateRange] = useState([startOfMonth, endOfDay]);
   const [startDate, endDate] = dateRange;
 
-  useEffect(()=>{
-    if(dateRange[1] !== null){
-      setDate(startDate.toISOString(),endDate.toISOString())
-    }
-  },[dateRange])
-
+  useEffect(() => {
+    //  set end date time
+    setDate(
+      startDate,
+      new Date(moment(endDate).set({ hour: 23, minute: 59, second: 59 }))
+    );
+  }, [dateRange]);
 
   return (
     <div className="calender-wrapper">

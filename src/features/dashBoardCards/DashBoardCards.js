@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import moment from "moment";
 import "./DashBoardCards.scss";
-import { Container, Col, Row, Button } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 
 import Greeting from "../greetings/Greeting";
 import Calender from "../calender/Calender";
@@ -12,13 +13,23 @@ import ExpenseChart from "../expenseChart/ExpenseChart";
 import RecentTransaction from "../recentTransaction/RecentTransaction";
 
 export default function DashBoardCards() {
+  // local time offset
+  const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
+
+  // First date of current month
+  const startOfMonth = new Date(moment().startOf("month"));
+
+  // Today endtime 23:59:59
+  const endOfDay = new Date(moment().endOf("day"));
+
+  // console.log(startOfMonth);
+  // console.log(endOfDay);
+
   const [data, setData] = useState(undefined);
-  const [startDate, setStartDate] = useState(new Date().toISOString());
-  const [endDate, setEndDate] = useState(new Date().toISOString());
-  const [datePicked, setDatePicked] = useState(false);
+  const [startDate, setStartDate] = useState(startOfMonth);
+  const [endDate, setEndDate] = useState(endOfDay);
 
   const setDate = (start, end) => {
-    setDatePicked(true);
     setStartDate(start);
     setEndDate(end);
   };
@@ -26,8 +37,13 @@ export default function DashBoardCards() {
   useEffect(() => {
     const fetchDateRange = async () => {
       try {
+        // Convert to ISO date format which is 
         const res = await axios.get(
-          `http://localhost:5000/transaction?startdate=${startDate}&enddate=${endDate}`
+          `http://localhost:5000/transaction?startdate=${new Date(
+            startDate - timeZoneOffSet
+          ).toISOString()}&enddate=${new Date(
+            endDate - timeZoneOffSet
+          ).toISOString()}`
         );
         if (res.status === 200) {
           setData(res.data);
@@ -36,26 +52,22 @@ export default function DashBoardCards() {
         return err;
       }
     };
-    if (datePicked) {
-      fetchDateRange();
-    } else {
-      return;
-    }
+    fetchDateRange();
   }, [startDate, endDate]);
 
-  useEffect(() => {
-    const fetchRecent = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/all-transaction");
-        if (res.status === 200) {
-          setData(res.data);
-        }
-      } catch (err) {
-        return err;
-      }
-    };
-    fetchRecent();
-  }, []);
+  // useEffect(() => {
+  //   const fetchRecent = async () => {
+  //     try {
+  //       const res = await axios.get("http://localhost:5000/all-transaction");
+  //       if (res.status === 200) {
+  //         setData(res.data);
+  //       }
+  //     } catch (err) {
+  //       return err;
+  //     }
+  //   };
+  //   fetchRecent();
+  // }, []);
 
   console.log(data);
 

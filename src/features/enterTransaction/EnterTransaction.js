@@ -27,11 +27,13 @@ const EditTransaction = (props) => {
 
   //redux
   const dispatch = useDispatch();
-
+  
+  const timeZoneOffSet = new Date().getTimezoneOffset()*60000
+  
   //private state
   const [transaction, setTransaction] = useState({
     id: "",
-    date: new Date(),
+    date: new Date(Date.now() - timeZoneOffSet),
     categoryId: 0, //default 0 : need to get from backend
     categoryName: "",
     transactionType: "",
