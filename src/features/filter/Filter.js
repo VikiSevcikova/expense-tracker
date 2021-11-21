@@ -53,16 +53,13 @@ const Filter = () => {
 
   //method
   const filterByIncome = () => {
-    //const incomeTran = transactionList.filter(e => e.transactionType === "income");
-    ////// FilterをBackendでやってからDispatchでtransactionListを更新する
-    //dispatch(filterByTransactionType(incomeTran));
+    const incomeTran = transactionList.allTran.filter(e => e.transactionType === "income");
+    dispatch(filterByTransactionType(incomeTran));
   };
 
   const filterByExpense = () => {
-
-    ////// Filtering needs to be done at backend
-    //const expenseTran = transactionList.filter(e => e.transactionType === "expense");
-    //dispatch(filterByTransactionType(expenseTran));
+    const expenseTran = transactionList.allTran.filter(e => e.transactionType === "expense");
+    dispatch(filterByTransactionType(expenseTran));
   };
 
   return (
