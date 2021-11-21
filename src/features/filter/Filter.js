@@ -3,6 +3,10 @@ import useMedia from "use-media";
 import { useSelector, useDispatch } from "react-redux";
 import { enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import { transactionListSelector, filterByTransactionType } from '../transactionList/transactionListSlice';
+import {
+  showAlert,
+  hideAlert
+} from '../alertMessage/alertMessageSlice';
 import "./Filter.scss";
 import {
   Container,
@@ -10,11 +14,12 @@ import {
   Row,
   Button
 } from 'react-bootstrap';
-import { BsCalendarDateFill } from "react-icons/bs";
+import { BsCalendarDateFill, BsSearch } from "react-icons/bs";
 import {
   MdPayment,
   MdModeEdit,
-  MdDelete
+  MdDelete,
+  MdLibraryAdd
 } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,8 +33,13 @@ const Filter = () => {
   const isXL = useMedia({ minWidth: "1200px" }); //xl
   const isXXL = useMedia({ minWidth: "1400px" }); //xxl
 
+  // new Date(
+  //           endDate - timeZoneOffSet
+  //         ).toISOString()
   //Calendar filter
-  const [dateRange, setDateRange] = useState([new Date(), null]);
+
+  const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
+  const [dateRange, setDateRange] = useState([new Date(Date.now() - timeZoneOffSet), null]);
   const [startDate, endDate] = dateRange;
 
   //Modal pop up (enter transaction)
@@ -59,7 +69,30 @@ const Filter = () => {
 
   const filterByExpense = () => {
     const expenseTran = transactionList.allTran.filter(e => e.transactionType === "expense");
+    console.log(expenseTran);
     dispatch(filterByTransactionType(expenseTran));
+  };
+
+  const filterByDate = () => {
+    console.log(dateRange);
+    //validation check - dateRange not selected
+    if (dateRange[0] === null || dateRange[1] === null) {
+      dispatch(showAlert({ message: "Please select date range", variant: "danger" }));
+    } else {
+      const start = dateRange[0];
+      const end = dateRange[1];
+      console.log("start", start);
+      console.log("end", end);
+      console.log(transactionList.allTran[1]); //date: "2021-11-15T07:36:54.000Z"
+
+      const trans = transactionList.allTran.filter(elem => start.toISOString() <= elem.date && elem.date <= end.toISOString());
+      console.log(trans);
+      if (trans.length === 0) {
+        dispatch(showAlert({ message: "No transaction found", variant: "danger" }));
+      } else {
+        dispatch(filterByTransactionType(trans));
+      };
+    }
   };
 
   return (
@@ -88,43 +121,41 @@ const Filter = () => {
               </Col>
             </Row>
 
-            <Row className="buttons">
-              <Col
-                xs={5} sm={5} md={5}
-                className="filterColLeft">
-                <DatePicker
-                  portalId="root-portal"
-                  className="dateFilter"
-                  dateFormat="yyyy/MM/dd"
-                  monthsShown={2}
-                  selectsRange={true}
-                  startDate={startDate}
-                  endDate={endDate}
-                  onChange={(update) => {
-                    setDateRange(update);
-                  }}
-                />
-              </Col>
-              <Col className="filterColCenter">
-                <BsCalendarDateFill />
-                <MdPayment />
-              </Col>
-              <Col className="filterColRight">
-                <MdModeEdit
-                  className="addNewBtn"
-                  onClick={() => handleShow("add")} />
-                {operation.editDelBtnVisible &&
-                  <>
-                    <MdModeEdit
-                      className="editBtn"
-                      onClick={() => handleShow("edit")} />
-                    <MdDelete
-                      className="deleteBtn"
-                      onClick={showDelConf} />
-                  </>
-                }
+            <Row className="dateRangeFilter">
+              <DatePicker
+                portalId="root-portal"
+                className="dateFilter"
+                dateFormat="yyyy/MM/dd"
+                monthsShown={2}
+                selectsRange={true}
+                startDate={startDate}
+                endDate={endDate}
+                onChange={updatedDate => setDateRange(updatedDate)}
+              />
+              <Button
+                className="searchBtn"
+                onClick={filterByDate}
+              >
+                <BsSearch className="searchIcon" />
+              </Button>
+            </Row>
 
-              </Col>
+            <Row className="buttons">
+              <BsCalendarDateFill />
+              <MdPayment />
+              <MdLibraryAdd
+                className="addNewBtn"
+                onClick={() => handleShow("add")} />
+              {operation.editDelBtnVisible &&
+                <>
+                  <MdModeEdit
+                    className="editBtn"
+                    onClick={() => handleShow("edit")} />
+                  <MdDelete
+                    className="deleteBtn"
+                    onClick={showDelConf} />
+                </>
+              }
             </Row>
             {/* Modal */}
             {show &&
@@ -163,10 +194,14 @@ const Filter = () => {
                 selectsRange={true}
                 startDate={startDate}
                 endDate={endDate}
-                onChange={(update) => {
-                  setDateRange(update);
-                }}
+                onChange={updatedDate => setDateRange(updatedDate)}
               />
+              <Button
+                className="searchBtn"
+                onClick={filterByDate}
+              >
+                <BsSearch className="searchIcon" />
+              </Button>
             </Col>
 
             <Col className="buttonsDesktop">

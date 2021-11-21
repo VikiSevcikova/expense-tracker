@@ -15,6 +15,7 @@ export const transactionListSlice = createSlice({
       state.allTran.map((elem, index) => elem._id == action.payload.id ? state.allTran.splice(index, 1, action.payload) : elem);
     },
     filterByTransactionType: (state, action) => {
+      console.log(action.payload);
       return { ...state, filteredTran: action.payload };
     }
   }

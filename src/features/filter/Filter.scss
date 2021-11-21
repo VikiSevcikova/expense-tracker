@@ -13,7 +13,6 @@
     flex-direction: row;
     justify-content: center;
   }
-  //=========== desktop =============
   .filterOptions {
     margin-bottom: 1rem;
     .col {
@@ -31,14 +30,23 @@
       }
     }
   }
-  .buttons {
-    .filterColLeft {
+  .dateRangeFilter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    .react-datepicker-wrapper {
+      width: fit-content;
+      width: 80%;
       .dateFilter {
         font-size: 0.8rem;
-       // z-index: 10;
         background-color: transparent;
         color: $txtColor1;
         border-radius: 10vw;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
         border: solid 0.1rem $txtColor1;
         padding: 0.3rem;
         width: 100%;
@@ -48,39 +56,67 @@
           border: 0.1rem solid $accentColor1 !important;
         }
       }
-      .react-datepicker-popper {
-       // z-index: 1000;
+    }
+    .searchBtn {
+      background-color: $accentColor1;
+      border-radius: 10vw;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      width: 8vw;
+      background-color: $accentColor1;
+      border: none;
+      box-shadow: none;
+      &:hover {
+        transform: scale(1.05);
       }
     }
-    .filterColCenter {
-      svg {
-        font-size: 2rem;
-        margin: 0 0.5rem;
-        height: 100%;
-        transition: all 0.5s ease-in-out;
-        &:hover {
-          transform: scale(1.05);
-        }
+  }
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    svg {
+      width: fit-content;
+      font-size: 2rem;
+      transition: all 0.5s ease-in-out;
+      &:hover {
+        transform: scale(1.05);
       }
     }
-    .filterColRight {
-      text-align: right;
-      svg {
-        font-size: 1rem;
-        margin: 0 0.5rem;
-        height: 100%;
-        transition: all 0.5s ease-in-out;
-        &:hover {
-          transform: scale(1.05);
-        }
-      }
-      .deleteBtn {
-        color: $accentColor3;
-      }
-      .editBtn {
-        color: $accentColor1;
-      }
+    .editBtn {
+      color: $accentColor1;
     }
+    .deleteBtn {
+      color: $accentColor3;
+    }
+    // .filterColLeft {
+    //   svg {
+    //     font-size: 2rem;
+    //     margin: 0 0.5rem;
+    //     height: 100%;
+    //     transition: all 0.5s ease-in-out;
+    //     &:hover {
+    //       transform: scale(1.05);
+    //     }
+    //   }
+    // }
+    // .filterColRight {
+    //   text-align: right;
+    //   svg {
+    //     font-size: 1rem;
+    //     margin: 0 0.5rem;
+    //     height: 100%;
+    //     transition: all 0.5s ease-in-out;
+    //     &:hover {
+    //       transform: scale(1.05);
+    //     }
+    //   }
+    //   .deleteBtn {
+    //     color: $accentColor3;
+    //   }
+    // }
   }
 
   //======== Desktop, large desktop, and larger desktop ===========
@@ -94,7 +130,7 @@
     .expenseFilter {
       border-radius: 10vw;
       background-color: $accentColor1;
-      width: 8vw;
+      width: 10vw;
       border: none;
       box-shadow: none;
       transition: all 0.5s ease-in-out;
@@ -113,6 +149,17 @@
       &:focus {
         outline: none;
         border: 0.1rem solid $accentColor1 !important;
+      }
+    }
+    .searchBtn {
+      background-color: $accentColor1;
+      border-radius: 10vw;
+      width: 8vw;
+      background-color: $accentColor1;
+      border: none;
+      box-shadow: none;
+      &:hover {
+        transform: scale(1.05);
       }
     }
   }

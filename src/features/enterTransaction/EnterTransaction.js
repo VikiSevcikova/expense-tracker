@@ -100,9 +100,6 @@ const EditTransaction = (props) => {
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
-        setTimeout(() => {
-          dispatch(hideAlert());
-        }, 5000);
         dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
         return;
       } else {
