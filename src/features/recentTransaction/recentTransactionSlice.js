@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const recentTransactionSilce = createSlice({
-name: 'recentTransaction',
-initialState:{},
-reducers:{
-  getRecentTransaction: (state, action)=>{
-     return action.payload
-  }
-}
-})
+  name: "recentTransaction",
+  initialState: {},
+  reducers: {
+    getRecentTransaction: (state) => {
+      return state;
+    },
+  },
+});
 
-export const {getRecentTransaction} = recentTransactionSilce.actions
-export default recentTransactionSilce.reducer
+export const recentTransactionActions = recentTransactionSilce.actions;
+export default recentTransactionSilce.reducer;
