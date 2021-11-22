@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const recentTransactionSilce = createSlice({
   name: "recentTransaction",
-  initialState: {},
+  initialState: [],
   reducers: {
-    getRecentTransaction: (state) => {
-      return state;
+    getRecentTransaction (state,action)  {
+      return action.payload;
     },
   },
 });
