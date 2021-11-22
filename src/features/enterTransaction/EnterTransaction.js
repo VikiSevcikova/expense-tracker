@@ -27,11 +27,13 @@ const EditTransaction = (props) => {
 
   //redux
   const dispatch = useDispatch();
-
+  
+  const timeZoneOffSet = new Date().getTimezoneOffset()*60000
+  
   //private state
   const [transaction, setTransaction] = useState({
     id: "",
-    date: new Date(),
+    date: new Date(Date.now() - timeZoneOffSet),
     categoryId: 0, //default 0 : need to get from backend
     categoryName: "",
     transactionType: "",
@@ -98,9 +100,6 @@ const EditTransaction = (props) => {
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
-        setTimeout(() => {
-          dispatch(hideAlert());
-        }, 5000);
         dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
         return;
       } else {

@@ -12,7 +12,6 @@ const SearchBar = () => {
   return (
     <>
       <InputGroup className="searchBar">
-
         <FormControl
           className="searchInput"
           placeholder=" Search transaction item here..."
