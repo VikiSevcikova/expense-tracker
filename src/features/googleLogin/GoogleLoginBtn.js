@@ -15,7 +15,6 @@ const GoogleLoginBtn = () => {
     const responseSuccessGoogle = async (response) => {
         try{
             const {data} = await axios.post("/auth/google-login", {tokenId: response.tokenId})
-            console.log(data)
             localStorage.setItem("ET-token", data.token)
             dispatch(setToken(data.token));
         
