@@ -32,9 +32,21 @@ const TransactionList = () => {
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
 
-  console.log("transaction list", transactionList);
+  //private state
+  const [tranList, setTranList] = useState([]);
+  console.log("transaction list from Redux", transactionList);
+
+
   //method
   //when the component is mounted
+  useEffect(() => {
+    transactionList.filteredTran.length !== 0 ?
+      setTranList(transactionList.filteredTran) :
+      setTranList(transactionList.allTran);
+  }, [transactionList]);
+
+  //when the component is mounted get all transaction data from backend
+  //This is for the case where a user navigates to this page from another page
   useEffect(() => {
 
     const config = {
@@ -61,8 +73,9 @@ const TransactionList = () => {
 
   }, [location.state]);
 
+  //Checkbox control
   const handleCheck = (id, e) => {
-    const payload = transactionList.filter(e => e._id == id);
+    const payload = tranList.filter(e => e._id == id);
 
     console.log(payload);
     //when it is checked, delete or edit action can be done
@@ -117,88 +130,89 @@ const TransactionList = () => {
   return (
     <>
       <Container fluid className="transactionListContainer">
-        {!transactionList.length == 0 ? (<>
-          {!(isLG || isXL || isXXL) ? (
-            <>
-              {/* Mobile view */}
-              <Table className="transactionList">
-                <thead className="tableTitle">
-                  <tr>
-                    <th><MdCheckBoxOutlineBlank /></th>
-                    <th className="titleCategory"><MdOutlineCategory /> Category <BsFillCaretDownFill /></th>
-                    <th className="titleAmount"><MdAttachMoney /> <BsFillCaretDownFill /></th>
-                  </tr>
-                </thead>
-                <tbody className="tableBody">
-                  {transactionList.map((elem, index) => (
-                    <>
-                      <tr key={elem._id}>
-                        <td><Form.Check
-                          checked={elem.isEditing && true}
-                          // disabled={operation.editMode && !elem.isEditing ? true : false}
-                          onClick={(e) => handleCheck(elem._id, e)} /></td>
-                        <td className="tdLeft">
-                          <p className="category">{elem.categoryName}</p>
-                          <p>{elem.description}</p>
-                          <p className="paymentMethod">{elem.paymentMethod}</p>
-                        </td>
-                        <td className="tdRight">
+        {!tranList.length == 0 ?
+          (<>
+            {!(isLG || isXL || isXXL) ? (
+              <>
+                {/* Mobile view */}
+                <Table className="transactionList">
+                  <thead className="tableTitle">
+                    <tr>
+                      <th><MdCheckBoxOutlineBlank /></th>
+                      <th className="titleCategory"><MdOutlineCategory /> Category <BsFillCaretDownFill /></th>
+                      <th className="titleAmount"><MdAttachMoney /> <BsFillCaretDownFill /></th>
+                    </tr>
+                  </thead>
+                  <tbody className="tableBody">
+                    {tranList.map((elem, index) => (
+                      <>
+                        <tr key={elem._id}>
+                          <td><Form.Check
+                            checked={elem.isEditing && true}
+                            // disabled={operation.editMode && !elem.isEditing ? true : false}
+                            onClick={(e) => handleCheck(elem._id, e)} /></td>
+                          <td className="tdLeft">
+                            <p className="category">{elem.categoryName}</p>
+                            <p>{elem.description}</p>
+                            <p className="paymentMethod">{elem.paymentMethod}</p>
+                          </td>
+                          <td className="tdRight">
+                            {elem.transactionType === "expense" ?
+                              <p className="negativeAmount">-${elem.amount}</p> :
+                              <p>${elem.amount}</p>}
+                            <p>{elem.date.substr(0, 10).replace(/-/g, "/")}</p>
+                          </td>
+                        </tr>
+                      </>
+                    ))}
+                    <tr className="paging">
+                      <td colSpan="6"><Paging /></td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </>
+            ) : (
+              <>
+                {/* Desktop view */}
+                <Table className="transactionList">
+                  <thead className="tableTitle">
+                    <tr>
+                      <th><MdCheckBoxOutlineBlank /></th>
+                      <th className="titleCategory">Category <BsFillCaretDownFill /></th>
+                      <th className="titleCategory">Date <BsFillCaretDownFill /></th>
+                      <th className="titleCategory">Payment Method <BsFillCaretDownFill /></th>
+                      <th className="titleCategory">Description <BsFillCaretDownFill /></th>
+                      <th className="titleCategory">Amount <BsFillCaretDownFill /></th>
+                    </tr>
+                  </thead>
+                  <tbody className="tableBody">
+                    {tranList.map((elem, index) => (
+                      <>
+
+                        <tr key={elem._id}>
+                          <td><Form.Check
+                            checked={elem.isEditing && true}
+                            // disabled={operation.editMode && !elem.isEditing ? true : false}
+                            onClick={(e) => handleCheck(elem._id, e)} /></td>
+                          <td>{elem.categoryName}</td>
+                          <td>{elem.date.substr(0, 10).replace(/-/g, "/")}</td>
+                          <td>{elem.paymentMethod}</td>
+                          <td>{elem.description}</td>
                           {elem.transactionType === "expense" ?
-                            <p className="negativeAmount">-${elem.amount}</p> :
-                            <p>${elem.amount}</p>}
-                          <p>{elem.date.substr(0, 10).replace(/-/g, "/")}</p>
-                        </td>
-                      </tr>
-                    </>
-                  ))}
-                  <tr className="paging">
-                    <td colSpan="6"><Paging /></td>
-                  </tr>
-                </tbody>
-              </Table>
-            </>
-          ) : (
-            <>
-              {/* Desktop view */}
-              <Table className="transactionList">
-                <thead className="tableTitle">
-                  <tr>
-                    <th><MdCheckBoxOutlineBlank /></th>
-                    <th className="titleCategory">Category <BsFillCaretDownFill /></th>
-                    <th className="titleCategory">Date <BsFillCaretDownFill /></th>
-                    <th className="titleCategory">Payment Method <BsFillCaretDownFill /></th>
-                    <th className="titleCategory">Description <BsFillCaretDownFill /></th>
-                    <th className="titleCategory">Amount <BsFillCaretDownFill /></th>
-                  </tr>
-                </thead>
-                <tbody className="tableBody">
-                  {transactionList.map((elem, index) => (
-                    <>
+                            <td className="negativeAmount">-${elem.amount}</td> :
+                            <td>${elem.amount}</td>}
 
-                      <tr key={elem._id}>
-                        <td><Form.Check
-                          checked={elem.isEditing && true}
-                          // disabled={operation.editMode && !elem.isEditing ? true : false}
-                          onClick={(e) => handleCheck(elem._id, e)} /></td>
-                        <td>{elem.categoryName}</td>
-                        <td>{elem.date.substr(0, 10).replace(/-/g, "/")}</td>
-                        <td>{elem.paymentMethod}</td>
-                        <td>{elem.description}</td>
-                        {elem.transactionType === "expense" ?
-                          <td className="negativeAmount">-${elem.amount}</td> :
-                          <td>${elem.amount}</td>}
-
-                      </tr>
-                    </>
-                  ))}
-                  <tr className="paging">
-                    <td colSpan="6"><Paging /></td>
-                  </tr>
-                </tbody>
-              </Table>
-            </>
-          )}
-        </>) : (<h2>No Transaction Added yet</h2>)}
+                        </tr>
+                      </>
+                    ))}
+                    <tr className="paging">
+                      <td colSpan="6"><Paging /></td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </>
+            )}
+          </>) : (<h2>No Transaction Added yet</h2>)}
 
       </Container>
     </>

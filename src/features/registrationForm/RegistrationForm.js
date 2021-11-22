@@ -1,17 +1,16 @@
 import axios from "axios";
 import React from "react";
 import { Image, Row, Col } from "react-bootstrap";
-import { BsGoogle } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
 import { showAlert, hideAlert } from "../alertMessage/alertMessageSlice";
-// import { setUser } from "../userProfile/userSlice";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { getUser } from "../../utils/utils";
 import { setUser } from "../userProfile/userSlice";
+import GoogleLoginBtn from "../googleLogin/GoogleLoginBtn";
 
 const RegistrationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -131,10 +130,7 @@ const RegistrationForm = () => {
         <span> or </span>
       </p>
 
-      <FormBtn
-        name="Continue with Google"
-        icon={<BsGoogle className="icon" />}
-      />
+      <GoogleLoginBtn />
 
       <p className="m-0 text-center">
         Already have an account? <Link to="/login">Login</Link>

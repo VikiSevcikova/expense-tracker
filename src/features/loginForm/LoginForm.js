@@ -1,6 +1,5 @@
 import React from "react";
 import { Image, Row, Col } from "react-bootstrap";
-import { BsGoogle } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
@@ -11,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../userProfile/userSlice";
 import { getUser } from "../../utils/utils";
 import { hideAlert, showAlert } from "../alertMessage/alertMessageSlice";
+import GoogleLoginBtn from "../googleLogin/GoogleLoginBtn";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -108,10 +108,7 @@ const LoginForm = () => {
         <span> or </span>
       </p>
 
-      <FormBtn
-        name="Continue with Google"
-        icon={<BsGoogle className="icon" />}
-      />
+      <GoogleLoginBtn />
 
       <p className="m-0 text-center">
         Don't have account? <Link to="/registration">Sign up</Link>

@@ -2,17 +2,21 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const transactionListSlice = createSlice({
   name: 'transactionList',
-  initialState: {},
+  initialState: {
+    allTran: [],
+    filteredTran: []
+  },
   reducers: {
     getAllTransaction: (state, action) => {
-      return action.payload;
+      return { ...state, allTran: action.payload };
     },
     checkTransaction: (state, action) => {
-      state.map((elem, index) => elem._id == action.payload.id ? state.splice(index, 1, action.payload) : elem);
+      console.log(action);
+      state.allTran.map((elem, index) => elem._id == action.payload.id ? state.allTran.splice(index, 1, action.payload) : elem);
     },
     filterByTransactionType: (state, action) => {
-      //alert("show income tran", action.payload);
-      return action.payload;
+      console.log(action.payload);
+      return { ...state, filteredTran: action.payload };
     }
   }
 });
