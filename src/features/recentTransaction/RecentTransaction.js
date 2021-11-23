@@ -7,21 +7,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { recentTransactionActions } from "./recentTransactionSlice";
 
 export default function RecentTransaction() {
-  const [data, setData] = useState(undefined);
 
 const dispatch = useDispatch()
-const recentTransaction = useSelector((state)=> state.recentTransaction)
+const recentTransaction = useSelector((state)=> state.recentTransaction.recentTransaction)
 
 console.log(recentTransaction)
 
-  // console.log(data);
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/recent-transaction");
+        const res = await axios.get("/recent-transaction");
         if (res.status === 200) {
           dispatch(recentTransactionActions.getRecentTransaction(res.data))
-          console.log(res.data)
         }
       } catch (err) {
         return err;
@@ -29,20 +26,6 @@ console.log(recentTransaction)
     };
     fetchRecent();
   }, []);
-
-  // useEffect(() => {
-  //   const fetchRecent = async () => {
-  //     try {
-  //       const res = await axios.get("http://localhost:5000/recent-transaction");
-  //       if (res.status === 200) {
-  //         setData(res.data);
-  //       }
-  //     } catch (err) {
-  //       return err;
-  //     }
-  //   };
-  //   fetchRecent();
-  // }, []);
 
   return (
     <div>
