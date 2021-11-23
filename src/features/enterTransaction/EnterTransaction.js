@@ -107,9 +107,9 @@ const EditTransaction = (props) => {
         {
           props.operationType === "edit" ?
             //send data to backend - edit tran
-            response = await axios.post(`http://localhost:5000/alltransaction/update/${props.checkedItem[0]._id}`, transaction, config) :
+            response = await axios.post(`/alltransaction/update/${props.checkedItem[0]._id}`, transaction, config) :
             //send data to backend - add new
-            response = await axios.post("http://localhost:5000/alltransaction/add", transaction, config);
+            response = await axios.post("/alltransaction/add", transaction, config);
         }
         if (response.statusText !== "OK") {
           throw response.statusText;
@@ -251,6 +251,7 @@ const EditTransaction = (props) => {
                 {delConf &&
                   <DeleteConfirmation
                     show={delConf}
+                    delete={"transaction"}
                     closeDelConf={closeDelConf}
                     checkedItemId={transaction.id}
                     handleClose={props.handleClose} />}

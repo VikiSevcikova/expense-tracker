@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useMedia from "use-media";
 import { useSelector, useDispatch } from "react-redux";
 import { enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
@@ -25,6 +25,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import EnterTransaction from '../enterTransaction/EnterTransaction';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
+import moment from "moment";
 
 const Filter = () => {
 
@@ -33,13 +34,11 @@ const Filter = () => {
   const isXL = useMedia({ minWidth: "1200px" }); //xl
   const isXXL = useMedia({ minWidth: "1400px" }); //xxl
 
-  // new Date(
-  //           endDate - timeZoneOffSet
-  //         ).toISOString()
-  //Calendar filter
-
   const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
-  const [dateRange, setDateRange] = useState([new Date(Date.now() - timeZoneOffSet), null]);
+  const startOfMonth = new Date(moment().startOf("month"));
+  const endOfDay = new Date(moment().endOf("day"));
+  //const [dateRange, setDateRange] = useState([startOfMonth, endOfDay]);
+  const [dateRange, setDateRange] = useState([startOfMonth, endOfDay]);
   const [startDate, endDate] = dateRange;
 
   //Modal pop up (enter transaction)
@@ -69,24 +68,29 @@ const Filter = () => {
 
   const filterByExpense = () => {
     const expenseTran = transactionList.allTran.filter(e => e.transactionType === "expense");
-    console.log(expenseTran);
     dispatch(filterByTransactionType(expenseTran));
   };
 
+  const changeDateRange = (input) => {
+
+    setDateRange(input);
+    if (input[1] != null) {
+      const dtRange = [input[0], new Date(moment(input[1]).set({ hour: 23, minute: 59, second: 59 }))];
+      setDateRange(dtRange);
+    }
+  };
+
   const filterByDate = () => {
-    console.log(dateRange);
+
     //validation check - dateRange not selected
     if (dateRange[0] === null || dateRange[1] === null) {
       dispatch(showAlert({ message: "Please select date range", variant: "danger" }));
     } else {
-      const start = dateRange[0];
-      const end = dateRange[1];
-      console.log("start", start);
-      console.log("end", end);
-      console.log(transactionList.allTran[1]); //date: "2021-11-15T07:36:54.000Z"
+      const start = dateRange[0] - timeZoneOffSet;
+      const end = dateRange[1] - timeZoneOffSet;
 
-      const trans = transactionList.allTran.filter(elem => start.toISOString() <= elem.date && elem.date <= end.toISOString());
-      console.log(trans);
+      const trans = transactionList.allTran.filter(elem => new Date(start).toISOString() <= elem.date && elem.date <= new Date(end).toISOString());
+
       if (trans.length === 0) {
         dispatch(showAlert({ message: "No transaction found", variant: "danger" }));
       } else {
@@ -130,7 +134,7 @@ const Filter = () => {
                 selectsRange={true}
                 startDate={startDate}
                 endDate={endDate}
-                onChange={updatedDate => setDateRange(updatedDate)}
+                onChange={updatedDate => changeDateRange(updatedDate)}
               />
               <Button
                 className="searchBtn"
@@ -166,6 +170,7 @@ const Filter = () => {
             {delConf &&
               <DeleteConfirmation
                 show={delConf}
+                delete={"transaction"}
                 checkedItemId={operation.checkedItem[0]._id}
                 closeDelConf={closeDelConf}
                 handleClose={handleClose} />}
@@ -194,7 +199,7 @@ const Filter = () => {
                 selectsRange={true}
                 startDate={startDate}
                 endDate={endDate}
-                onChange={updatedDate => setDateRange(updatedDate)}
+                onChange={updatedDate => changeDateRange(updatedDate)}
               />
               <Button
                 className="searchBtn"
@@ -238,6 +243,7 @@ const Filter = () => {
             {delConf &&
               <DeleteConfirmation
                 show={delConf}
+                delete={"transaction"}
                 checkedItemId={operation.checkedItem[0]._id}
                 closeDelConf={closeDelConf}
                 handleClose={handleClose} />}
