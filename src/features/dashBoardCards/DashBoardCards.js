@@ -29,7 +29,6 @@ export default function DashBoardCards() {
   // Today endtime 23:59:59
   const endOfDay = new Date(moment().endOf("day"));
 
-  const [data, setData] = useState(undefined);
   const [startDate, setStartDate] = useState(startOfMonth);
   const [endDate, setEndDate] = useState(endOfDay);
 
@@ -58,27 +57,6 @@ export default function DashBoardCards() {
     };
     fetchDateRange();
   }, [startDate, endDate]);
-
-  // useEffect(() => {
-  //   const fetchDateRange = async () => {
-  //     try {
-  //       // Convert to ISO date format which is
-  //       const res = await axios.get(
-  //         `/transaction?startdate=${new Date(
-  //           startDate - timeZoneOffSet
-  //         ).toISOString()}&enddate=${new Date(
-  //           endDate - timeZoneOffSet
-  //         ).toISOString()}`
-  //       );
-  //       if (res.status === 200) {
-  //         setData(res.data);
-  //       }
-  //     } catch (err) {
-  //       return err;
-  //     }
-  //   };
-  //   fetchDateRange();
-  // }, [startDate, endDate]);
 
   return (
     <>
