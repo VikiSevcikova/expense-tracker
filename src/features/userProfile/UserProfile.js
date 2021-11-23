@@ -16,9 +16,10 @@ const UserProfile = () => {
   return (
     <>
       <Card fluid className="userProfileCard">
-        <Card.Title>User Name</Card.Title>
+        <Card.Title className="mobile">{user.username}</Card.Title>
         <Card.Img className="avatar" src={avatar} />
         <Card.Body>
+          <Card.Title className="desktop">{user.username}</Card.Title>
           <Button>Change Profile Picture</Button>
           <Button>Change User Name</Button>
           <Button>Change Password</Button>

@@ -27,10 +27,18 @@
     @include media-breakpoint-up(lg) {
       grid-column: 2;
       grid-row: 1;
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
+    }
+  }
+  .mobile {
+    display: block;
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
+  .desktop {
+    display: none;
+    @include media-breakpoint-up(lg) {
+      display: block;
     }
   }
   .avatar {
