@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
 import "./EditUser.scss";
 import {
   Container,
@@ -19,14 +20,51 @@ const EditUser = (props) => {
     newPassword: "",
     confirmPassword: ""
   });
+  const [profPic, setProfPic] = useState("");
+
+  //redux
+  const dispatch = useDispatch();
 
   //method
-  const handleChange = () => {
-
+  const handleChange = (prop) => (e) => {
+    setPassword({ ...password, [prop]: e.target.value });
   };
 
-  const changePassword = () => {
+  const changePassword = (e) => {
+    e.preventDefault();
+    console.log("Changing password now, state is", password);
+    //validation check 1 - required field
+    if (password.newPassword === "" || password.confirmPassword === "") {
+      dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
+      return;
+    } else if (password.newPassword !== password.confirmPassword) {
+      //validation check 2 - password match
+      dispatch(showAlert({ message: "Both password must be the same", variant: "danger" }));
+      return;
+    } else {
+      console.log("update backend!!");
+      //connect to backend
+      //Continue from here
+      //
+      //
+      //
 
+    }
+  };
+
+  const changeProfilePic = (e) => {
+    e.preventDefault();
+    if (profPic === "") {
+      dispatch(showAlert({ message: "Please select your profile picture", variant: "danger" }));
+      return;
+    } else {
+      console.log("update backend!!");
+      //connect to backend
+      //Continue from here
+      //
+      //
+      //
+    }
   };
 
   return (
@@ -52,40 +90,39 @@ const EditUser = (props) => {
           <Modal.Body>
             <Form
               className="editUserForm"
-              onSubmit={changePassword}
+              onSubmit={props.userInfo === "profilePic" ?
+                changeProfilePic : changePassword}
             >
               {props.userInfo === "profilePic" ?
                 <>
-                  <Form.Group className="photoInput" >
-                    <Form.Label>Select Profile Picture</Form.Label>
+                  <Form.Group className="photoInput">
+                    <Form.Label>Select Profile Picture *</Form.Label>
                     <Form.Control
-                      required type="text"
-                      placeholder="Select profile picture..."
-                    // value={transaction.amount}
-                    // onFocus={() => setTransaction({ ...transaction, ["amount"]: "" })}
-                    // onChange={handleChange("amount")} 
+                      type="file"
+                      value={profPic}
+                      onChange={e => setProfPic(e.target.value)}
                     />
                   </Form.Group>
                 </> :
                 <>
                   <Form.Group className="passwordInput" >
-                    <Form.Label>Enter New Password</Form.Label>
+                    <Form.Label>Enter New Password *</Form.Label>
                     <Form.Control
-                      required type="text"
+                      type="text"
                       placeholder="Enter new password..."
                       value={password.newPassword}
                       onFocus={() => setPassword({ ...password, ["newPassword"]: "" })}
-                      onChange={handleChange()}
+                      onChange={handleChange("newPassword")}
                     />
                   </Form.Group>
                   <Form.Group className="passwordInputConfirm" >
-                    <Form.Label>Confirm New Password</Form.Label>
+                    <Form.Label>Confirm New Password *</Form.Label>
                     <Form.Control
-                      required type="text"
+                      type="text"
                       placeholder="Confirm new password..."
                       value={password.confirmPassword}
                       onFocus={() => setPassword({ ...password, ["confirmPassword"]: "" })}
-                      onChange={handleChange()}
+                      onChange={handleChange("confirmPassword")}
                     />
                   </Form.Group>
                 </>}

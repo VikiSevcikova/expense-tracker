@@ -29,7 +29,6 @@ const UserProfile = () => {
 
   //method
   const changeUserAccount = (userInfo) => {
-    console.log("change user", userInfo);
     setUserInfo(userInfo);
     setShow(true); 
   };
@@ -63,7 +62,7 @@ const UserProfile = () => {
         <DeleteConfirmation
           show={delConf}
           delete={"userAccount"}
-         // checkedItemId={operation.checkedItem[0]._id} //pass user id
+         // checkedItemId={operation.checkedItem[0]._id} //pass user id to del conf
           closeDelConf={closeDelConf}
           handleClose={handleClose} />}
     </>
