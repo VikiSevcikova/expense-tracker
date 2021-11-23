@@ -170,6 +170,7 @@ const Filter = () => {
             {delConf &&
               <DeleteConfirmation
                 show={delConf}
+                delete={"transaction"}
                 checkedItemId={operation.checkedItem[0]._id}
                 closeDelConf={closeDelConf}
                 handleClose={handleClose} />}
@@ -242,6 +243,7 @@ const Filter = () => {
             {delConf &&
               <DeleteConfirmation
                 show={delConf}
+                delete={"transaction"}
                 checkedItemId={operation.checkedItem[0]._id}
                 closeDelConf={closeDelConf}
                 handleClose={handleClose} />}

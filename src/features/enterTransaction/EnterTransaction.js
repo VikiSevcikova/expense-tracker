@@ -251,6 +251,7 @@ const EditTransaction = (props) => {
                 {delConf &&
                   <DeleteConfirmation
                     show={delConf}
+                    delete={"transaction"}
                     closeDelConf={closeDelConf}
                     checkedItemId={transaction.id}
                     handleClose={props.handleClose} />}

@@ -71,7 +71,10 @@ const DeleteConfirmation = (props) => {
               onClick={props.closeDelConf} />
           </Modal.Header>
           <Modal.Body>
-            <p> Are you sure you want to delete the transaction?</p>
+            {props.delete === "transaction" ?
+              <p> Are you sure you want to delete the transaction?</p>
+              : <p> Are you sure you want to delete your account?</p>}
+
           </Modal.Body>
           <Modal.Footer>
             <Button

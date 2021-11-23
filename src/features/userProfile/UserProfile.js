@@ -9,6 +9,7 @@ import {
 import { useSelector } from 'react-redux';
 import { selectUser } from './userSlice';
 import EditUser from "../editUser/EditUser";
+import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 
 const UserProfile = () => {
 
@@ -20,11 +21,17 @@ const UserProfile = () => {
   const [userInfo, setUserInfo] = useState("");
   const handleClose = () => setShow(false);
 
+  //Modal pop up (delete conf)
+  const [delConf, setShowDelConf] = useState(false);
+  const closeDelConf = () => setShowDelConf(false);
+  const showDelConf = () => setShowDelConf(true);
+
+
   //method
   const changeUserAccount = (userInfo) => {
     console.log("change user", userInfo);
-    setUserInfo(userInfo);//edit or add
-    setShow(true); //open modal
+    setUserInfo(userInfo);
+    setShow(true); 
   };
 
   return (
@@ -38,12 +45,12 @@ const UserProfile = () => {
           >
             Change Profile Picture</Button>
           <Button
-            onClick={() => changeUserAccount("usreName")}>
-            Change User Name</Button>
-          <Button
             onClick={() => changeUserAccount("password")}>
             Change Password</Button>
-          <Button className="delBtn">Delete Account</Button>
+          <Button
+            className="delBtn"
+            onClick={showDelConf}>
+            Delete Account</Button>
         </Card.Body>
       </Card>
       {/* Modal */}
@@ -51,6 +58,13 @@ const UserProfile = () => {
         <EditUser
           show={show}
           userInfo={userInfo}
+          handleClose={handleClose} />}
+      {delConf &&
+        <DeleteConfirmation
+          show={delConf}
+          delete={"userAccount"}
+         // checkedItemId={operation.checkedItem[0]._id} //pass user id
+          closeDelConf={closeDelConf}
           handleClose={handleClose} />}
     </>
   );

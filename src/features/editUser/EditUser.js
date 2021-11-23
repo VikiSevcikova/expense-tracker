@@ -14,22 +14,34 @@ import {
 
 const EditUser = (props) => {
 
-  console.log("I am in Edit user", props);
+  //private state
+  const [password, setPassword] = useState({
+    newPassword: "",
+    confirmPassword: ""
+  });
+
+  //method
+  const handleChange = () => {
+
+  };
+
+  const changePassword = () => {
+
+  };
 
   return (
     <>
       <Modal
-        className="editModal"
-        show={props.show} //coming from filter.js
+        className="editUserAccountModal"
+        show={props.show}
         fullscreen
       >
-        <Container fluid className="editTransactionContainer">
+        <Container fluid className="editUserAccountContainer">
           {/* Header */}
           <Modal.Header>
-            <Modal.Title>Edit User Account</Modal.Title>
-            {/* {props.operationType === "add" ?
-              <Modal.Title>Add New Transaction</Modal.Title> :
-              <Modal.Title>Edit Transaction</Modal.Title>}*/}
+            {props.userInfo === "profilePic" ?
+              <Modal.Title>Change Profile Picture</Modal.Title> :
+              <Modal.Title>Change Password</Modal.Title>}
             <FaTimesCircle
               className="modalClsBtn"
               onClick={props.handleClose}
@@ -39,36 +51,53 @@ const EditUser = (props) => {
           {/* Body */}
           <Modal.Body>
             <Form
-              className="editForm"
+              className="editUserForm"
+              onSubmit={changePassword}
             >
-
-              <Form.Group className="transactionAmount" >
-                <Form.Label>Enter New Password</Form.Label>
-                <Form.Control
-                  required type="text"
-                  placeholder="Enter new password..."
-                // value={transaction.amount}
-                // onFocus={() => setTransaction({ ...transaction, ["amount"]: "" })}
-                // onChange={handleChange("amount")} 
-                />
-              </Form.Group>
-
+              {props.userInfo === "profilePic" ?
+                <>
+                  <Form.Group className="photoInput" >
+                    <Form.Label>Select Profile Picture</Form.Label>
+                    <Form.Control
+                      required type="text"
+                      placeholder="Select profile picture..."
+                    // value={transaction.amount}
+                    // onFocus={() => setTransaction({ ...transaction, ["amount"]: "" })}
+                    // onChange={handleChange("amount")} 
+                    />
+                  </Form.Group>
+                </> :
+                <>
+                  <Form.Group className="passwordInput" >
+                    <Form.Label>Enter New Password</Form.Label>
+                    <Form.Control
+                      required type="text"
+                      placeholder="Enter new password..."
+                      value={password.newPassword}
+                      onFocus={() => setPassword({ ...password, ["newPassword"]: "" })}
+                      onChange={handleChange()}
+                    />
+                  </Form.Group>
+                  <Form.Group className="passwordInputConfirm" >
+                    <Form.Label>Confirm New Password</Form.Label>
+                    <Form.Control
+                      required type="text"
+                      placeholder="Confirm new password..."
+                      value={password.confirmPassword}
+                      onFocus={() => setPassword({ ...password, ["confirmPassword"]: "" })}
+                      onChange={handleChange()}
+                    />
+                  </Form.Group>
+                </>}
 
               <Container className="buttons">
-                <Button className="saveBtn" type="submit">Save</Button>
-                {/* Delete button only visible when editing the transaction */}
-                {/* {props.operationType === "edit" &&
-                  <Button
-                    className="deleteBtn"
-                    onClick={showDelConf}>Delete</Button>}
-                {delConf &&
-                  <DeleteConfirmation
-                    show={delConf}
-                    closeDelConf={closeDelConf}
-                    checkedItemId={transaction.id}
-                    handleClose={props.handleClose}  />} */}
+                <Button
+                  className="cancelBtn"
+                  onClick={props.handleClose}>Cancel</Button>
+                <Button
+                  className="saveBtn"
+                  type="submit">Save</Button>
               </Container>
-
             </Form>
           </Modal.Body>
         </Container>
