@@ -3,6 +3,8 @@ import axios from "axios";
 import moment from "moment";
 import "./DashBoardCards.scss";
 import { Container, Col, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { calendarActions } from "../calendar/calendarSlice";
 
 import Greeting from "../greetings/Greeting";
 import Calendar from "../calendar/Calendar";
@@ -13,6 +15,11 @@ import ExpenseChart from "../expenseChart/ExpenseChart";
 import RecentTransaction from "../recentTransaction/RecentTransaction";
 
 export default function DashBoardCards() {
+  const dispatch = useDispatch();
+  const dateRangeTransactions = useSelector((state) => state.calender.dateRange);
+
+  console.log(dateRangeTransactions);
+
   // local time offset
   const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
 
@@ -21,9 +28,6 @@ export default function DashBoardCards() {
 
   // Today endtime 23:59:59
   const endOfDay = new Date(moment().endOf("day"));
-
-  // console.log(startOfMonth);
-  // console.log(endOfDay);
 
   const [data, setData] = useState(undefined);
   const [startDate, setStartDate] = useState(startOfMonth);
@@ -37,16 +41,16 @@ export default function DashBoardCards() {
   useEffect(() => {
     const fetchDateRange = async () => {
       try {
-        // Convert to ISO date format which is 
+        // Convert to ISO date format which is
         const res = await axios.get(
-          `http://localhost:5000/transaction?startdate=${new Date(
+          `/transaction?startdate=${new Date(
             startDate - timeZoneOffSet
           ).toISOString()}&enddate=${new Date(
             endDate - timeZoneOffSet
           ).toISOString()}`
         );
         if (res.status === 200) {
-          setData(res.data);
+          dispatch(calendarActions.setDateRange(res.data));
         }
       } catch (err) {
         return err;
@@ -56,9 +60,16 @@ export default function DashBoardCards() {
   }, [startDate, endDate]);
 
   // useEffect(() => {
-  //   const fetchRecent = async () => {
+  //   const fetchDateRange = async () => {
   //     try {
-  //       const res = await axios.get("http://localhost:5000/all-transaction");
+  //       // Convert to ISO date format which is
+  //       const res = await axios.get(
+  //         `/transaction?startdate=${new Date(
+  //           startDate - timeZoneOffSet
+  //         ).toISOString()}&enddate=${new Date(
+  //           endDate - timeZoneOffSet
+  //         ).toISOString()}`
+  //       );
   //       if (res.status === 200) {
   //         setData(res.data);
   //       }
@@ -66,10 +77,8 @@ export default function DashBoardCards() {
   //       return err;
   //     }
   //   };
-  //   fetchRecent();
-  // }, []);
-
-  console.log(data);
+  //   fetchDateRange();
+  // }, [startDate, endDate]);
 
   return (
     <>
@@ -77,9 +86,9 @@ export default function DashBoardCards() {
         <Row>
           <Greeting />
           {/* // testing area */}
-          {data && (
+          {dateRangeTransactions && (
             <>
-              {data.map((tran, index) => {
+              {dateRangeTransactions.map((tran, index) => {
                 return (
                   <div key={index}>
                     <p>
