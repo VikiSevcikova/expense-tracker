@@ -27,9 +27,9 @@ const EditTransaction = (props) => {
 
   //redux
   const dispatch = useDispatch();
-  
-  const timeZoneOffSet = new Date().getTimezoneOffset()*60000
-  
+
+  const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
+
   //private state
   const [transaction, setTransaction] = useState({
     id: "",
@@ -100,7 +100,10 @@ const EditTransaction = (props) => {
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
-        dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
+        dispatch(showAlert({
+          message: "Please fill in all the required fields",
+          variant: "danger"
+        }));
         return;
       } else {
         let response;
@@ -120,6 +123,22 @@ const EditTransaction = (props) => {
           navigate("/alltransaction", {
             state: response.data
           });
+          //show confirmation message
+          {
+            props.operationType === "edit" ?
+              dispatch(
+                showAlert({
+                  message: "Transaction has successfully been edited",
+                  variant: "info",
+                })
+              ) :
+              dispatch(
+                showAlert({
+                  message: "Transaction has successfully been added",
+                  variant: "info",
+                })
+              );
+          }
         }
       }
     } catch (error) {
