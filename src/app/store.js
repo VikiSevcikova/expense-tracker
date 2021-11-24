@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import alertReducer from '../features/alertMessage/alertMessageSlice';
 import userReducer from '../features/userProfile/userSlice';
 import transactionListReducer from "../features/transactionList/transactionListSlice";
@@ -14,7 +14,8 @@ export const store = configureStore({
     transactionList: transactionListReducer,
     operation: enterTransactionReducer,
     recentTransaction: recentTransactionSlice,
-    calender:calendarSlice,
-    balancePieChart:balancePieChartSlice
+    calender: calendarSlice,
+    balancePieChart: balancePieChartSlice
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
