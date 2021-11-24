@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { transactionListSelector, getAllTransaction, checkTransaction } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
+import { selectCalender } from "../calendar/calendarSlice";
 import {
   Container,
   Table,
@@ -31,11 +32,13 @@ const TransactionList = () => {
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
+  const { startDate, endDate } = useSelector(selectCalender);
+
+  const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
 
   //private state
   const [tranList, setTranList] = useState([]);
   console.log("transaction list from Redux", transactionList);
-
 
   //method
   //when the component is mounted
@@ -56,14 +59,29 @@ const TransactionList = () => {
     };
 
     (async () => {
+      // try {
+      //   //get all transaction data from backend
+      //   const response = await axios.get("/alltransaction/all", config);
+      //   if (response.statusText !== "OK") {
+      //     throw response.statusText;
+      //   } else {
+      //     //dispatch
+      //     dispatch(getAllTransaction(response.data));
+      //   }
+      // } catch (error) {
+      //   console.error(`${error}: Something wrong on the server side`);
+      //   return error;
+      // }
       try {
-        //get all transaction data from backend
-        const response = await axios.get("/alltransaction/all", config);
-        if (response.statusText !== "OK") {
-          throw response.statusText;
+        // Convert to ISO date format which is
+        const res = await axios.get(
+          `/transaction?startdate=${new Date(startDate - timeZoneOffSet).toISOString()}&enddate=${new Date(
+            endDate - timeZoneOffSet).toISOString()}`
+        );
+        if (res.statusText !== "OK") {
+          throw res.statusText;
         } else {
-          //dispatch
-          dispatch(getAllTransaction(response.data));
+          dispatch(getAllTransaction(res.data));
         }
       } catch (error) {
         console.error(`${error}: Something wrong on the server side`);
@@ -73,7 +91,7 @@ const TransactionList = () => {
 
   }, [location.state]);
 
-  //Checkbox control
+  //Checkbox control -- under construction
   const handleCheck = (id, e) => {
     const payload = tranList.filter(e => e._id == id);
 
