@@ -58,7 +58,7 @@ const TransactionList = () => {
     (async () => {
       try {
         //get all transaction data from backend
-        const response = await axios.get("http://localhost:5000/alltransaction/all", config);
+        const response = await axios.get("/alltransaction/all", config);
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
