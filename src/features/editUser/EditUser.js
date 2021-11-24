@@ -35,11 +35,17 @@ const EditUser = (props) => {
     console.log("Changing password now, state is", password);
     //validation check 1 - required field
     if (password.newPassword === "" || password.confirmPassword === "") {
-      dispatch(showAlert({ message: "Please fill in all the required fields", variant: "danger" }));
+      dispatch(showAlert({
+        message: "Please fill in all the required fields",
+        variant: "danger"
+      }));
       return;
     } else if (password.newPassword !== password.confirmPassword) {
       //validation check 2 - password match
-      dispatch(showAlert({ message: "Both password must be the same", variant: "danger" }));
+      dispatch(showAlert({
+        message: "Both password must be the same",
+        variant: "danger"
+      }));
       return;
     } else {
       console.log("update backend!!");
@@ -55,7 +61,10 @@ const EditUser = (props) => {
   const changeProfilePic = (e) => {
     e.preventDefault();
     if (profPic === "") {
-      dispatch(showAlert({ message: "Please select your profile picture", variant: "danger" }));
+      dispatch(showAlert({
+        message: "Please select your profile picture",
+        variant: "danger"
+      }));
       return;
     } else {
       console.log("update backend!!");

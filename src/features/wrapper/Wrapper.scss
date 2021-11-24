@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   // @include media-breakpoint-up(sm) {
-    // flex-direction: row;
+  //   flex-direction: row;
   // }
 }
 
@@ -12,6 +12,7 @@
   background-color: $bgColor;
   min-height: 100vh;
   // width: 100vw;
+  position: relative;
   @include media-breakpoint-up(sm) {
     padding-left: 100px;
   }
