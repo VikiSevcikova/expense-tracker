@@ -10,8 +10,15 @@ import {
   Button,
   Modal,
 } from 'react-bootstrap';
+import {
+  showAlert,
+  hideAlert
+} from '../alertMessage/alertMessageSlice';
+import { removeUser } from "../userProfile/userSlice";
 
 const DeleteConfirmation = (props) => {
+
+  console.log(props);
 
   //router
   const navigate = useNavigate();
@@ -20,40 +27,101 @@ const DeleteConfirmation = (props) => {
   const dispatch = useDispatch();
 
   //method
+  const logOut = async () => {
+    try {
+      localStorage.removeItem("ET-token");
+      const { data } = await axios.get("/auth/logout");
+      dispatch(removeUser());
+      dispatch(showAlert({
+        message: "Account has successfully been deleted",
+        variant: "info",
+      }));
+      navigate("/login");
+    } catch (error) {
+      dispatch(
+        showAlert({
+          message: error.response.data.error
+            ? error.response.data.error
+            : "Sorry, there is an issues on the server.",
+          variant: "danger",
+        })
+      );
+      setTimeout(() => {
+        dispatch(hideAlert());
+      }, 5000);
+    }
+  };
+
+  //delete account
   const handleDelete = async (id) => {
+
+    const token = localStorage.getItem("ET-token");
 
     const config = {
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
 
-    //send data to backend - delete single tran
-    try {
-      const response = await axios.delete(`http://localhost:5000/alltransaction/delete/${id}`, config);
+    switch (props.delete) {
+      case "transaction":
+        //send data to backend - delete single tran
+        try {
+          const response = await axios.delete(`/alltransaction/delete/${id}`, config);
 
-      if (response.statusText !== "OK") {
-        throw response.statusText;
-      } else {
-        //close modal pop-up
-        props.closeDelConf();
-        //go back to alltransaction page
-        navigate("/alltransaction", {
-          state: response.data
-        });
-      }
-    } catch (error) {
-      console.error(`${error}: Something wrong on the server side`);
-      return error;
+          if (response.statusText !== "OK") {
+            throw response.statusText;
+          } else {
+            //close modal pop-up
+            props.closeDelConf();
+            //go back to alltransaction page
+            navigate("/alltransaction", {
+              state: response.data
+            });
+          }
+        } catch (error) {
+          console.error(`${error}: Something wrong on the server side`);
+          return error;
+        }
+        //close edit transaction modal
+        props.handleClose();
+        //hide edit and delete button on the filter
+        dispatch(changeOperation({
+          editDelBtnVisible: false,
+          checkedItem: []
+        }));
+        //show delete confirmation message
+        dispatch(
+          showAlert({
+            message: "Transaction has successfully been deleted",
+            variant: "info",
+          })
+        );
+        break;
+      case "userAccount":
+        //send data to backend - delete single tran
+        try {
+          const response = await axios.delete(`/users/delete`, config);
+
+          if (response.statusText !== "OK") {
+            throw response.statusText;
+          } else {
+            console.log(response);
+            //close modal pop-up
+            props.closeDelConf();
+            //logout
+            logOut();
+          }
+        } catch (error) {
+          console.error(`${error}: Something wrong on the server side`);
+          return error;
+        }
+        break;
+      default:
+        console.error("delete type undefined");
+        break;
     }
-
-    //close edit transaction modal
-    props.handleClose();
-    //hide edit and delete button on the filter
-    dispatch(changeOperation({
-      editDelBtnVisible: false,
-      checkedItem: []
-    }));
   };
 
   return (

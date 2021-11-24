@@ -30,13 +30,13 @@ const UserProfile = () => {
   //method
   const changeUserAccount = (userInfo) => {
     setUserInfo(userInfo);
-    setShow(true); 
+    setShow(true);
   };
 
   return (
     <>
       <Card fluid className="userProfileCard">
-        <Card.Title>User Name</Card.Title>
+        <Card.Title>{user.username}</Card.Title>
         <Card.Img className="avatar" src={avatar} />
         <Card.Body>
           <Button
@@ -62,9 +62,8 @@ const UserProfile = () => {
         <DeleteConfirmation
           show={delConf}
           delete={"userAccount"}
-         // checkedItemId={operation.checkedItem[0]._id} //pass user id to del conf
-          closeDelConf={closeDelConf}
-          handleClose={handleClose} />}
+          // checkedItemId={operation.checkedItem[0]._id} //pass user id to del conf
+          closeDelConf={closeDelConf} />}
     </>
   );
 };
