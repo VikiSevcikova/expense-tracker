@@ -2,9 +2,12 @@ import React from "react";
 import "./BalancePieChart.scss";
 import { Pie } from "react-chartjs-2";
 
-export default function BalancePieChart() {
+export default function BalancePieChart({amount}) {
+
+  console.log(amount)
+
   const data = {
-    labels: ["Expense: $1000", "Income: $4000"],
+    labels: [`Expense: $${amount.expense}`, `Income: $${amount.income}`],
     datasets: [
       {
         label: "balance",
@@ -35,7 +38,7 @@ export default function BalancePieChart() {
 
   return (
     <div>
-      <h5>Total balance: $3000</h5>
+      <h5>Total balance: ${amount.total}</h5>
       <Pie data={data} options={config}/>
     </div>
   );
