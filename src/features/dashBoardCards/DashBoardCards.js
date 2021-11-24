@@ -5,6 +5,8 @@ import "./DashBoardCards.scss";
 import { Container, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { calendarActions } from "../calendar/calendarSlice";
+import { balancePieChartActions } from "../balancePieChart/balancePieChartSlice";
+import {getAllTransaction} from "../transactionList/transactionListSlice";
 
 import Greeting from "../greetings/Greeting";
 import Calendar from "../calendar/Calendar";
@@ -17,8 +19,10 @@ import RecentTransaction from "../recentTransaction/RecentTransaction";
 export default function DashBoardCards() {
   const dispatch = useDispatch();
   const dateRangeTransactions = useSelector((state) => state.calender.dateRange);
+  const balancePieTransactions = useSelector((state)=> state.balancePieChart.balancePieChart)
 
   console.log(dateRangeTransactions);
+  console.log(balancePieTransactions);
 
   // local time offset
   const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
@@ -29,7 +33,6 @@ export default function DashBoardCards() {
   // Today endtime 23:59:59
   const endOfDay = new Date(moment().endOf("day"));
 
-  const [data, setData] = useState(undefined);
   const [startDate, setStartDate] = useState(startOfMonth);
   const [endDate, setEndDate] = useState(endOfDay);
 
@@ -39,46 +42,28 @@ export default function DashBoardCards() {
   };
 
   useEffect(() => {
-    const fetchDateRange = async () => {
-      try {
-        // Convert to ISO date format which is
-        const res = await axios.get(
-          `/transaction?startdate=${new Date(
-            startDate - timeZoneOffSet
-          ).toISOString()}&enddate=${new Date(
-            endDate - timeZoneOffSet
-          ).toISOString()}`
-        );
-        if (res.status === 200) {
-          dispatch(calendarActions.setDateRange(res.data));
-        }
-      } catch (err) {
-        return err;
-      }
-    };
-    fetchDateRange();
+    // const fetchDateRange = async () => {
+    //   try {
+    //     // Convert to ISO date format which is
+    //     const res = await axios.get(
+    //       `/transaction?startdate=${new Date(
+    //         startDate - timeZoneOffSet
+    //       ).toISOString()}&enddate=${new Date(
+    //         endDate - timeZoneOffSet
+    //       ).toISOString()}`
+    //     );
+    //     if (res.status === 200) {
+    //       dispatch(getAllTransaction(res.data));
+    //       // dispatch(balancePieChartActions.getAmount(res.data));
+    //       // console.log(res.data)
+          
+    //     }
+    //   } catch (err) {
+    //     return err;
+    //   }
+    // };
+    // fetchDateRange();
   }, [startDate, endDate]);
-
-  // useEffect(() => {
-  //   const fetchDateRange = async () => {
-  //     try {
-  //       // Convert to ISO date format which is
-  //       const res = await axios.get(
-  //         `/transaction?startdate=${new Date(
-  //           startDate - timeZoneOffSet
-  //         ).toISOString()}&enddate=${new Date(
-  //           endDate - timeZoneOffSet
-  //         ).toISOString()}`
-  //       );
-  //       if (res.status === 200) {
-  //         setData(res.data);
-  //       }
-  //     } catch (err) {
-  //       return err;
-  //     }
-  //   };
-  //   fetchDateRange();
-  // }, [startDate, endDate]);
 
   return (
     <>
@@ -113,7 +98,7 @@ export default function DashBoardCards() {
         </Row>
       </Container>
       <Container fluid className="box_wrapper">
-        <BalancePieChart />
+        <BalancePieChart amount={balancePieTransactions}/>
       </Container>
       <Container fluid className="box_wrapper">
         <BalanceLineChart />

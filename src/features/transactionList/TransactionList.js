@@ -73,7 +73,7 @@ const TransactionList = () => {
 
   }, [location.state]);
 
-  //Checkbox control
+  //Checkbox control -- under construction
   const handleCheck = (id, e) => {
     const payload = tranList.filter(e => e._id == id);
 

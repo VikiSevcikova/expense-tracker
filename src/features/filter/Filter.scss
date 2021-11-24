@@ -13,6 +13,7 @@
     flex-direction: row;
     justify-content: center;
   }
+  //=========== desktop =============
   .filterOptions {
     margin-bottom: 1rem;
     .col {
@@ -37,23 +38,27 @@
     align-items: center;
     width: 100%;
     margin: auto;
-    .react-datepicker-wrapper {
-      width: fit-content;
+    .calendar-wrapper {
       width: 80%;
-      .dateFilter {
-        font-size: 0.8rem;
-        background-color: transparent;
-        color: $txtColor1;
-        border-radius: 10vw;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        border: solid 0.1rem $txtColor1;
-        padding: 0.3rem;
+      padding: 0;
+      .react-datepicker-wrapper {
+        width: fit-content;
         width: 100%;
-        text-align: center;
-        &:focus {
-          outline: none;
-          border: 0.1rem solid $accentColor1 !important;
+        .dateFilter {
+          font-size: 0.8rem;
+          background-color: transparent;
+          color: $txtColor1;
+          border-radius: 10vw;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border: solid 0.1rem $txtColor1;
+          padding: 0.3rem;
+          width: 100%;
+          text-align: center;
+          &:focus {
+            outline: none;
+            border: 0.1rem solid $accentColor1 !important;
+          }
         }
       }
     }
@@ -62,10 +67,11 @@
       border-radius: 10vw;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-      width: 8vw;
       background-color: $accentColor1;
       border: none;
       box-shadow: none;
+      width: 20%;
+      margin: auto;
       &:hover {
         transform: scale(1.05);
       }
@@ -91,32 +97,6 @@
     .deleteBtn {
       color: $accentColor3;
     }
-    // .filterColLeft {
-    //   svg {
-    //     font-size: 2rem;
-    //     margin: 0 0.5rem;
-    //     height: 100%;
-    //     transition: all 0.5s ease-in-out;
-    //     &:hover {
-    //       transform: scale(1.05);
-    //     }
-    //   }
-    // }
-    // .filterColRight {
-    //   text-align: right;
-    //   svg {
-    //     font-size: 1rem;
-    //     margin: 0 0.5rem;
-    //     height: 100%;
-    //     transition: all 0.5s ease-in-out;
-    //     &:hover {
-    //       transform: scale(1.05);
-    //     }
-    //   }
-    //   .deleteBtn {
-    //     color: $accentColor3;
-    //   }
-    // }
   }
 
   //======== Desktop, large desktop, and larger desktop ===========
@@ -138,17 +118,20 @@
         transform: scale(1.05);
       }
     }
-    .dateFilter {
-      background-color: transparent;
-      color: $txtColor1;
-      border-radius: 10vw;
-      border: solid 0.1rem $txtColor1;
-      padding: 0.3rem;
-      width: 100%;
-      text-align: center;
-      &:focus {
-        outline: none;
-        border: 0.1rem solid $accentColor1 !important;
+    .calendar-wrapper {
+      width: 20vw;
+      .dateFilter {
+        background-color: transparent;
+        color: $txtColor1;
+        border-radius: 10vw;
+        border: solid 0.1rem $txtColor1;
+        padding: 0.3rem;
+        width: 100%;
+        text-align: center;
+        &:focus {
+          outline: none;
+          border: 0.1rem solid $accentColor1 !important;
+        }
       }
     }
     .searchBtn {
