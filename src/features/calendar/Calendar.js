@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { selectCalender } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { calendarActions } from "../calendar/calendarSlice";
+import { calendarActions } from "./calendarSlice";
 import { getAllTransaction } from "../transactionList/transactionListSlice";
 import axios from "axios";
 import { balancePieChartActions } from "../balancePieChart/balancePieChartSlice";
@@ -67,6 +67,7 @@ export default function Calendar() {
     fetchDateRange();
 
   }, [calendar]);
+
 
   return (
     <div className="calendar-wrapper">
