@@ -59,8 +59,9 @@ export default function Calendar() {
           console.log(res.data);
 
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        console.error(`${error}: Something wrong on the server side`);
+        return error;
       }
     };
     fetchDateRange();
