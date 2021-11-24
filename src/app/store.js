@@ -5,6 +5,7 @@ import transactionListReducer from "../features/transactionList/transactionListS
 import enterTransactionReducer from "../features/enterTransaction/enterTransactionSlice";
 import recentTransactionSlice from '../features/recentTransaction/recentTransactionSlice';
 import calendarSlice from '../features/calendar/calendarSlice';
+import balancePieChartSlice from '../features/balancePieChart/balancePieChartSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     transactionList: transactionListReducer,
     operation: enterTransactionReducer,
     recentTransaction: recentTransactionSlice,
-    calender:calendarSlice
+    calender:calendarSlice,
+    balancePieChart:balancePieChartSlice
   },
 });
