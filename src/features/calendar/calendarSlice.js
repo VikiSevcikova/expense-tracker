@@ -15,6 +15,7 @@ const calendarSlice = createSlice({
   },
   reducers: {
     setDateRange(state, action) {
+      console.log("state changes")
       const {startDate, endDate} = action.payload;
       return {
         ...state,

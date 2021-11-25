@@ -14,8 +14,9 @@ import { balancePieChartActions } from "../balancePieChart/balancePieChartSlice"
 export default function Calendar() {
   const dispatch = useDispatch();
   const { startDate, endDate } = useSelector(selectCalender);
-  console.log(startDate, endDate);
   const [calendar, setCalendar] = useState([startDate, endDate]);
+
+  console.log("Calendar.js date range is", startDate, endDate);
 
   const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
 
@@ -35,18 +36,17 @@ export default function Calendar() {
       };
     }
 
-    console.log("before dispatch!!", dates);
-
     dispatch(calendarActions.setDateRange(dates));
 
     const fetchDateRange = async () => {
+      console.log("fetching data")
       try {
         // Convert to ISO date format which is
         const res = await axios.get(
           `/transaction?startdate=${new Date(
-            calendar[0] - timeZoneOffSet
+            dates.startDate - timeZoneOffSet
           ).toISOString()}&enddate=${new Date(
-            calendar[1] - timeZoneOffSet
+            dates.endDate - timeZoneOffSet
           ).toISOString()}`
         );
         if (res.status === 200) {
@@ -55,8 +55,6 @@ export default function Calendar() {
 
           //for dashboard page
           dispatch(balancePieChartActions.getAmount(res.data)); //pie chart
-
-          console.log(res.data);
 
         }
       } catch (error) {
