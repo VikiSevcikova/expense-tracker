@@ -14,8 +14,13 @@ export default function Calendar() {
   const dispatch = useDispatch();
 
   const { startDate, endDate } = useSelector(selectCalender);
+//<<<<<<< development
+ 
+
+
 
   // Local time offset
+//>>>>>>> main
   const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
 
   // Date to ISO string converter
@@ -56,6 +61,8 @@ console.log(new Date(
       };
     }
 
+//<<<<<<< development
+//=======
     //set end date to include 23:59:59
     // if (calendar[1] !== null) {
     //   dates = {
@@ -71,15 +78,25 @@ console.log(new Date(
     //   };
     // }
 
-    console.log("before dispatch!!", dates);
+   // console.log("before dispatch!!", dates);
 
+//>>>>>>> main
     dispatch(calendarActions.setDateRange(dates));
 
     const fetchDateRange = async () => {
+      console.log("fetching data")
       try {
         // Convert to ISO date format which is
         const res = await axios.get(
+//<<<<<<< development
+          `/transaction?startdate=${new Date(
+            dates.startDate - timeZoneOffSet
+          ).toISOString()}&enddate=${new Date(
+            dates.endDate - timeZoneOffSet
+          ).toISOString()}`
+//=======
           `/transaction?startdate=${dates.startDate}&enddate=${dates.endDate}`
+//>>>>>>> main
         );
         // const res = await axios.get(
         //   `/transaction?startdate=${new Date(
@@ -95,7 +112,10 @@ console.log(new Date(
           //for dashboard page
           dispatch(balancePieChartActions.getAmount(res.data)); //pie chart
 
+//<<<<<<< development
+//=======
           console.log(res.data);
+//>>>>>>> main
         }
       } catch (error) {
         console.error(`${error}: Something wrong on the server side`);
