@@ -10,32 +10,77 @@ import { getAllTransaction } from "../transactionList/transactionListSlice";
 import axios from "axios";
 import { balancePieChartActions } from "../balancePieChart/balancePieChartSlice";
 
-
 export default function Calendar() {
   const dispatch = useDispatch();
+
   const { startDate, endDate } = useSelector(selectCalender);
-  const [calendar, setCalendar] = useState([startDate, endDate]);
+//<<<<<<< development
+ 
 
-  console.log("Calendar.js date range is", startDate, endDate);
 
+
+  // Local time offset
+//>>>>>>> main
   const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
+
+  // Date to ISO string converter
+  const stringifyDate = (date) => {
+    return new Date(date - timeZoneOffSet).toISOString();
+  };
+
+  // ISO string to Date converter
+  const dateFromString = (date) => {
+    return new Date(moment.utc(date)+timeZoneOffSet)
+  };
+
+  const [calendar, setCalendar] = useState([dateFromString(startDate),dateFromString(endDate)]);
+
+
+console.log(calendar)
+console.log(calendar[0])
+console.log(new Date(
+  moment(calendar[1]).set({ hour: 23, minute: 59, second: 59 })
+))
+// console.log(startDate)
+// console.log(endDate)
 
   useEffect(async () => {
     let dates;
 
-    //set end date to include 23:59:59
     if (calendar[1] !== null) {
       dates = {
-        startDate: calendar[0],
-        endDate: new Date(moment(calendar[1]).set({ hour: 23, minute: 59, second: 59 }))
+        startDate: stringifyDate(calendar[0]),
+        endDate: stringifyDate(new Date(
+          moment(calendar[1]).set({ hour: 23, minute: 59, second: 59 })
+        ))
       };
     } else {
       dates = {
-        startDate: calendar[0],
-        endDate: calendar[1]
+        startDate: stringifyDate(calendar[0]),
+        endDate: stringifyDate(calendar[1]),
       };
     }
 
+//<<<<<<< development
+//=======
+    //set end date to include 23:59:59
+    // if (calendar[1] !== null) {
+    //   dates = {
+    //     startDate: calendar[0],
+    //     endDate: new Date(
+    //       moment(calendar[1]).set({ hour: 23, minute: 59, second: 59 })
+    //     ),
+    //   };
+    // } else {
+    //   dates = {
+    //     startDate: calendar[0],
+    //     endDate: calendar[1],
+    //   };
+    // }
+
+   // console.log("before dispatch!!", dates);
+
+//>>>>>>> main
     dispatch(calendarActions.setDateRange(dates));
 
     const fetchDateRange = async () => {
@@ -43,12 +88,23 @@ export default function Calendar() {
       try {
         // Convert to ISO date format which is
         const res = await axios.get(
+//<<<<<<< development
           `/transaction?startdate=${new Date(
             dates.startDate - timeZoneOffSet
           ).toISOString()}&enddate=${new Date(
             dates.endDate - timeZoneOffSet
           ).toISOString()}`
+//=======
+          `/transaction?startdate=${dates.startDate}&enddate=${dates.endDate}`
+//>>>>>>> main
         );
+        // const res = await axios.get(
+        //   `/transaction?startdate=${new Date(
+        //     dates.startDate - timeZoneOffSet
+        //   ).toISOString()}&enddate=${new Date(
+        //     dates.endDate - timeZoneOffSet
+        //   ).toISOString()}`
+        // );
         if (res.status === 200) {
           //for transaction page
           dispatch(getAllTransaction(res.data));
@@ -56,6 +112,10 @@ export default function Calendar() {
           //for dashboard page
           dispatch(balancePieChartActions.getAmount(res.data)); //pie chart
 
+//<<<<<<< development
+//=======
+          console.log(res.data);
+//>>>>>>> main
         }
       } catch (error) {
         console.error(`${error}: Something wrong on the server side`);
@@ -63,9 +123,7 @@ export default function Calendar() {
       }
     };
     fetchDateRange();
-
   }, [calendar]);
-
 
   return (
     <div className="calendar-wrapper">
@@ -74,10 +132,10 @@ export default function Calendar() {
         className="dateFilter"
         dateFormat="yyyy/MM/dd"
         monthsShown={2}
-        selected={startDate}
-        onChange={update => setCalendar(update)}
-        startDate={startDate}
-        endDate={endDate}
+        selected={calendar[0]}
+        onChange={(update) => setCalendar(update)}
+        startDate={calendar[0]}
+        endDate={calendar[1]}
         selectsRange={true}
       />
     </div>

@@ -24,46 +24,50 @@ export default function DashBoardCards() {
   console.log(dateRangeTransactions);
   console.log(balancePieTransactions);
 
+  // console.log(new Date(moment().startOf("month")))
+
   // local time offset
   const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
 
   // First date of current month
   const startOfMonth = new Date(moment().startOf("month"));
 
-  // Today endtime 23:59:59
-  const endOfDay = new Date(moment().endOf("day"));
+  console.log(new Date(startOfMonth - timeZoneOffSet).toISOString())
 
-  const [startDate, setStartDate] = useState(startOfMonth);
-  const [endDate, setEndDate] = useState(endOfDay);
+  // // Today endtime 23:59:59
+  // const endOfDay = new Date(moment().endOf("day"));
 
-  const setDate = (start, end) => {
-    setStartDate(start);
-    setEndDate(end);
-  };
+  // const [startDate, setStartDate] = useState(startOfMonth);
+  // const [endDate, setEndDate] = useState(endOfDay);
 
-  useEffect(() => {
-    // const fetchDateRange = async () => {
-    //   try {
-    //     // Convert to ISO date format which is
-    //     const res = await axios.get(
-    //       `/transaction?startdate=${new Date(
-    //         startDate - timeZoneOffSet
-    //       ).toISOString()}&enddate=${new Date(
-    //         endDate - timeZoneOffSet
-    //       ).toISOString()}`
-    //     );
-    //     if (res.status === 200) {
-    //       dispatch(getAllTransaction(res.data));
-    //       // dispatch(balancePieChartActions.getAmount(res.data));
-    //       // console.log(res.data)
+  // const setDate = (start, end) => {
+  //   setStartDate(start);
+  //   setEndDate(end);
+  // };
+
+  // useEffect(() => {
+  //   const fetchDateRange = async () => {
+  //     try {
+  //       // Convert to ISO date format which is
+  //       const res = await axios.get(
+  //         `/transaction?startdate=${new Date(
+  //           startDate - timeZoneOffSet
+  //         ).toISOString()}&enddate=${new Date(
+  //           endDate - timeZoneOffSet
+  //         ).toISOString()}`
+  //       );
+  //       if (res.status === 200) {
+  //         dispatch(getAllTransaction(res.data));
+  //         // dispatch(balancePieChartActions.getAmount(res.data));
+  //         // console.log(res.data)
           
-    //     }
-    //   } catch (err) {
-    //     return err;
-    //   }
-    // };
-    // fetchDateRange();
-  }, [startDate, endDate]);
+  //       }
+  //     } catch (err) {
+  //       return err;
+  //     }
+  //   };
+  //   fetchDateRange();
+  // }, [startDate, endDate]);
 
   return (
     <>
@@ -90,7 +94,9 @@ export default function DashBoardCards() {
       <Container fluid className="box_wrapper">
         <Row>
           <Col xs={9}>
-            <Calendar setDate={setDate} />
+            <Calendar
+            //  setDate={setDate} 
+             />
           </Col>
           <Col xs={3}>
             <Currency />
