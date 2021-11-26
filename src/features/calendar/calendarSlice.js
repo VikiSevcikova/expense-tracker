@@ -4,18 +4,24 @@ import moment from "moment";
 
 const startOfMonth = new Date(moment().startOf("month"));
 const endOfDay = new Date(moment().endOf("day"));
+const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
+const stringifyDate = (date) => {
+  return new Date(date - timeZoneOffSet).toISOString();
+};
 
 const calendarSlice = createSlice({
   name: "calender",
   initialState: {
-    startDate: startOfMonth,
-    endDate: new Date(
+    startDate:stringifyDate(startOfMonth),
+    endDate: stringifyDate(new Date(
       moment(endOfDay).set({ hour: 23, minute: 59, second: 59 })
-    ),
+    )),
   },
   reducers: {
     setDateRange(state, action) {
+      console.log("state changes")
       const {startDate, endDate} = action.payload;
+      console.log(startDate, endDate)
       return {
         ...state,
         startDate: startDate,

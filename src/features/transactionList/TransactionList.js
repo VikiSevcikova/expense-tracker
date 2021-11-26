@@ -52,12 +52,6 @@ const TransactionList = () => {
   //This is for the case where a user navigates to this page from another page
   useEffect(() => {
 
-    const config = {
-      headers: {
-        "Content-type": "application/json"
-      },
-    };
-
     (async () => {
       // try {
       //   //get all transaction data from backend
@@ -95,7 +89,6 @@ const TransactionList = () => {
   const handleCheck = (id, e) => {
     const payload = tranList.filter(e => e._id == id);
 
-    console.log(payload);
     //when it is checked, delete or edit action can be done
     if (e.target.checked) {
 
@@ -121,7 +114,6 @@ const TransactionList = () => {
       }));
     }
     else {
-
       //change isEditing back to false
       dispatch(checkTransaction({
         id: payload[0]._id,
@@ -145,6 +137,29 @@ const TransactionList = () => {
     }
   };
 
+  //sorting method
+  const sortByCategory = () => {
+    console.log("sort by category");
+    console.log(transactionList);
+    const sortedTran = [];
+
+    // keys = Object.keys(obj);
+    // keys.sort();
+    // for (key of keys) {
+    //   console.log(`${key} : ${obj[key]}`);
+    // }
+
+    for (let i = 0; i < transactionList.allTran.length - 1; i++) {
+      if (transactionList.allTran[i].categoryName < transactionList.allTran[i + 1].categoryName) {
+        sortedTran.push(transactionList.allTran[i]);
+      } else {
+        sortedTran.push(transactionList.allTran[i + 1]);
+      }
+    }
+    console.log(sortedTran);
+    dispatch(getAllTransaction(sortedTran));
+  };
+
   return (
     <>
       <Container fluid className="transactionListContainer">
@@ -157,7 +172,12 @@ const TransactionList = () => {
                   <thead className="tableTitle">
                     <tr>
                       <th><MdCheckBoxOutlineBlank /></th>
-                      <th className="titleCategory"><MdOutlineCategory /> Category <BsFillCaretDownFill /></th>
+                      <th
+                        className="titleCategory"
+                        onClick={sortByCategory} >
+                        <MdOutlineCategory />
+                        Category <BsFillCaretDownFill />
+                      </th>
                       <th className="titleAmount"><MdAttachMoney /> <BsFillCaretDownFill /></th>
                     </tr>
                   </thead>
@@ -196,7 +216,11 @@ const TransactionList = () => {
                   <thead className="tableTitle">
                     <tr>
                       <th><MdCheckBoxOutlineBlank /></th>
-                      <th className="titleCategory">Category <BsFillCaretDownFill /></th>
+                      <th
+                        className="titleCategory"
+                        onClick={sortByCategory} >
+                        Category <BsFillCaretDownFill />
+                      </th>
                       <th className="titleCategory">Date <BsFillCaretDownFill /></th>
                       <th className="titleCategory">Payment Method <BsFillCaretDownFill /></th>
                       <th className="titleCategory">Description <BsFillCaretDownFill /></th>
@@ -206,7 +230,6 @@ const TransactionList = () => {
                   <tbody className="tableBody">
                     {tranList.map((elem, index) => (
                       <>
-
                         <tr key={elem._id}>
                           <td><Form.Check
                             checked={elem.isEditing && true}

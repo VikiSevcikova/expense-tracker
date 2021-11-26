@@ -10,44 +10,55 @@ import { getAllTransaction } from "../transactionList/transactionListSlice";
 import axios from "axios";
 import { balancePieChartActions } from "../balancePieChart/balancePieChartSlice";
 
-
 export default function Calendar() {
   const dispatch = useDispatch();
-  const { startDate, endDate } = useSelector(selectCalender);
-  console.log(startDate, endDate);
-  const [calendar, setCalendar] = useState([startDate, endDate]);
 
+  const { startDate, endDate } = useSelector(selectCalender);
+
+  // Local time offset
   const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
+
+  // Date to ISO string converter
+  const stringifyDate = (date) => {
+    return new Date(date - timeZoneOffSet).toISOString();
+  };
+
+  // ISO string to Date converter
+  const dateFromString = (date) => {
+    return new Date(moment.utc(date) + timeZoneOffSet);
+  };
+
+  const [calendar, setCalendar] = useState([dateFromString(startDate), dateFromString(endDate)]);
+
+  console.log(new Date(
+    moment(calendar[1]).set({ hour: 23, minute: 59, second: 59 })
+  ));
 
   useEffect(async () => {
     let dates;
 
-    //set end date to include 23:59:59
     if (calendar[1] !== null) {
       dates = {
-        startDate: calendar[0],
-        endDate: new Date(moment(calendar[1]).set({ hour: 23, minute: 59, second: 59 }))
+        startDate: stringifyDate(calendar[0]),
+        endDate: stringifyDate(new Date(
+          moment(calendar[1]).set({ hour: 23, minute: 59, second: 59 })
+        ))
       };
     } else {
       dates = {
-        startDate: calendar[0],
-        endDate: calendar[1]
+        startDate: stringifyDate(calendar[0]),
+        endDate: stringifyDate(calendar[1]),
       };
     }
-
-    console.log("before dispatch!!", dates);
 
     dispatch(calendarActions.setDateRange(dates));
 
     const fetchDateRange = async () => {
+      console.log("fetching data");
       try {
         // Convert to ISO date format which is
         const res = await axios.get(
-          `/transaction?startdate=${new Date(
-            calendar[0] - timeZoneOffSet
-          ).toISOString()}&enddate=${new Date(
-            calendar[1] - timeZoneOffSet
-          ).toISOString()}`
+          `/transaction?startdate=${dates.startDate}&enddate=${dates.endDate}`
         );
         if (res.status === 200) {
           //for transaction page
@@ -56,8 +67,6 @@ export default function Calendar() {
           //for dashboard page
           dispatch(balancePieChartActions.getAmount(res.data)); //pie chart
 
-          console.log(res.data);
-
         }
       } catch (error) {
         console.error(`${error}: Something wrong on the server side`);
@@ -65,9 +74,7 @@ export default function Calendar() {
       }
     };
     fetchDateRange();
-
   }, [calendar]);
-
 
   return (
     <div className="calendar-wrapper">
@@ -76,10 +83,10 @@ export default function Calendar() {
         className="dateFilter"
         dateFormat="yyyy/MM/dd"
         monthsShown={2}
-        selected={startDate}
-        onChange={update => setCalendar(update)}
-        startDate={startDate}
-        endDate={endDate}
+        selected={calendar[0]}
+        onChange={(update) => setCalendar(update)}
+        startDate={calendar[0]}
+        endDate={calendar[1]}
         selectsRange={true}
       />
     </div>
