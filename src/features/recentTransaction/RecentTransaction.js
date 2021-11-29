@@ -11,8 +11,6 @@ export default function RecentTransaction() {
 const dispatch = useDispatch()
 const recentTransaction = useSelector((state)=> state.recentTransaction.recentTransaction)
 
-console.log(recentTransaction)
-
   useEffect(() => {
     const fetchRecent = async () => {
       try {
