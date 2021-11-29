@@ -29,7 +29,7 @@ const App = () => {
         dispatch(removeUser());
         dispatch(
           showAlert({
-            message: error.response.data.error
+            message: error && error.response && error.response.data
               ? error.response.data.error
               : "Sorry, there is an issues on the server.",
             variant: "danger",
