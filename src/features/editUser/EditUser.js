@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./EditUser.scss";
 import {
@@ -25,13 +27,24 @@ const EditUser = (props) => {
   //redux
   const dispatch = useDispatch();
 
+  //router
+  const navigate = useNavigate();
+
   //method
   const handleChange = (prop) => (e) => {
     setPassword({ ...password, [prop]: e.target.value });
   };
 
-  const changePassword = (e) => {
+  const config = {
+    headers: {
+      "Content-type": "application/json"
+    },
+  };
+
+  const changePassword = async (e) => {
+
     e.preventDefault();
+
     console.log("Changing password now, state is", password);
     //validation check 1 - required field
     if (password.newPassword === "" || password.confirmPassword === "") {
@@ -48,12 +61,18 @@ const EditUser = (props) => {
       }));
       return;
     } else {
-      console.log("update backend!!");
-      //connect to backend
-      //Continue from here
-      //
-      //
-      //
+      //send data to backend
+      const response = await axios.post("/users/edit", password, config);
+      if (response.statusText !== "OK") {
+        throw response.statusText;
+      } else {
+        //close modal pop-up
+        props.handleClose();
+      }
+      //go back to alltransaction page
+      navigate("/alltransaction", {
+        state: response.data
+      });
 
     }
   };
