@@ -1,29 +1,22 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./RecentTransaction.scss";
 import { Row, Col } from "react-bootstrap";
 import CategoriesIcon from "../../utils/CategoriesIcon";
-import { useDispatch, useSelector } from "react-redux";
-import { recentTransactionActions } from "./recentTransactionSlice";
+import { useSelector } from "react-redux";
+import { transactionListSelector } from "../transactionList/transactionListSlice";
 
 export default function RecentTransaction() {
-
-const dispatch = useDispatch()
-const recentTransaction = useSelector((state)=> state.recentTransaction.recentTransaction)
+  const { allTran } = useSelector(transactionListSelector);
+  const [recentTransaction, setRecentTransaction] = useState([]);
 
   useEffect(() => {
-    const fetchRecent = async () => {
-      try {
-        const res = await axios.get("/recent-transaction");
-        if (res.status === 200) {
-          dispatch(recentTransactionActions.getRecentTransaction(res.data))
-        }
-      } catch (err) {
-        return err;
-      }
-    };
-    fetchRecent();
-  }, []);
+    //get the last 5 transactions
+    const recent = allTran.slice(Math.max(allTran.length - 5,0));
+    //sort them by date
+    recent.sort((a,b) => new Date(b.date) - new Date(a.date));
+    //set to the state
+    setRecentTransaction(recent);
+  }, [allTran]);
 
   return (
     <div>
