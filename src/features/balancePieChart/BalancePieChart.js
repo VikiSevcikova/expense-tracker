@@ -1,13 +1,15 @@
 import React from "react";
 import "./BalancePieChart.scss";
 import { Pie } from "react-chartjs-2";
+import { useSelector } from "react-redux";
+import { transactionListSelector } from "../transactionList/transactionListSlice";
 
-export default function BalancePieChart({amount}) {
+export default function BalancePieChart() {
 
-  console.log(amount)
+  const { balance } = useSelector(transactionListSelector);
 
   const data = {
-    labels: [`Expense: $${amount.expense}`, `Income: $${amount.income}`],
+    labels: [`Expense: $${balance.expense}`, `Income: $${balance.income}`],
     datasets: [
       {
         label: "balance",
@@ -38,7 +40,7 @@ export default function BalancePieChart({amount}) {
 
   return (
     <div>
-      <h5>Total balance: ${amount.total}</h5>
+      <h5>Total balance: ${balance.total}</h5>
       <Pie data={data} options={config}/>
     </div>
   );

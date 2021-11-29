@@ -59,6 +59,7 @@ const GoogleLoginBtn = () => {
                 onClick={renderProps.onClick}
                 name="Continue with Google"
                 icon={<BsGoogle className="icon" />}
+                className="google-btn"
               />
                 )}
             onSuccess={responseSuccessGoogle}
