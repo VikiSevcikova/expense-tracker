@@ -2,9 +2,10 @@ import React from "react";
 import "./BalancePieChart.scss";
 import { Pie } from "react-chartjs-2";
 
-export default function BalancePieChart({amount}) {
+import useMedia from "use-media";
 
-  console.log(amount)
+export default function BalancePieChart({ amount }) {
+  const mobile = useMedia({ maxWidth: 1500});
 
   const data = {
     labels: [`Expense: $${amount.expense}`, `Income: $${amount.income}`],
@@ -25,21 +26,44 @@ export default function BalancePieChart({amount}) {
 
   const config = {
     plugins: {
-      legend:{
-        position:'right'
+      legend: {
+        display: true,
+        position: "right",
+        labels: {
+          color: "white",
+          font: {
+            family: "Josefin Sans, sans-serif",
+            size: 18,
+          },
+        },
       },
-      // title:{
-      //   display: true,
-      //   text:"Total balance: $3000"
+    },
+  };
 
-      // }
+  const mobileConfig = {
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom",
+        labels: {
+          color: "white",
+          font: {
+            family: "Josefin Sans, sans-serif",
+            size: 18,
+          },
+        },
+      },
     },
   };
 
   return (
     <div>
       <h5>Total balance: ${amount.total}</h5>
-      <Pie data={data} options={config}/>
+      <Pie
+        data={data}
+        // options={config}
+        options={mobile ? mobileConfig : config}
+      />
     </div>
   );
 }
