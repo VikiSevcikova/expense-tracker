@@ -33,7 +33,7 @@ const DeleteConfirmation = (props) => {
       const { data } = await axios.get("/auth/logout");
       dispatch(removeUser());
       dispatch(showAlert({
-        message: "Account has successfully been deleted",
+        message: data.message,
         variant: "info",
       }));
       navigate("/login");

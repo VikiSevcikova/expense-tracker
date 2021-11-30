@@ -3,7 +3,6 @@ import "./UserProfile.scss";
 import {
   Card,
   Button,
-  Row,
   Form,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
@@ -116,7 +115,6 @@ const UserProfile = () => {
         <DeleteConfirmation
           show={delConf}
           delete={"userAccount"}
-          // checkedItemId={operation.checkedItem[0]._id} //pass user id to del conf
           closeDelConf={closeDelConf} />}
     </>
   );
