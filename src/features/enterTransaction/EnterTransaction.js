@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllTransaction } from '../transactionList/transactionListSlice';
+import { filterTransaction } from '../transactionList/transactionListSlice';
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -19,7 +19,7 @@ import {
 } from '../alertMessage/alertMessageSlice';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
-import { selectCalender, calendarActions } from "../calendar/calendarSlice";
+import { selectCalender } from "../calendar/calendarSlice";
 
 const EditTransaction = (props) => {
 
@@ -37,7 +37,7 @@ const EditTransaction = (props) => {
     date: new Date(),
     categoryId: 0, //default 0 : need to get from backend
     categoryName: "",
-    transactionType: "",
+    transactionType: "expense",
     description: "",
     currency: "CAD",
     amount: 0,
@@ -73,7 +73,7 @@ const EditTransaction = (props) => {
 
   //onChange
   const handleChange = (prop) => (e) => {
-    //get category id based on category name
+    //get category id based on category name;
     if (prop === "categoryName") {
       const targetCategory = categories.find(elem => elem.name === e.target.value);
       setTransaction(
@@ -90,6 +90,9 @@ const EditTransaction = (props) => {
 
   //onSubmit -- save
   const handleSubmit = async (e) => {
+
+    console.log("handlesubmit", transaction);
+
     e.preventDefault();
 
     const config = {
@@ -126,6 +129,9 @@ const EditTransaction = (props) => {
             editDelBtnVisible: false,
             checkedItem: []
           }));
+
+          //clear all filter
+          dispatch(filterTransaction([]));
 
           //go back to alltransaction page
           navigate("/alltransaction", {
