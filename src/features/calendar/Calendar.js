@@ -6,7 +6,7 @@ import moment, { utc } from "moment";
 import { selectCalender } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { calendarActions } from "./calendarSlice";
-import { getAllTransaction, getBalance } from "../transactionList/transactionListSlice";
+import { getAllTransaction, getBalance, filterTransaction } from "../transactionList/transactionListSlice";
 import axios from "axios";
 
 export default function Calendar() {
@@ -39,6 +39,10 @@ export default function Calendar() {
   useEffect(() => {
 
     const fetchDateRange = async () => {
+
+      //whenever date rage is changed all filters will be cleared
+      dispatch(filterTransaction([]));
+
       try {
         // Convert to ISO date format which is
         const res = await axios.get(

@@ -36,6 +36,7 @@ const TransactionList = () => {
 
   //private state
   const [tranList, setTranList] = useState([]);
+  console.log(transactionList)
 
   //method
   //when the component is mounted
@@ -49,23 +50,23 @@ const TransactionList = () => {
   //This is for the case where a user navigates to this page from another page
   useEffect(() => {
 
-    (async () => {
-      try {
-        // Convert to ISO date format which is
-        const res = await axios.get(
-          `/transaction?startdate=${startDate}&enddate=${endDate}`
-        );
-        if (res.status === 200) {
-          //for transaction page
-          dispatch(getAllTransaction(res.data));
-          //for dashboard page
-          dispatch(getBalance(res.data)); //pie chart
+      (async () => {
+        try {
+          // Convert to ISO date format which is
+          const res = await axios.get(
+            `/transaction?startdate=${startDate}&enddate=${endDate}`
+          );
+          if (res.status === 200) {
+            //for transaction page
+            dispatch(getAllTransaction(res.data));
+            //for dashboard page
+            dispatch(getBalance(res.data)); //pie chart
+          }
+        } catch (error) {
+          console.error(`${error}: Something wrong on the server side`);
+          return error;
         }
-      } catch (error) {
-        console.error(`${error}: Something wrong on the server side`);
-        return error;
-      }
-    })();
+      })();
 
   }, [location.state]);
 

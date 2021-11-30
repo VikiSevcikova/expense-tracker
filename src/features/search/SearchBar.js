@@ -23,6 +23,7 @@ const SearchBar = () => {
 
   //method
   const searchTransaction = () => {
+
     const filteredTranList = transactionList.allTran.filter(elem => {
       if (elem.description.toLowerCase().includes(keyword.toLowerCase()) || elem.categoryName.toLowerCase().includes(keyword.toLowerCase())) {
         return elem;
@@ -35,6 +36,9 @@ const SearchBar = () => {
         variant: "danger"
       })) :
       dispatch(filterTransaction(filteredTranList));
+
+    //clear input
+    setKeyword("");
   };
 
   return (
