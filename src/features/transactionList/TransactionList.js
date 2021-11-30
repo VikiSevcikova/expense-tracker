@@ -38,7 +38,6 @@ const TransactionList = () => {
 
   //private state
   const [tranList, setTranList] = useState([]);
-  console.log("transaction list from Redux", transactionList);
 
   //method
   //when the component is mounted
@@ -53,19 +52,6 @@ const TransactionList = () => {
   useEffect(() => {
 
     (async () => {
-      // try {
-      //   //get all transaction data from backend
-      //   const response = await axios.get("/alltransaction/all", config);
-      //   if (response.statusText !== "OK") {
-      //     throw response.statusText;
-      //   } else {
-      //     //dispatch
-      //     dispatch(getAllTransaction(response.data));
-      //   }
-      // } catch (error) {
-      //   console.error(`${error}: Something wrong on the server side`);
-      //   return error;
-      // }
       try {
         // Convert to ISO date format which is
         const res = await axios.get(

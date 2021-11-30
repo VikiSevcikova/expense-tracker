@@ -9,6 +9,7 @@
   .searchInput {
     border-radius: 10vw;
     background-color: transparent;
+    color: $txtColor1;
     &:focus {
       box-shadow: none;
       border: 0.1rem solid $accentColor1;
