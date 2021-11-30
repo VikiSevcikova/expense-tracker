@@ -1,12 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 import useMedia from "use-media";
+import { transactionListSelector } from "../transactionList/transactionListSlice";
 
-export default function ExpenseChart({ allTran }) {
+export default function ExpenseChart() {
   const mobile = useMedia({ maxWidth: 767 });
   const medium = useMedia({ maxWidth: 878 });
-
-  console.log(allTran);
+  const { allTran } = useSelector(transactionListSelector);
 
   const dataList = [
     { name: "Food & Beverage", trans: [] },
@@ -27,7 +28,6 @@ export default function ExpenseChart({ allTran }) {
   ];
 
   allTran.filter((tran) => {
-    //  return dataList.indexOf(tran.categoryName) > -1
     dataList.forEach((list) => {
       if (
         list.name === tran.categoryName &&
@@ -58,22 +58,6 @@ export default function ExpenseChart({ allTran }) {
     });
     return sumTrans;
   });
-
-  // Total expense amount
-  const totalAmount = catagoryAmount.reduce((a, b) => a + b, 0);
-
-  console.log(totalAmount);
-  console.log(dataCatagory);
-  const chartAngle = catagoryAmount.map((amount) => {
-    return 360 * (amount / totalAmount);
-  });
-
-  console.log(catagoryAmount);
-  console.log(
-    catagoryAmount.map((amount) => {
-      return `$${amount}`;
-    })
-  );
 
   const noData = {
     labels: ["no data"],
@@ -128,7 +112,7 @@ export default function ExpenseChart({ allTran }) {
           font: {
             family: "Josefin Sans, sans-serif",
             // wordWrap: "break-word",
-            size: 18,
+            size: 12,
           },
         },
       },

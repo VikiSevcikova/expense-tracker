@@ -1,14 +1,18 @@
 import React from "react";
 import "./BalancePieChart.scss";
 import { Pie } from "react-chartjs-2";
+import { useSelector } from "react-redux";
+import { transactionListSelector } from "../transactionList/transactionListSlice";
 
 import useMedia from "use-media";
 
-export default function BalancePieChart({ amount }) {
-  const mobile = useMedia({ maxWidth: 1500});
+export default function BalancePieChart() {
+  const mobile = useMedia({ maxWidth: 1500 });
+
+  const { balance } = useSelector(transactionListSelector);
 
   const data = {
-    labels: [`Expense: $${amount.expense}`, `Income: $${amount.income}`],
+    labels: [`Expense: $${balance.expense}`, `Income: $${balance.income}`],
     datasets: [
       {
         label: "balance",
@@ -58,12 +62,8 @@ export default function BalancePieChart({ amount }) {
 
   return (
     <div>
-      <h5>Total balance: ${amount.total}</h5>
-      <Pie
-        data={data}
-        // options={config}
-        options={mobile ? mobileConfig : config}
-      />
+      <h5>Total balance: ${balance.total}</h5>
+      <Pie data={data} options={mobile ? mobileConfig : config} />
     </div>
   );
 }

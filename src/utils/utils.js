@@ -11,6 +11,7 @@ export const getUser =  async (token) => {
       return data;
 }
 
+
 // export const loginUser = async (formData) => {
 //     const { data } = await axios.post("/auth/login", formData);
 //     return data;

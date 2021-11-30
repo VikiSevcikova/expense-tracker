@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
-
-import moment from "moment";
+import React from "react";
 import "./DashBoardCards.scss";
 import { Container, Col, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
 
 import Greeting from "../greetings/Greeting";
 import Calendar from "../calendar/Calendar";
@@ -13,25 +10,9 @@ import BalanceLineChart from "../balanceLineChart/BalanceLineChart";
 import ExpenseChart from "../expenseChart/ExpenseChart";
 import RecentTransaction from "../recentTransaction/RecentTransaction";
 
-import {transactionListSelector} from "../transactionList/transactionListSlice"
-
 import useMedia from "use-media";
 
 export default function DashBoardCards() {
-
-
-  const balancePieTransactions = useSelector(
-    (state) => state.balancePieChart.balancePieChart
-  );
-
-  const {allTran} = useSelector(transactionListSelector)
-
-
-  // local time offset
-  const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
-
-  // First date of current month
-  const startOfMonth = new Date(moment().startOf("month"));
 
   const mobile = useMedia({ maxWidth: 576 });
 
@@ -42,7 +23,6 @@ export default function DashBoardCards() {
           <Container fluid className="box_wrapper">
             <Row>
               <Greeting />
-           
             </Row>
           </Container>
           <Container fluid className="box_wrapper">
@@ -58,13 +38,13 @@ export default function DashBoardCards() {
             </Row>
           </Container>
           <Container fluid className="box_wrapper">
-            <BalancePieChart amount={balancePieTransactions} />
+            <BalancePieChart />
           </Container>
           <Container fluid className="box_wrapper">
             <BalanceLineChart />
           </Container>
           <Container fluid className="box_wrapper">
-            <ExpenseChart allTran={allTran}/>
+            <ExpenseChart />
           </Container>
           <Container fluid className="box_wrapper">
             <RecentTransaction />
@@ -78,16 +58,13 @@ export default function DashBoardCards() {
               <Col xl={4}>
                 <Container fluid className="box_wrapper">
                   <Greeting />
-               
                 </Container>
               </Col>
               <Col xl={8}>
                 <Container fluid className="box_wrapper">
                   <Row>
                     <Col xs={9}>
-                      <Calendar
-                      //  setDate={setDate}
-                      />
+                      <Calendar />
                     </Col>
                     <Col xs={3}>
                       <Currency />
@@ -102,12 +79,12 @@ export default function DashBoardCards() {
             <Row>
               <Col md={6}>
                 <Container className="box_wrapper">
-                  <BalancePieChart amount={balancePieTransactions} />
+                  <BalancePieChart />
                 </Container>
               </Col>
               <Col md={6}>
                 <Container className="box_wrapper">
-                  <ExpenseChart allTran={allTran} />
+                  <ExpenseChart/>
                 </Container>
               </Col>
             </Row>

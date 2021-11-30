@@ -118,19 +118,6 @@
     }
     .calendar-wrapper {
       width: 20vw;
-      .dateFilter {
-        background-color: transparent;
-        color: $txtColor1;
-        border-radius: 10vw;
-        border: solid 0.1rem $txtColor1;
-        padding: 0.3rem;
-        width: 100%;
-        text-align: center;
-        &:focus {
-          outline: none;
-          border: 0.1rem solid $accentColor1 !important;
-        }
-      }
     }
     .searchBtn {
       background-color: $accentColor1;

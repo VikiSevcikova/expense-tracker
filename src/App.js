@@ -22,14 +22,13 @@ const App = () => {
       try{
         if (token) {
           const { user } = await getUser(token);
-          // console.log("app.js render",user);
           dispatch(setUser(user));
         }
       }catch(error){
         dispatch(removeUser());
         dispatch(
           showAlert({
-            message: error.response.data.error
+            message: error && error.response && error.response.data
               ? error.response.data.error
               : "Sorry, there is an issues on the server.",
             variant: "danger",

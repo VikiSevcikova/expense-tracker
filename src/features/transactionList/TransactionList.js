@@ -3,7 +3,7 @@ import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { transactionListSelector, getAllTransaction, checkTransaction } from './transactionListSlice';
+import { transactionListSelector, getAllTransaction, checkTransaction, getBalance, filterTransaction } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import { selectCalender } from "../calendar/calendarSlice";
 import {
@@ -34,11 +34,9 @@ const TransactionList = () => {
   const operation = useSelector(enterTransactionSelector);
   const { startDate, endDate } = useSelector(selectCalender);
 
-  const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
-
   //private state
   const [tranList, setTranList] = useState([]);
-  console.log("transaction list from Redux", transactionList);
+  console.log(transactionList);
 
   //method
   //when the component is mounted
@@ -53,29 +51,16 @@ const TransactionList = () => {
   useEffect(() => {
 
     (async () => {
-      // try {
-      //   //get all transaction data from backend
-      //   const response = await axios.get("/alltransaction/all", config);
-      //   if (response.statusText !== "OK") {
-      //     throw response.statusText;
-      //   } else {
-      //     //dispatch
-      //     dispatch(getAllTransaction(response.data));
-      //   }
-      // } catch (error) {
-      //   console.error(`${error}: Something wrong on the server side`);
-      //   return error;
-      // }
       try {
         // Convert to ISO date format which is
         const res = await axios.get(
-          `/transaction?startdate=${new Date(startDate - timeZoneOffSet).toISOString()}&enddate=${new Date(
-            endDate - timeZoneOffSet).toISOString()}`
+          `/transaction?startdate=${startDate}&enddate=${endDate}`
         );
-        if (res.statusText !== "OK") {
-          throw res.statusText;
-        } else {
+        if (res.status === 200) {
+          //for transaction page
           dispatch(getAllTransaction(res.data));
+          //for dashboard page
+          dispatch(getBalance(res.data)); //pie chart
         }
       } catch (error) {
         console.error(`${error}: Something wrong on the server side`);
@@ -87,7 +72,10 @@ const TransactionList = () => {
 
   //Checkbox control -- under construction
   const handleCheck = (id, e) => {
+
     const payload = tranList.filter(e => e._id == id);
+
+    console.log("checked", payload);
 
     //when it is checked, delete or edit action can be done
     if (e.target.checked) {
@@ -139,25 +127,11 @@ const TransactionList = () => {
 
   //sorting method
   const sortByCategory = () => {
-    console.log("sort by category");
-    console.log(transactionList);
-    const sortedTran = [];
+    console.log(tranList);
+    const sortedTran = tranList.slice().sort((a, b) => (a.categoryName.localeCompare(b.categoryName)));
 
-    // keys = Object.keys(obj);
-    // keys.sort();
-    // for (key of keys) {
-    //   console.log(`${key} : ${obj[key]}`);
-    // }
-
-    for (let i = 0; i < transactionList.allTran.length - 1; i++) {
-      if (transactionList.allTran[i].categoryName < transactionList.allTran[i + 1].categoryName) {
-        sortedTran.push(transactionList.allTran[i]);
-      } else {
-        sortedTran.push(transactionList.allTran[i + 1]);
-      }
-    }
-    console.log(sortedTran);
-    dispatch(getAllTransaction(sortedTran));
+    console.log("sortedTran is ", sortedTran);
+    dispatch(filterTransaction(sortedTran));
   };
 
   return (
