@@ -3,6 +3,7 @@
 .navbar {
   height: fit-content;
   padding: 0;
+  z-index: 1000;
   @include media-breakpoint-up(sm) {
     position: fixed;
   }

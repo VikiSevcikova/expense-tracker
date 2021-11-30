@@ -28,8 +28,6 @@ const EditTransaction = (props) => {
   //redux
   const dispatch = useDispatch();
 
-  //const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
-
   //private state
   const [transaction, setTransaction] = useState({
     id: "",

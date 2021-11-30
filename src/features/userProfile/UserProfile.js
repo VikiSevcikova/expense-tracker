@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import "./UserProfile.scss";
 import {
-  Container,
   Card,
   Button,
-  Modal,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { selectUser } from './userSlice';
@@ -62,7 +60,6 @@ const UserProfile = () => {
         <DeleteConfirmation
           show={delConf}
           delete={"userAccount"}
-          // checkedItemId={operation.checkedItem[0]._id} //pass user id to del conf
           closeDelConf={closeDelConf} />}
     </>
   );
