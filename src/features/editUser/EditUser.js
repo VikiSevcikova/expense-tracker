@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch } from "react-redux";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../userProfile/userSlice";
 import "./EditUser.scss";
 import {
   Container,
@@ -12,6 +15,7 @@ import {
   showAlert,
   hideAlert
 } from '../alertMessage/alertMessageSlice';
+import { removeUser } from "../userProfile/userSlice";
 
 const EditUser = (props) => {
 
@@ -25,14 +29,53 @@ const EditUser = (props) => {
   //redux
   const dispatch = useDispatch();
 
+  //router
+  const navigate = useNavigate();
+
   //method
+  //log out
+  const logOut = async () => {
+    try {
+      localStorage.removeItem("ET-token");
+      const { data } = await axios.get("/auth/logout");
+      dispatch(removeUser());
+      dispatch(showAlert({
+        message: "Account has successfully been deleted",
+        variant: "info",
+      }));
+      navigate("/login");
+    } catch (error) {
+      dispatch(
+        showAlert({
+          message: error.response.data.error
+            ? error.response.data.error
+            : "Sorry, there is an issues on the server.",
+          variant: "danger",
+        })
+      );
+      setTimeout(() => {
+        dispatch(hideAlert());
+      }, 5000);
+    }
+  };
+
+  //onChange method
   const handleChange = (prop) => (e) => {
     setPassword({ ...password, [prop]: e.target.value });
   };
 
-  const changePassword = (e) => {
+  const token = localStorage.getItem("ET-token");
+
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  //Change password
+  const changePassword = async (e) => {
     e.preventDefault();
-    console.log("Changing password now, state is", password);
     //validation check 1 - required field
     if (password.newPassword === "" || password.confirmPassword === "") {
       dispatch(showAlert({
@@ -48,17 +91,28 @@ const EditUser = (props) => {
       }));
       return;
     } else {
-      console.log("update backend!!");
-      //connect to backend
-      //Continue from here
-      //
-      //
-      //
+      //send data to backend
+      try {
+        const response = await axios.post(`/users/edit`, password, config);
+        if (response.statusText !== "OK") {
+          throw response.statusText;
+        } else {
+          console.log("password edited", response.data);
 
+          //close modal pop-up
+          props.handleClose();
+          //logout
+          logOut();
+        }
+      } catch (error) {
+        console.error(`${error}: Something wrong on the server side`);
+        return error;
+      }
     }
   };
 
-  const changeProfilePic = (e) => {
+  //Change avatar
+  const changeProfilePic = async (e) => {
     e.preventDefault();
     if (profPic === "") {
       dispatch(showAlert({
@@ -67,12 +121,22 @@ const EditUser = (props) => {
       }));
       return;
     } else {
-      console.log("update backend!!");
-      //connect to backend
-      //Continue from here
-      //
-      //
-      //
+      //send data to backend
+      try {
+        const response = await axios.post(`/users/edit`, profPic, config);
+        if (response.statusText !== "OK") {
+          throw response.statusText;
+        } else {
+          console.log("prof pic edited", response.data);
+          //close modal pop-up
+          props.handleClose();
+          //logout
+          logOut();
+        }
+      } catch (error) {
+        console.error(`${error}: Something wrong on the server side`);
+        return error;
+      }
     }
   };
 
