@@ -8,6 +8,9 @@ import {
 import "./SearchBar.scss";
 import { BsSearch } from "react-icons/bs";
 import { transactionListSelector, filterTransaction } from '../transactionList/transactionListSlice';
+import {
+  showAlert
+} from '../alertMessage/alertMessageSlice';
 
 const SearchBar = () => {
 
@@ -25,7 +28,13 @@ const SearchBar = () => {
         return elem;
       }
     });
-    dispatch(filterTransaction(filteredTranList));
+
+    filteredTranList.length === 0 ?
+      dispatch(showAlert({
+        message: "No transaction found.",
+        variant: "danger"
+      })) :
+      dispatch(filterTransaction(filteredTranList));
   };
 
   return (
@@ -35,7 +44,7 @@ const SearchBar = () => {
           className="searchInput"
           placeholder=" Search transaction item here..."
           value={keyword}
-          // onFocus={setKeyword("")}
+          onFocus={() => setKeyword("")}
           onChange={(e) => setKeyword(e.target.value)}
         />
         <Button

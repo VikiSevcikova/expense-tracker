@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTransaction } from '../transactionList/transactionListSlice';
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -14,11 +15,11 @@ import { FaTimesCircle } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
-  showAlert,
-  hideAlert
+  showAlert
 } from '../alertMessage/alertMessageSlice';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
+import { selectCalender, calendarActions } from "../calendar/calendarSlice";
 
 const EditTransaction = (props) => {
 
@@ -27,6 +28,8 @@ const EditTransaction = (props) => {
 
   //redux
   const dispatch = useDispatch();
+  const { startDate, endDate } = useSelector(selectCalender);
+  console.log(startDate, endDate);
 
   //private state
   const [transaction, setTransaction] = useState({
@@ -117,10 +120,18 @@ const EditTransaction = (props) => {
         } else {
           //close modal pop-up
           props.handleClose();
+
+          //hide edit and delete button and remove checked
+          dispatch(changeOperation({
+            editDelBtnVisible: false,
+            checkedItem: []
+          }));
+
           //go back to alltransaction page
           navigate("/alltransaction", {
             state: response.data
           });
+
           //show confirmation message
           {
             props.operationType === "edit" ?
@@ -143,12 +154,6 @@ const EditTransaction = (props) => {
       console.error(`${error}: Something wrong on the server side`);
       return error;
     }
-
-    //hide edit and delete button
-    dispatch(changeOperation({
-      editDelBtnVisible: false,
-      checkedItem: []
-    }));
   };
 
   return (

@@ -24,21 +24,21 @@ export default function Calendar() {
     return new Date(date);
   };
 
-  const [calendar, setCalendar] = useState([dateFromString(startDate),dateFromString(endDate)]);
+  const [calendar, setCalendar] = useState([dateFromString(startDate), dateFromString(endDate)]);
 
-  useEffect(()=>{
-    if(!calendar[1]) return;
+  useEffect(() => {
+    if (!calendar[1]) return;
     let dates = {
-        startDate: stringifyDate(new Date(moment(calendar[0]).startOf("day"))),
-        endDate: stringifyDate(new Date(moment(calendar[1]).endOf("day")))
-      };
+      startDate: stringifyDate(new Date(moment(calendar[0]).startOf("day"))),
+      endDate: stringifyDate(new Date(moment(calendar[1]).endOf("day")))
+    };
 
     dispatch(calendarActions.setDateRange(dates));
-  },[calendar])
+  }, [calendar]);
 
-  useEffect( () => {
+  useEffect(() => {
+
     const fetchDateRange = async () => {
-      console.log("fetching data");
       try {
         // Convert to ISO date format which is
         const res = await axios.get(
@@ -57,7 +57,7 @@ export default function Calendar() {
       }
     };
     fetchDateRange();
-  }, [startDate,endDate]);
+  }, [startDate, endDate]);
 
   return (
     <div className="calendar-wrapper">
