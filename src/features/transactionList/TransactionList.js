@@ -3,7 +3,7 @@ import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { transactionListSelector, getAllTransaction, checkTransaction } from './transactionListSlice';
+import { transactionListSelector, getAllTransaction, checkTransaction, getBalance } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import { selectCalender } from "../calendar/calendarSlice";
 import {
@@ -34,8 +34,6 @@ const TransactionList = () => {
   const operation = useSelector(enterTransactionSelector);
   const { startDate, endDate } = useSelector(selectCalender);
 
-  const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
-
   //private state
   const [tranList, setTranList] = useState([]);
 
@@ -55,13 +53,13 @@ const TransactionList = () => {
       try {
         // Convert to ISO date format which is
         const res = await axios.get(
-          `/transaction?startdate=${new Date(startDate - timeZoneOffSet).toISOString()}&enddate=${new Date(
-            endDate - timeZoneOffSet).toISOString()}`
+          `/transaction?startdate=${startDate}&enddate=${endDate}`
         );
-        if (res.statusText !== "OK") {
-          throw res.statusText;
-        } else {
+        if (res.status === 200) {
+          //for transaction page
           dispatch(getAllTransaction(res.data));
+          //for dashboard page
+          dispatch(getBalance(res.data)); //pie chart
         }
       } catch (error) {
         console.error(`${error}: Something wrong on the server side`);
@@ -73,7 +71,10 @@ const TransactionList = () => {
 
   //Checkbox control -- under construction
   const handleCheck = (id, e) => {
+
     const payload = tranList.filter(e => e._id == id);
+
+    console.log("checked", payload);
 
     //when it is checked, delete or edit action can be done
     if (e.target.checked) {
