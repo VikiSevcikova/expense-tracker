@@ -3,7 +3,7 @@ import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { transactionListSelector, getAllTransaction, checkTransaction, getBalance } from './transactionListSlice';
+import { transactionListSelector, getAllTransaction, checkTransaction, getBalance, filterTransaction } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import { selectCalender } from "../calendar/calendarSlice";
 import {
@@ -36,7 +36,7 @@ const TransactionList = () => {
 
   //private state
   const [tranList, setTranList] = useState([]);
-  console.log(transactionList)
+  console.log(transactionList);
 
   //method
   //when the component is mounted
@@ -50,23 +50,23 @@ const TransactionList = () => {
   //This is for the case where a user navigates to this page from another page
   useEffect(() => {
 
-      (async () => {
-        try {
-          // Convert to ISO date format which is
-          const res = await axios.get(
-            `/transaction?startdate=${startDate}&enddate=${endDate}`
-          );
-          if (res.status === 200) {
-            //for transaction page
-            dispatch(getAllTransaction(res.data));
-            //for dashboard page
-            dispatch(getBalance(res.data)); //pie chart
-          }
-        } catch (error) {
-          console.error(`${error}: Something wrong on the server side`);
-          return error;
+    (async () => {
+      try {
+        // Convert to ISO date format which is
+        const res = await axios.get(
+          `/transaction?startdate=${startDate}&enddate=${endDate}`
+        );
+        if (res.status === 200) {
+          //for transaction page
+          dispatch(getAllTransaction(res.data));
+          //for dashboard page
+          dispatch(getBalance(res.data)); //pie chart
         }
-      })();
+      } catch (error) {
+        console.error(`${error}: Something wrong on the server side`);
+        return error;
+      }
+    })();
 
   }, [location.state]);
 
@@ -127,25 +127,11 @@ const TransactionList = () => {
 
   //sorting method
   const sortByCategory = () => {
-    console.log("sort by category");
-    console.log(transactionList);
-    const sortedTran = [];
+    console.log(tranList);
+    const sortedTran = tranList.slice().sort((a, b) => (a.categoryName.localeCompare(b.categoryName)));
 
-    // keys = Object.keys(obj);
-    // keys.sort();
-    // for (key of keys) {
-    //   console.log(`${key} : ${obj[key]}`);
-    // }
-
-    for (let i = 0; i < transactionList.allTran.length - 1; i++) {
-      if (transactionList.allTran[i].categoryName < transactionList.allTran[i + 1].categoryName) {
-        sortedTran.push(transactionList.allTran[i]);
-      } else {
-        sortedTran.push(transactionList.allTran[i + 1]);
-      }
-    }
-    console.log(sortedTran);
-    dispatch(getAllTransaction(sortedTran));
+    console.log("sortedTran is ", sortedTran);
+    dispatch(filterTransaction(sortedTran));
   };
 
   return (
