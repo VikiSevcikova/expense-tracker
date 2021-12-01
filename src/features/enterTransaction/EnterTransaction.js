@@ -91,8 +91,6 @@ const EditTransaction = (props) => {
   //onSubmit -- save
   const handleSubmit = async (e) => {
 
-    console.log("handlesubmit", transaction);
-
     e.preventDefault();
 
     const config = {

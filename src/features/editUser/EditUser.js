@@ -102,6 +102,7 @@ const EditUser = (props) => {
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
+          //show message
           console.log("password edited", response.data);
 
           //close modal pop-up
