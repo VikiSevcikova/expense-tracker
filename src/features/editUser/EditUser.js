@@ -40,7 +40,7 @@ const EditUser = (props) => {
       const { data } = await axios.get("/auth/logout");
       dispatch(removeUser());
       dispatch(showAlert({
-        message: "Account has successfully been deleted",
+        message: "Account has successfully been updated",
         variant: "info",
       }));
       navigate("/login");
@@ -93,7 +93,12 @@ const EditUser = (props) => {
     } else {
       //send data to backend
       try {
-        const response = await axios.post(`/users/edit`, {password: password.newPassword}, config);
+        const response = await axios.post(
+          `/users/edit`,
+          {
+            password: password.newPassword
+          },
+          config);
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
@@ -123,7 +128,12 @@ const EditUser = (props) => {
     } else {
       //send data to backend
       try {
-        const response = await axios.post(`/users/edit`, profPic, config);
+        const response = await axios.post(
+          `/users/edit`,
+          {
+            avatar: profPic
+          },
+          config);
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {

@@ -3,7 +3,7 @@ import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { transactionListSelector, getAllTransaction, checkTransaction } from './transactionListSlice';
+import { transactionListSelector, getAllTransaction, checkTransaction, getBalance, filterTransaction } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import { selectCalender } from "../calendar/calendarSlice";
 import {
@@ -12,7 +12,7 @@ import {
   Form
 } from 'react-bootstrap';
 import "./TransactionList.scss";
-import { BsFillCaretDownFill } from "react-icons/bs";
+import { BsSortUp, BsSortAlphaDown, BsSortNumericDown } from "react-icons/bs";
 import {
   MdOutlineCategory,
   MdAttachMoney,
@@ -34,11 +34,8 @@ const TransactionList = () => {
   const operation = useSelector(enterTransactionSelector);
   const { startDate, endDate } = useSelector(selectCalender);
 
-  const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
-
   //private state
   const [tranList, setTranList] = useState([]);
-  console.log("transaction list from Redux", transactionList);
 
   //method
   //when the component is mounted
@@ -50,44 +47,33 @@ const TransactionList = () => {
 
   //when the component is mounted get all transaction data from backend
   //This is for the case where a user navigates to this page from another page
-  useEffect(() => {
+  // useEffect(() => {
 
-    (async () => {
-      // try {
-      //   //get all transaction data from backend
-      //   const response = await axios.get("/alltransaction/all", config);
-      //   if (response.statusText !== "OK") {
-      //     throw response.statusText;
-      //   } else {
-      //     //dispatch
-      //     dispatch(getAllTransaction(response.data));
-      //   }
-      // } catch (error) {
-      //   console.error(`${error}: Something wrong on the server side`);
-      //   return error;
-      // }
-      try {
-        // Convert to ISO date format which is
-        const res = await axios.get(
-          `/transaction?startdate=${new Date(startDate - timeZoneOffSet).toISOString()}&enddate=${new Date(
-            endDate - timeZoneOffSet).toISOString()}`
-        );
-        if (res.statusText !== "OK") {
-          throw res.statusText;
-        } else {
-          dispatch(getAllTransaction(res.data));
-        }
-      } catch (error) {
-        console.error(`${error}: Something wrong on the server side`);
-        return error;
-      }
-    })();
-
-  }, [location.state]);
+  //   (async () => {
+  //     try {
+  //       // Convert to ISO date format which is
+  //       const res = await axios.get(
+  //         `/transaction?startdate=${startDate}&enddate=${endDate}`
+  //       );
+  //       if (res.status === 200) {
+  //         //for transaction page
+  //         dispatch(getAllTransaction(res.data));
+  //         //for dashboard page
+  //         dispatch(getBalance(res.data)); //pie chart
+  //       }
+  //     } catch (error) {
+  //       console.error(`${error}: Something wrong on the server side`);
+  //       return error;
+  //     }
+  //   })();
+  // }, [location.state]);
 
   //Checkbox control -- under construction
   const handleCheck = (id, e) => {
+
     const payload = tranList.filter(e => e._id == id);
+
+    console.log("checked", payload);
 
     //when it is checked, delete or edit action can be done
     if (e.target.checked) {
@@ -138,26 +124,24 @@ const TransactionList = () => {
   };
 
   //sorting method
-  const sortByCategory = () => {
-    console.log("sort by category");
-    console.log(transactionList);
-    const sortedTran = [];
-
-    // keys = Object.keys(obj);
-    // keys.sort();
-    // for (key of keys) {
-    //   console.log(`${key} : ${obj[key]}`);
-    // }
-
-    for (let i = 0; i < transactionList.allTran.length - 1; i++) {
-      if (transactionList.allTran[i].categoryName < transactionList.allTran[i + 1].categoryName) {
-        sortedTran.push(transactionList.allTran[i]);
-      } else {
-        sortedTran.push(transactionList.allTran[i + 1]);
-      }
+  const sortTransaction = (sortOrder, sortBy) => {
+    let sortedTran = [];
+    switch (sortOrder) {
+      case "alphabet":
+        sortedTran = tranList.slice().sort((a, b) => (a[`${sortBy}`].localeCompare(b[`${sortBy}`])));
+        break;
+      case "number":
+        const expense = tranList.filter(e => e.transactionType === "expense").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
+        const income = tranList.filter(e => e.transactionType === "income").sort((a, b) => (a[`${sortBy}`] - (b[`${sortBy}`])));
+        sortedTran = expense.concat(income);
+        break;
+      case "date":
+        sortedTran = tranList.slice().sort((a, b) => (new Date(b[`${sortBy}`]) - new Date(a[`${sortBy}`])));
+        break;
+      default:
+        break;
     }
-    console.log(sortedTran);
-    dispatch(getAllTransaction(sortedTran));
+    dispatch(filterTransaction(sortedTran));
   };
 
   return (
@@ -173,12 +157,17 @@ const TransactionList = () => {
                     <tr>
                       <th><MdCheckBoxOutlineBlank /></th>
                       <th
-                        className="titleCategory"
-                        onClick={sortByCategory} >
+                        className="title"
+                        onClick={() => sortTransaction("alphabet", "categoryName")} >
                         <MdOutlineCategory />
-                        Category <BsFillCaretDownFill />
+                        Category
+                        <BsSortAlphaDown className="sortIcon" />
                       </th>
-                      <th className="titleAmount"><MdAttachMoney /> <BsFillCaretDownFill /></th>
+                      <th
+                        className="titleAmount"
+                        onClick={() => sortTransaction("number", "amount")}>
+                        <MdAttachMoney />
+                        <BsSortNumericDown className="sortIcon" /></th>
                     </tr>
                   </thead>
                   <tbody className="tableBody">
@@ -217,14 +206,35 @@ const TransactionList = () => {
                     <tr>
                       <th><MdCheckBoxOutlineBlank /></th>
                       <th
-                        className="titleCategory"
-                        onClick={sortByCategory} >
-                        Category <BsFillCaretDownFill />
+                        className="title"
+                        onClick={() => sortTransaction("alphabet", "categoryName")} >
+                        Category
+                        <BsSortAlphaDown className="sortIcon" />
                       </th>
-                      <th className="titleCategory">Date <BsFillCaretDownFill /></th>
-                      <th className="titleCategory">Payment Method <BsFillCaretDownFill /></th>
-                      <th className="titleCategory">Description <BsFillCaretDownFill /></th>
-                      <th className="titleCategory">Amount <BsFillCaretDownFill /></th>
+                      <th
+                        className="title"
+                        onClick={() => sortTransaction("date", "date")}
+                      >
+                        Date
+                        <BsSortUp className="sortIcon" />
+                      </th>
+                      <th
+                        className="title"
+                        onClick={() => sortTransaction("alphabet", "paymentMethod")}>
+                        Payment Method
+                        <BsSortAlphaDown className="sortIcon" />
+                      </th>
+                      <th
+                        className="title"
+                        onClick={() => sortTransaction("alphabet", "description")}>
+                        Description
+                        <BsSortAlphaDown className="sortIcon" />
+                      </th>
+                      <th
+                        className="title"
+                        onClick={() => sortTransaction("number", "amount")}>
+                        Amount
+                        <BsSortNumericDown className="sortIcon" /></th>
                     </tr>
                   </thead>
                   <tbody className="tableBody">

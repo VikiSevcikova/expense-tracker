@@ -6,11 +6,13 @@ import moment, { utc } from "moment";
 import { selectCalender } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { calendarActions } from "./calendarSlice";
-import { getAllTransaction, getBalance } from "../transactionList/transactionListSlice";
+import { getAllTransaction, getBalance, filterTransaction } from "../transactionList/transactionListSlice";
 import axios from "axios";
+import { selectUser } from "../userProfile/userSlice";
 
 export default function Calendar() {
   const dispatch = useDispatch();
+  const { token} = useSelector(selectUser);
 
   const { startDate, endDate } = useSelector(selectCalender);
 
@@ -24,25 +26,36 @@ export default function Calendar() {
     return new Date(date);
   };
 
-  const [calendar, setCalendar] = useState([dateFromString(startDate),dateFromString(endDate)]);
+  const [calendar, setCalendar] = useState([dateFromString(startDate), dateFromString(endDate)]);
 
-  useEffect(()=>{
-    if(!calendar[1]) return;
+  useEffect(() => {
+    if (!calendar[1]) return;
     let dates = {
-        startDate: stringifyDate(new Date(moment(calendar[0]).startOf("day"))),
-        endDate: stringifyDate(new Date(moment(calendar[1]).endOf("day")))
-      };
+      startDate: stringifyDate(new Date(moment(calendar[0]).startOf("day"))),
+      endDate: stringifyDate(new Date(moment(calendar[1]).endOf("day")))
+    };
 
     dispatch(calendarActions.setDateRange(dates));
-  },[calendar])
+  }, [calendar]);
 
-  useEffect( () => {
+  useEffect(() => {
+
     const fetchDateRange = async () => {
-      console.log("fetching data");
+
+      //whenever date rage is changed all filters will be cleared
+      dispatch(filterTransaction([]));
+
       try {
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
         // Convert to ISO date format which is
         const res = await axios.get(
-          `/transaction?startdate=${startDate}&enddate=${endDate}`
+          `/transaction?startdate=${startDate}&enddate=${endDate}`,
+          config
         );
 
         if (res.status === 200) {
@@ -57,7 +70,7 @@ export default function Calendar() {
       }
     };
     fetchDateRange();
-  }, [startDate,endDate]);
+  }, [startDate, endDate]);
 
   return (
     <div className="calendar-wrapper">

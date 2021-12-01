@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addTransaction, filterTransaction } from '../transactionList/transactionListSlice';
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -14,11 +15,12 @@ import { FaTimesCircle } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
-  showAlert,
-  hideAlert
+  showAlert
 } from '../alertMessage/alertMessageSlice';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
+import { selectCalender } from "../calendar/calendarSlice";
+import { selectUser } from '../userProfile/userSlice';
 
 const EditTransaction = (props) => {
 
@@ -27,6 +29,9 @@ const EditTransaction = (props) => {
 
   //redux
   const dispatch = useDispatch();
+  const { startDate, endDate } = useSelector(selectCalender);
+  console.log(startDate, endDate);
+  const { token } = useSelector(selectUser);
 
   //private state
   const [transaction, setTransaction] = useState({
@@ -34,7 +39,7 @@ const EditTransaction = (props) => {
     date: new Date(),
     categoryId: 0, //default 0 : need to get from backend
     categoryName: "",
-    transactionType: "",
+    transactionType: "expense",
     description: "",
     currency: "CAD",
     amount: 0,
@@ -70,7 +75,7 @@ const EditTransaction = (props) => {
 
   //onChange
   const handleChange = (prop) => (e) => {
-    //get category id based on category name
+    //get category id based on category name;
     if (prop === "categoryName") {
       const targetCategory = categories.find(elem => elem.name === e.target.value);
       setTransaction(
@@ -87,11 +92,15 @@ const EditTransaction = (props) => {
 
   //onSubmit -- save
   const handleSubmit = async (e) => {
+
+    console.log("handlesubmit", transaction);
+
     e.preventDefault();
 
     const config = {
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -117,10 +126,23 @@ const EditTransaction = (props) => {
         } else {
           //close modal pop-up
           props.handleClose();
+
+          //hide edit and delete button and remove checked
+          dispatch(changeOperation({
+            editDelBtnVisible: false,
+            checkedItem: []
+          }));
+
+          //clear all filter
+          dispatch(filterTransaction([]));
+
+          dispatch(addTransaction(response.data));
+
           //go back to alltransaction page
-          navigate("/alltransaction", {
-            state: response.data
-          });
+          // navigate("/alltransaction", {
+          //   state: response.data
+          // });
+
           //show confirmation message
           {
             props.operationType === "edit" ?
@@ -143,12 +165,6 @@ const EditTransaction = (props) => {
       console.error(`${error}: Something wrong on the server side`);
       return error;
     }
-
-    //hide edit and delete button
-    dispatch(changeOperation({
-      editDelBtnVisible: false,
-      checkedItem: []
-    }));
   };
 
   return (

@@ -5,6 +5,10 @@
   width: unset;
   .modal-fullscreen {
     min-height: 100%;
+    height: 100%;
+    // @include media-breakpoint-up(lg) {
+    //   height: 100%;
+    // }
     .modal-content {
       background-color: $bgColor;
       padding: 0 1rem;

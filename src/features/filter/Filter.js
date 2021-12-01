@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useMedia from "use-media";
 import { useSelector, useDispatch } from "react-redux";
 import { enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
-import { transactionListSelector, filterByTransactionType } from '../transactionList/transactionListSlice';
+import { transactionListSelector, filterTransaction } from '../transactionList/transactionListSlice';
 import "./Filter.scss";
 import {
   Container,
@@ -29,13 +29,6 @@ const Filter = () => {
   const isXL = useMedia({ minWidth: "1200px" }); //xl
   const isXXL = useMedia({ minWidth: "1400px" }); //xxl
 
-  //const timeZoneOffSet = new Date().getTimezoneOffset() * 60000;
-  //const startOfMonth = new Date(moment().startOf("month"));
-  //const endOfDay = new Date(moment().endOf("day"));
-  //const [dateRange, setDateRange] = useState([startOfMonth, endOfDay]);
-  // const [dateRange, setDateRange] = useState([startOfMonth, endOfDay]);
-  //const [startDate, endDate] = dateRange;
-
   //Modal pop up (enter transaction)
   const [show, setShow] = useState(false);
   const [operationType, setOperationType] = useState("");
@@ -58,41 +51,13 @@ const Filter = () => {
   //method
   const filterByIncome = () => {
     const incomeTran = transactionList.allTran.filter(e => e.transactionType === "income");
-    dispatch(filterByTransactionType(incomeTran));
+    dispatch(filterTransaction(incomeTran));
   };
 
   const filterByExpense = () => {
     const expenseTran = transactionList.allTran.filter(e => e.transactionType === "expense");
-    dispatch(filterByTransactionType(expenseTran));
+    dispatch(filterTransaction(expenseTran));
   };
-
-  // const changeDateRange = (input) => {
-
-  //   setDateRange(input);
-  //   if (input[1] != null) {
-  //     const dtRange = [input[0], new Date(moment(input[1]).set({ hour: 23, minute: 59, second: 59 }))];
-  //     setDateRange(dtRange);
-  //   }
-  // };
-
-  // const filterByDate = () => {
-
-  //   //validation check - dateRange not selected
-  //   if (dateRange[0] === null || dateRange[1] === null) {
-  //     dispatch(showAlert({ message: "Please select date range", variant: "danger" }));
-  //   } else {
-  //     const start = dateRange[0] - timeZoneOffSet;
-  //     const end = dateRange[1] - timeZoneOffSet;
-
-  //     const trans = transactionList.allTran.filter(elem => new Date(start).toISOString() <= elem.date && elem.date <= new Date(end).toISOString());
-
-  //     if (trans.length === 0) {
-  //       dispatch(showAlert({ message: "No transaction found", variant: "danger" }));
-  //     } else {
-  //       dispatch(filterByTransactionType(trans));
-  //     };
-  //   }
-  // };
 
   return (
     <>
@@ -104,6 +69,7 @@ const Filter = () => {
             <Row className="filterOptions">
               <Col>
                 <Button
+                  name="income"
                   className="incomeFilter"
                   onClick={filterByIncome}
                 >
@@ -121,23 +87,7 @@ const Filter = () => {
             </Row>
 
             <Row className="dateRangeFilter">
-              {/* <DatePicker
-                portalId="root-portal"
-                className="dateFilter"
-                dateFormat="yyyy/MM/dd"
-                monthsShown={2}
-                selectsRange={true}
-                startDate={startDate}
-                endDate={endDate}
-                onChange={updatedDate => changeDateRange(updatedDate)}
-              /> */}
               <Calendar />
-              {/* <Button
-                className="searchBtn"
-                onClick={filterByDate}
-              >
-                <BsSearch className="searchIcon" />
-              </Button> */}
             </Row>
 
             <Row className="buttons">
@@ -187,23 +137,7 @@ const Filter = () => {
               >
                 Expense
               </Button>
-              {/* <DatePicker
-                portalId="root-portal"
-                className="dateFilter"
-                dateFormat="yyyy/MM/dd"
-                monthsShown={2}
-                selectsRange={true}
-                startDate={startDate}
-                endDate={endDate}
-                onChange={updatedDate => changeDateRange(updatedDate)}
-              /> */}
               <Calendar />
-              {/* <Button
-                className="searchBtn"
-                onClick={filterByDate}
-              >
-                <BsSearch className="searchIcon" />
-              </Button> */}
             </Col>
 
             <Col className="buttonsDesktop">

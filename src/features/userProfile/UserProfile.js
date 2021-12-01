@@ -5,25 +5,26 @@ import {
   Button,
   Form,
 } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { selectUser } from './userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser, updateUser } from './userSlice';
 import EditUser from "../editUser/EditUser";
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { MdEdit } from 'react-icons/md';
-import InputField from '../inputField/InputField';
 import { BsCheckCircleFill } from 'react-icons/bs';
 import * as Yup from "yup";
 import { Formik } from 'formik';
+import axios from 'axios';
+import { hideAlert, showAlert } from '../alertMessage/alertMessageSlice';
 
 const NameSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
 });
 
 const UserProfile = () => {
-
-  const { user } = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const { user, token } = useSelector(selectUser);
   const avatar = user && user.avatar ? user.avatar : "./avatar.jpg";
-
+console.log(user)
   //Modal pop up (enter transaction)
   const [show, setShow] = useState(false);
   const [userInfo, setUserInfo] = useState("");
@@ -46,11 +47,44 @@ const UserProfile = () => {
     setIsEdit(!isEdit);
   }
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values)
     if(values.name !== user.username) {
-      console.log("changed")
-    }
+      try {
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const response = await axios.post(
+          `/users/edit`,
+          {
+            username: values.name
+          },
+          config);
+        dispatch(showAlert({
+          message: response.data.message,
+          variant: "info"
+        }));
+        dispatch(updateUser({
+          username: values.name
+        }));
+      } catch (error) {
+          dispatch(
+            showAlert({
+              message: error.response && error.response.data.error
+                ? error.response.data.error
+                : "Sorry, there is an issues on the server.",
+              variant: "danger",
+            })
+          );
+          setTimeout(() => {
+            dispatch(hideAlert());
+          }, 5000);
+        }
+      }
     changeIsEdit();
   }
 
