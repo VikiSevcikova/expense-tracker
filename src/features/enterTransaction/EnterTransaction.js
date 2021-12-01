@@ -118,6 +118,7 @@ const EditTransaction = (props) => {
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
+          console.log(response)
           //close modal pop-up
           props.handleClose();
 

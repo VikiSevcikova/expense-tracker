@@ -18,6 +18,9 @@ export const userSlice = createSlice({
       state.isAuth = true;
       state.token = localStorage.getItem("ET-token");
     },
+    updateUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
     removeUser: (state) => {
       state.user = null;
       state.isAuth = false;
@@ -26,7 +29,7 @@ export const userSlice = createSlice({
   }
 });
 
-export const { setUser, removeUser, setToken } = userSlice.actions;
+export const { setUser, updateUser, removeUser, setToken } = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

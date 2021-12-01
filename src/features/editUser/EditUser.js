@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./EditUser.scss";
 import {
   Container,
@@ -14,7 +14,7 @@ import {
   showAlert,
   hideAlert
 } from '../alertMessage/alertMessageSlice';
-import { removeUser } from "../userProfile/userSlice";
+import { removeUser, updateUser, selectUser } from "../userProfile/userSlice";
 
 const EditUser = (props) => {
 
@@ -27,6 +27,8 @@ const EditUser = (props) => {
 
   //redux
   const dispatch = useDispatch();
+  const {token} = useSelector(selectUser);
+
 
   //router
   const navigate = useNavigate();
@@ -61,8 +63,6 @@ const EditUser = (props) => {
   const handleChange = (prop) => (e) => {
     setPassword({ ...password, [prop]: e.target.value });
   };
-
-  const token = localStorage.getItem("ET-token");
 
   const config = {
     headers: {
@@ -157,9 +157,11 @@ const EditUser = (props) => {
           throw response.statusText;
         } else {
           //navigate to account page
-          navigate("/account", {
-            state: response.data.avatar
-          });
+          // navigate("/account", {
+          //   state: response.data.avatar
+          // });
+          //update state
+          dispatch(updateUser(response.data))
           //close modal pop-up
           props.handleClose();
           //show message

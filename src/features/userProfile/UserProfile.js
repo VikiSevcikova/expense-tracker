@@ -32,15 +32,15 @@ const UserProfile = () => {
   const [avatar, setAvatar] = useState(setState());
 
   //when the user profile is changed, re-mount the componant to display the new pic
-  useEffect(async () => {
-    if (location.state !== null) {
-      setAvatar(location.state);
-      //update reducer (selector)
-      const token = localStorage.getItem("ET-token");
-      const { user } = await getUser(token);
-      dispatch(setUser(user));
-    }
-  }, [location.state]);
+  // useEffect(async () => {
+  //   if (location.state !== null) {
+  //     setAvatar(location.state);
+  //     //update reducer (selector)
+  //     const token = localStorage.getItem("ET-token");
+  //     const { user } = await getUser(token);
+  //     dispatch(setUser(user));
+  //   }
+  // }, [location.state]);
 
   //Modal pop up (enter transaction)
   const [show, setShow] = useState(false);
