@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../userProfile/userSlice";
+import { useDispatch } from "react-redux";
 import "./EditUser.scss";
 import {
   Container,
@@ -37,7 +36,6 @@ const EditUser = (props) => {
   const logOut = async () => {
     try {
       localStorage.removeItem("ET-token");
-      const { data } = await axios.get("/auth/logout");
       dispatch(removeUser());
       dispatch(showAlert({
         message: "Account has successfully been updated",
@@ -195,7 +193,7 @@ const EditUser = (props) => {
                       type="text"
                       placeholder="Enter new password..."
                       value={password.newPassword}
-                      onFocus={() => setPassword({ ...password, ["newPassword"]: "" })}
+                      onFocus={() => setPassword({ ...password, newPassword: "" })}
                       onChange={handleChange("newPassword")}
                     />
                   </Form.Group>
@@ -205,7 +203,7 @@ const EditUser = (props) => {
                       type="text"
                       placeholder="Confirm new password..."
                       value={password.confirmPassword}
-                      onFocus={() => setPassword({ ...password, ["confirmPassword"]: "" })}
+                      onFocus={() => setPassword({ ...password, confirmPassword: "" })}
                       onChange={handleChange("confirmPassword")}
                     />
                   </Form.Group>

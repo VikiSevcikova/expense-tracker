@@ -30,7 +30,6 @@ const DeleteConfirmation = (props) => {
   const logOut = async () => {
     try {
       localStorage.removeItem("ET-token");
-      const { data } = await axios.get("/auth/logout");
       dispatch(removeUser());
       dispatch(showAlert({
         message: "Account has successfully been deleted",
@@ -89,7 +88,7 @@ const DeleteConfirmation = (props) => {
         //hide edit and delete button on the filter
         dispatch(changeOperation({
           editDelBtnVisible: false,
-          checkedItem: []
+          checkedItem: {}
         }));
         //show delete confirmation message
         dispatch(

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "./Calendar.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import moment, { utc } from "moment";
+import moment from "moment";
 import { selectCalender } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { calendarActions } from "./calendarSlice";
