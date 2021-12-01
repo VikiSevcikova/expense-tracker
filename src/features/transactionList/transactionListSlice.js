@@ -28,6 +28,9 @@ export const transactionListSlice = createSlice({
     filterTransaction: (state, action) => {
       return { ...state, filteredTran: action.payload };
     },
+    addTransaction: (state, action) => {
+      return { ...state, allTran: [action.payload, ...state.allTran] };
+    },
     getBalance(state, action) {
       let income = getTransactionTotal(action.payload, "income");
       let expense = getTransactionTotal(action.payload, "expense");
@@ -45,6 +48,6 @@ export const transactionListSlice = createSlice({
 
 //export reducer, actions,and state(selector)
 export default transactionListSlice.reducer;
-export const { getAllTransaction, filterTransaction, getBalance } = transactionListSlice.actions;
+export const { getAllTransaction, checkTransaction, filterTransaction, addTransaction, getBalance } = transactionListSlice.actions;
 export const transactionListSelector = (state) => state.transactionList;
 

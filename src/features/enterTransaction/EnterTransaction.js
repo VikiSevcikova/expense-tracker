@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { filterTransaction } from '../transactionList/transactionListSlice';
+import { addTransaction, filterTransaction } from '../transactionList/transactionListSlice';
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -20,6 +20,7 @@ import {
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
 import { selectCalender } from "../calendar/calendarSlice";
+import { selectUser } from '../userProfile/userSlice';
 
 const EditTransaction = (props) => {
 
@@ -29,6 +30,8 @@ const EditTransaction = (props) => {
   //redux
   const dispatch = useDispatch();
   const { startDate, endDate } = useSelector(selectCalender);
+  console.log(startDate, endDate);
+  const { token } = useSelector(selectUser);
 
   //private state
   const [transaction, setTransaction] = useState({
@@ -94,7 +97,8 @@ const EditTransaction = (props) => {
 
     const config = {
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -130,10 +134,12 @@ const EditTransaction = (props) => {
           //clear all filter
           dispatch(filterTransaction([]));
 
+          dispatch(addTransaction(response.data));
+
           //go back to alltransaction page
-          navigate("/alltransaction", {
-            state: response.data
-          });
+          // navigate("/alltransaction", {
+          //   state: response.data
+          // });
 
           //show confirmation message
           {

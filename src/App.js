@@ -15,7 +15,7 @@ import { hideAlert, showAlert } from "./features/alertMessage/alertMessageSlice"
 
 const App = () => {
   const dispatch = useDispatch();
-  const {token} = useSelector(selectUser);
+  const { token } = useSelector(selectUser);
 
   useEffect(() => {
     const loadUser = async () => {

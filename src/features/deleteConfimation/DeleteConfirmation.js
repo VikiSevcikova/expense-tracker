@@ -30,7 +30,7 @@ const DeleteConfirmation = (props) => {
       localStorage.removeItem("ET-token");
       dispatch(removeUser());
       dispatch(showAlert({
-        message: "Account has successfully been deleted",
+        message: "You were logged out.",
         variant: "info",
       }));
       navigate("/login");

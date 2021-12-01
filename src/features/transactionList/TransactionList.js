@@ -49,26 +49,26 @@ const TransactionList = () => {
 
   //when the component is mounted get all transaction data from backend
   //This is for the case where a user navigates to this page from another page
-  useEffect(() => {
+  // useEffect(() => {
 
-    (async () => {
-      try {
-        // Convert to ISO date format which is
-        const res = await axios.get(
-          `/transaction?startdate=${startDate}&enddate=${endDate}`
-        );
-        if (res.status === 200) {
-          //for transaction page
-          dispatch(getAllTransaction(res.data));
-          //for dashboard page
-          dispatch(getBalance(res.data)); //pie chart
-        }
-      } catch (error) {
-        console.error(`${error}: Something wrong on the server side`);
-        return error;
-      }
-    })();
-  }, [location.state]);
+  //   (async () => {
+  //     try {
+  //       // Convert to ISO date format which is
+  //       const res = await axios.get(
+  //         `/transaction?startdate=${startDate}&enddate=${endDate}`
+  //       );
+  //       if (res.status === 200) {
+  //         //for transaction page
+  //         dispatch(getAllTransaction(res.data));
+  //         //for dashboard page
+  //         dispatch(getBalance(res.data)); //pie chart
+  //       }
+  //     } catch (error) {
+  //       console.error(`${error}: Something wrong on the server side`);
+  //       return error;
+  //     }
+  //   })();
+  // }, [location.state]);
 
   //Checkbox control -- under construction
   const handleCheck = (_id, e) => {

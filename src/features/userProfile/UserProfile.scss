@@ -36,11 +36,22 @@
       grid-column: 2;
       grid-row: 1;
       position: absolute;
-      top: 20%;
+      top: 15%;
       left: 50%;
       transform: translateX(-50%);
     }
   }
+
+  .input-name{
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 2rem;
+    background-color: transparent;
+    border-bottom: 1px white solid;
+    width: 90%;
+  }
+
   .avatar {
     border-radius: 50% !important;
     width: 200px;
