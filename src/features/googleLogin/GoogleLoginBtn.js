@@ -49,8 +49,6 @@ const GoogleLoginBtn = () => {
           }, 5000);
     }
 
-    console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID)
-
     return (
         <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
