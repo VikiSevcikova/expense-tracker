@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useMedia from "use-media";
 import { useSelector, useDispatch } from "react-redux";
 import { enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
@@ -116,7 +116,7 @@ const Filter = () => {
               <DeleteConfirmation
                 show={delConf}
                 delete={"transaction"}
-                checkedItemId={operation.checkedItem[0]._id}
+                checkedItemId={operation.checkedItem._id}
                 closeDelConf={closeDelConf}
                 handleClose={handleClose} />}
           </>
@@ -174,7 +174,7 @@ const Filter = () => {
               <DeleteConfirmation
                 show={delConf}
                 delete={"transaction"}
-                checkedItemId={operation.checkedItem[0]._id}
+                checkedItemId={operation.checkedItem._id}
                 closeDelConf={closeDelConf}
                 handleClose={handleClose} />}
           </>

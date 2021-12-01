@@ -5,11 +5,11 @@ export const enterTransactionSlice = createSlice({
   name: 'operation',
   initialState: {
     editDelBtnVisible: false,
-    checkedItem: []
+    checkedItem: {}
   },
   reducers: {
     changeOperation: (state, action) => {
-      return action.payload
+      return action.payload;
     },
   }
 });

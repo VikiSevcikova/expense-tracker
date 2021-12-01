@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-function getTransactionTotal(array, type){
+function getTransactionTotal(array, type) {
   let total = 0;
   array.map(transaction => {
-      if(transaction.transactionType === type){
-          total += transaction.amount;
-      }
+    if (transaction.transactionType === type) {
+      total += transaction.amount;
+    }
   });
   return total;
 }
@@ -25,9 +25,6 @@ export const transactionListSlice = createSlice({
     getAllTransaction: (state, action) => {
       return { ...state, allTran: action.payload };
     },
-    checkTransaction: (state, action) => {
-      state.allTran.map((elem, index) => elem._id == action.payload.id ? state.allTran.splice(index, 1, action.payload) : elem);
-    },
     filterTransaction: (state, action) => {
       return { ...state, filteredTran: action.payload };
     },
@@ -41,13 +38,13 @@ export const transactionListSlice = createSlice({
           expense: expense,
           total: income - expense
         }
-      }
+      };
     }
   }
 });
 
 //export reducer, actions,and state(selector)
 export default transactionListSlice.reducer;
-export const { getAllTransaction, checkTransaction, filterTransaction, getBalance } = transactionListSlice.actions;
+export const { getAllTransaction, filterTransaction, getBalance } = transactionListSlice.actions;
 export const transactionListSelector = (state) => state.transactionList;
 
