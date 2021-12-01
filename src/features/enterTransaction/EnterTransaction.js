@@ -58,17 +58,17 @@ const EditTransaction = (props) => {
   useEffect(() => {
     if (props.operationType === "edit") {
       setTransaction({
-        id: props.checkedItem[0]._id,
-        date: props.checkedItem[0].date.substr(0, 10).replace(/-/g, "/"),
-        categoryId: props.checkedItem[0].categoryId,
-        categoryName: props.checkedItem[0].categoryName,
-        transactionType: props.checkedItem[0].transactionType,
-        description: props.checkedItem[0].description,
-        currency: props.checkedItem[0].currency,
-        amount: props.checkedItem[0].amount,
-        paymentMethod: props.checkedItem[0].paymentMethod,
-        isDeleted: props.checkedItem[0].isDeleted,
-        isEditing: props.checkedItem[0].isEditing,
+        _id: props.checkedItem._id,
+        date: props.checkedItem.date.substr(0, 10).replace(/-/g, "/"),
+        categoryId: props.checkedItem.categoryId,
+        categoryName: props.checkedItem.categoryName,
+        transactionType: props.checkedItem.transactionType,
+        description: props.checkedItem.description,
+        currency: props.checkedItem.currency,
+        amount: props.checkedItem.amount,
+        paymentMethod: props.checkedItem.paymentMethod,
+        isDeleted: props.checkedItem.isDeleted,
+        isEditing: props.checkedItem.isEditing,
       });
     }
   }, [props.operationType]);
@@ -93,8 +93,6 @@ const EditTransaction = (props) => {
   //onSubmit -- save
   const handleSubmit = async (e) => {
 
-    console.log("handlesubmit", transaction);
-
     e.preventDefault();
 
     const config = {
@@ -117,7 +115,7 @@ const EditTransaction = (props) => {
         {
           props.operationType === "edit" ?
             //send data to backend - edit tran
-            response = await axios.post(`/alltransaction/update/${props.checkedItem[0]._id}`, transaction, config) :
+            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, config) :
             //send data to backend - add new
             response = await axios.post("/alltransaction/add", transaction, config);
         }
@@ -130,7 +128,7 @@ const EditTransaction = (props) => {
           //hide edit and delete button and remove checked
           dispatch(changeOperation({
             editDelBtnVisible: false,
-            checkedItem: []
+            checkedItem: {}
           }));
 
           //clear all filter

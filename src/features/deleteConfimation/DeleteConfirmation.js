@@ -18,8 +18,6 @@ import { removeUser } from "../userProfile/userSlice";
 
 const DeleteConfirmation = (props) => {
 
-  console.log(props);
-
   //router
   const navigate = useNavigate();
 
@@ -30,10 +28,9 @@ const DeleteConfirmation = (props) => {
   const logOut = async () => {
     try {
       localStorage.removeItem("ET-token");
-      const { data } = await axios.get("/auth/logout");
       dispatch(removeUser());
       dispatch(showAlert({
-        message: data.message,
+        message: "You were logged out.",
         variant: "info",
       }));
       navigate("/login");
@@ -89,7 +86,7 @@ const DeleteConfirmation = (props) => {
         //hide edit and delete button on the filter
         dispatch(changeOperation({
           editDelBtnVisible: false,
-          checkedItem: []
+          checkedItem: {}
         }));
         //show delete confirmation message
         dispatch(
@@ -107,7 +104,6 @@ const DeleteConfirmation = (props) => {
           if (response.statusText !== "OK") {
             throw response.statusText;
           } else {
-            console.log(response);
             //close modal pop-up
             props.closeDelConf();
             //logout

@@ -1,30 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./UserProfile.scss";
 import {
   Card,
   Button,
   Form,
 } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUser, updateUser } from './userSlice';
-import EditUser from "../editUser/EditUser";
-import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { MdEdit } from 'react-icons/md';
 import { BsCheckCircleFill } from 'react-icons/bs';
 import * as Yup from "yup";
 import { Formik } from 'formik';
 import axios from 'axios';
 import { hideAlert, showAlert } from '../alertMessage/alertMessageSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { selectUser, setUser, updateUser } from './userSlice';
+import { getUser } from "../../utils/utils";
+import EditUser from "../editUser/EditUser";
+import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
+import { Image } from "cloudinary-react";
 
 const NameSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
 });
 
 const UserProfile = () => {
-  const dispatch = useDispatch();
+  //redux
   const { user, token } = useSelector(selectUser);
-  const avatar = user && user.avatar ? user.avatar : "./avatar.jpg";
-console.log(user)
+  const dispatch = useDispatch();
+
+  //router-dom
+  const location = useLocation();
+
+  //private state
+  const setState = () => {
+    if (user && user.avatar) {
+      return user.avatar;
+    } else {
+      return "http://res.cloudinary.com/yukim/image/upload/v1638336063/cgqrfyythk5eqrpoiakw.jpg";
+    }
+  };
+  const [avatar, setAvatar] = useState(setState());
+
+  //when the user profile is changed, re-mount the componant to display the new pic
+  useEffect(async () => {
+    if (location.state !== null) {
+      setAvatar(location.state);
+      //update reducer (selector)
+      const { user } = await getUser(token);
+      dispatch(setUser(user));
+    }
+  }, [location.state]);
+
   //Modal pop up (enter transaction)
   const [show, setShow] = useState(false);
   const [userInfo, setUserInfo] = useState("");
@@ -91,10 +117,9 @@ console.log(user)
   return (
     <>
       <Card fluid className="userProfileCard">
-
-          <Card.Title className="d-flex justify-content-center mb-3">
-        {!isEdit ? 
-            
+  
+        <Card.Title className="d-flex justify-content-center mb-3">
+          {!isEdit ? 
             <>
             {user.username} 
             <MdEdit className="ms-2" onClick={changeIsEdit}/> 
@@ -122,9 +147,13 @@ console.log(user)
           )}
           </Formik>
         }
-         </Card.Title>
+        </Card.Title>
 
-        <Card.Img className="avatar" src={avatar} />
+        {/* <Card.Img className="avatar" src={avatar} /> */}
+        <Image
+          className="avatar"
+          cloudName="yukim"
+          publicId={avatar} />
         <Card.Body>
           <Button
             onClick={() => changeUserAccount("profilePic")}
