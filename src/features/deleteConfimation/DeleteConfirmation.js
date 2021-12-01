@@ -18,8 +18,6 @@ import { removeUser } from "../userProfile/userSlice";
 
 const DeleteConfirmation = (props) => {
 
-  console.log(props);
-
   //router
   const navigate = useNavigate();
 
@@ -106,7 +104,6 @@ const DeleteConfirmation = (props) => {
           if (response.statusText !== "OK") {
             throw response.statusText;
           } else {
-            console.log(response);
             //close modal pop-up
             props.closeDelConf();
             //logout

@@ -29,7 +29,6 @@ const EditTransaction = (props) => {
   //redux
   const dispatch = useDispatch();
   const { startDate, endDate } = useSelector(selectCalender);
-  console.log(startDate, endDate);
 
   //private state
   const [transaction, setTransaction] = useState({

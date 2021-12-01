@@ -100,9 +100,6 @@ const EditUser = (props) => {
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-          //show message
-          console.log("password edited", response.data);
-
           //close modal pop-up
           props.handleClose();
           //logout
@@ -112,6 +109,26 @@ const EditUser = (props) => {
         console.error(`${error}: Something wrong on the server side`);
         return error;
       }
+    }
+  };
+
+  //Upload image to Cloudinary
+  const uploadImage = async () => {
+    //upload image to cloudinary
+    const formData = new FormData();
+    formData.append("file", profPic);
+    formData.append("upload_preset", "su4ijezp");
+
+    try {
+      const res = await axios.post("https://api.cloudinary.com/v1_1/yukim/image/upload", formData);
+      if (res.statusText !== "OK") {
+        throw res.statusText;
+      } else {
+        return res.data;
+      }
+    } catch (error) {
+      console.error(`${error}: Something wrong on the server side`);
+      return error;
     }
   };
 
@@ -125,22 +142,31 @@ const EditUser = (props) => {
       }));
       return;
     } else {
+      //upload image to cloudinary
+      const imageData = await uploadImage();
+
       //send data to backend
       try {
         const response = await axios.post(
           `/users/edit`,
           {
-            avatar: profPic
+            avatar: imageData.secure_url
           },
           config);
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-          console.log("prof pic edited", response.data);
+          //navigate to account page
+          navigate("/account", {
+            state: response.data.avatar
+          });
           //close modal pop-up
           props.handleClose();
-          //logout
-          logOut();
+          //show message
+          dispatch(showAlert({
+            message: "Profile Picture has successfully been updated",
+            variant: "info",
+          }));
         }
       } catch (error) {
         console.error(`${error}: Something wrong on the server side`);
@@ -181,8 +207,8 @@ const EditUser = (props) => {
                     <Form.Label>Select Profile Picture *</Form.Label>
                     <Form.Control
                       type="file"
-                      value={profPic}
-                      onChange={e => setProfPic(e.target.value)}
+                      //value={profPic}
+                      onChange={e => setProfPic(e.target.files[0])}
                     />
                   </Form.Group>
                 </> :
