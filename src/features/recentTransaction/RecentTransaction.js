@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
 import { selectCategoryIcon } from "../categoryIcon/categoryIconSlice";
 import CategoryIcon from "../categoryIcon/CategoryIcon";
+import {selectUser} from "../userProfile/userSlice";
+import {rateConverter} from "../../utils/CurrencyRates";
 
 export default function RecentTransaction() {
 
@@ -12,9 +14,9 @@ export default function RecentTransaction() {
 
   //redux
   const { allTran } = useSelector(transactionListSelector);
-  const {categories} = useSelector(selectCategoryIcon);
-  console.log(categories)
-
+  const { currency } = useSelector(selectUser);
+  const rate = currency.rate
+  
   useEffect(() => {
     //get the last 5 transactions
     const recent = allTran.slice(Math.max(allTran.length - 5,0));
@@ -41,8 +43,8 @@ export default function RecentTransaction() {
               </Col>
               <Col xs={3}>
                 <p className="amount">
-                  {transaction.transactionType === "expense" ? "-" : null}
-                  {transaction.amount}
+                  {transaction.transactionType === "income" ? "+ " : null}
+                  {rateConverter(transaction.amount,rate)}
                 </p>
               </Col>
               <hr />

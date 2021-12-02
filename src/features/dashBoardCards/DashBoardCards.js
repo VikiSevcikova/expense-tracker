@@ -25,10 +25,10 @@ export default function DashBoardCards() {
               <Greeting />
             </Row>
           </Container>
-          <Container fluid>
-            <Row className="align-items-center">
-              <Col xs={9} className="p-0">
-                <Calendar className="shadow no-border"/>
+          <Container fluid className="box_wrapper--top">
+            <Row>
+              <Col xs={9}>
+                <Calendar />
               </Col>
               <Col xs={3}>
                 <Currency />
@@ -50,7 +50,6 @@ export default function DashBoardCards() {
         </>
       ) : (
         <>
-          <p>Big then mobile</p>
           <Container fluid>
             <Row>
               <Col xl={4}>
@@ -58,7 +57,6 @@ export default function DashBoardCards() {
                   <Greeting />
                 </Container>
               </Col>
-              <Col xl={8}>
               {/* <Container fluid>
                 <Row className="align-items-center">
                   <Col xs={9} className="p-0">
@@ -69,6 +67,7 @@ export default function DashBoardCards() {
                   </Col>
                 </Row>
               </Container> */}
+              <Col xl={8} className="top">
                 <Container fluid className="box_wrapper">
                   <Row>
                     <Col xs={9}>

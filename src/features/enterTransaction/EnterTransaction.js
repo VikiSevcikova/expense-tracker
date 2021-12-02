@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { addTransaction, filterTransaction } from '../transactionList/transactionListSlice';
+import { addTransaction, filterTransaction, updateTransaction } from '../transactionList/transactionListSlice';
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -19,6 +19,7 @@ import {
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { selectUser } from '../userProfile/userSlice';
 import { selectCategoryIcon } from '../categoryIcon/categoryIconSlice';
+import { getHeaderConfig } from '../../utils/utils';
 
 const EditTransaction = (props) => {
 
@@ -88,13 +89,6 @@ const EditTransaction = (props) => {
 
     e.preventDefault();
 
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
@@ -108,13 +102,14 @@ const EditTransaction = (props) => {
         {
           props.operationType === "edit" ?
             //send data to backend - edit tran
-            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, config) :
+            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction,  getHeaderConfig(token)) :
             //send data to backend - add new
-            response = await axios.post("/alltransaction/add", transaction, config);
+            response = await axios.post("/alltransaction/add", transaction,  getHeaderConfig(token));
         }
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
+
           //close modal pop-up
           props.handleClose();
 
@@ -127,7 +122,12 @@ const EditTransaction = (props) => {
           //clear all filter
           dispatch(filterTransaction([]));
 
-          dispatch(addTransaction(response.data));
+          //update allTran in reducer
+          {
+            props.operationType === "edit" ?
+              dispatch(updateTransaction(response.data)) :
+              dispatch(addTransaction(response.data));
+          }
 
           //show confirmation message
           {

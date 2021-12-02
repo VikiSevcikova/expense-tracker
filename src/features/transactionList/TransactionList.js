@@ -25,9 +25,6 @@ const TransactionList = () => {
   const isXL = useMedia({ minWidth: "1200px" }); //xl
   const isXXL = useMedia({ minWidth: "1400px" }); //xxl
 
-  //router-dom
-  const location = useLocation();
-
   //redux
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
@@ -64,7 +61,7 @@ const TransactionList = () => {
           paymentMethod: payload[0].paymentMethod,
           isDeleted: payload[0].isDeleted,
           isEditing: true
-        } //obj
+        } 
       }));
     }
     else {
@@ -83,7 +80,7 @@ const TransactionList = () => {
           paymentMethod: payload[0].paymentMethod,
           isDeleted: payload[0].isDeleted,
           isEditing: false
-        } //obj
+        } 
       }));
     }
   };
@@ -112,7 +109,7 @@ const TransactionList = () => {
   return (
     <>
       <Container fluid className="transactionListContainer">
-        {!tranList.length == 0 ?
+        {!transactionList.currentPageTran.length == 0 ?
           (<>
             {!(isLG || isXL || isXXL) ? (
               <>
@@ -136,9 +133,9 @@ const TransactionList = () => {
                     </tr>
                   </thead>
                   <tbody className="tableBody">
-                    {tranList.map((elem, index) => (
+                    {transactionList.currentPageTran.map((elem, index) => (
                       <>
-                        <tr key={elem._id}>
+                        <tr key={index}>
                           <td><Form.Check
                             checked={
                               operation.editDelBtnVisible === true &&
@@ -162,7 +159,7 @@ const TransactionList = () => {
                       </>
                     ))}
                     <tr className="paging">
-                      <td colSpan="6"><Paging /></td>
+                      <td colSpan="6"><Paging tranList={tranList} /></td>
                     </tr>
                   </tbody>
                 </Table>
@@ -207,7 +204,7 @@ const TransactionList = () => {
                     </tr>
                   </thead>
                   <tbody className="tableBody">
-                    {tranList.map((elem, index) => (
+                    {transactionList.currentPageTran.map((elem, index) => (
                       <>
                         <tr key={elem._id}>
                           <td><Form.Check
@@ -225,19 +222,23 @@ const TransactionList = () => {
                           {elem.transactionType === "expense" ?
                             <td className="negativeAmount">-${elem.amount}</td> :
                             <td>${elem.amount}</td>}
-
                         </tr>
                       </>
                     ))}
                     <tr className="paging">
-                      <td colSpan="6"><Paging /></td>
+                      <td colSpan="6"><Paging tranList={tranList} /></td>
                     </tr>
                   </tbody>
                 </Table>
               </>
             )}
-          </>) : (<h2>No Transaction Added yet</h2>)}
-
+          </>) : (
+            <>
+              <Container className="noTranContainer">
+                <h2>No Transaction Added yet</h2>
+                <Paging tranList={tranList} />
+              </Container>
+            </>)}
       </Container>
     </>
   );
