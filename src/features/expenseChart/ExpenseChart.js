@@ -3,18 +3,22 @@ import { useSelector } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 import useMedia from "use-media";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
+import { selectUser } from "../userProfile/userSlice";
+import { rateConverter } from "../../utils/CurrencyRates";
 
 export default function ExpenseChart() {
   const mobile = useMedia({ maxWidth: 767 });
   const medium = useMedia({ maxWidth: 878 });
   const { allTran } = useSelector(transactionListSelector);
+  const { currency } = useSelector(selectUser);
+  const rate = currency.rate;
 
   const dataList = [
     { name: "Food & Beverage", trans: [] },
     { name: "Shopping", trans: [] },
     { name: "Grocery", trans: [] },
     { name: "Utilities", trans: [] },
-    { name: "Transport & automobiles", trans: [] },
+    { name: "Transport & Automobiles", trans: [] },
     { name: "Insurance", trans: [] },
     { name: "Medical", trans: [] },
     { name: "Travel", trans: [] },
@@ -48,16 +52,16 @@ export default function ExpenseChart() {
     return label.name;
   });
 
-  // Get list catagory amount array
-  const catagoryAmount = dataCatagory.map((label) => {
+  const catagoryAmount =  dataCatagory.map((label) => {
     const trans = label.trans.map((tran) => {
       return tran.amount;
     });
     const sumTrans = trans.reduce((a, b) => {
       return a + b;
     });
-    return sumTrans;
-  });
+    // exchange rates
+    return rateConverter(sumTrans, rate);
+  })
 
   const noData = {
     labels: ["no data"],
@@ -97,6 +101,7 @@ export default function ExpenseChart() {
           "#f2f1c5",
         ],
         hoverOffset: 4,
+        borderWidth: 0,
       },
     ],
   };

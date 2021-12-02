@@ -1,17 +1,4 @@
-const currencyRates = [
-  {
-    name: "CAD",
-    rate: 1,
-  },
-  {
-    name: "USD",
-    rate: 0.79,
-  },
-  {
-    name: "JPY",
-    rate: 91.18,
-  },
-];
+const currencyRates = ["CAD", "USD", "JPY", "EUR", "HKD"];
 
 export const rateConverter = (amount, rate) => {
   return Math.round(amount * rate * 100) / 100;

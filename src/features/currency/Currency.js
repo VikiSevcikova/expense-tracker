@@ -1,17 +1,28 @@
-import React, { useEffect } from "react";
-import {Dropdown, DropdownButton } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrency, selectUser } from "../userProfile/userSlice";
+import { setCurrency, setRate, selectUser } from "../userProfile/userSlice";
 import currencyRates from "../../utils/CurrencyRates";
 import "./Currency.scss";
+
+import { Convert } from "easy-currencies";
 
 export default function Currency() {
   const dispatch = useDispatch();
   const { currency } = useSelector(selectUser);
 
   useEffect(() => {
-    console.log(currency);
-  }, [currency]);
+    const updateRates = async () => {
+      try {
+        const base = await Convert().from("CAD").fetch();
+        const rate = await base.amount(1).to(currency.name);
+        dispatch(setRate(rate));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    updateRates();
+  }, [currency.name]);
 
   const currencyOnChange = (e) => {
     console.log(e);
@@ -20,19 +31,17 @@ export default function Currency() {
 
   return (
     <div className="currencyWrap">
-      <DropdownButton id="dropdown-item-button"title={currency.name}>
+      <DropdownButton id="dropdown-item-button" title={currency.name}>
         {currencyRates.map((currency, index) => {
           return (
-            <>
-              <Dropdown.Item
-                onClick={(e) => currencyOnChange(e.target.value)}
-                value={currency.name}
-                as="button"
-                key={index}
-              >
-                {currency.name}
-              </Dropdown.Item>
-            </>
+            <Dropdown.Item
+              key={index}
+              onClick={(e) => currencyOnChange(e.target.value)}
+              value={currency}
+              as="button"
+            >
+              {currency}
+            </Dropdown.Item>
           );
         })}
       </DropdownButton>

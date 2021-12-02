@@ -50,7 +50,6 @@ export default function DashBoardCards() {
         </>
       ) : (
         <>
-          <p>Big then mobile</p>
           <Container fluid>
             <Row>
               <Col xl={4}>
