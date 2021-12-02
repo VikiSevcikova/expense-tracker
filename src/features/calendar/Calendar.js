@@ -12,7 +12,7 @@ import { selectUser } from "../userProfile/userSlice";
 import { dateFromString, getHeaderConfig, stringifyDate } from "../../utils/utils";
 import { showAlert } from "../alertMessage/alertMessageSlice";
 
-export default function Calendar() {
+export default function Calendar({className}) {
   //redux
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
@@ -63,7 +63,7 @@ export default function Calendar() {
       <DatePicker
         portalId="root-portal"
         popperClassName="picker-popper"
-        className="dateFilter"
+        className={`dateFilter ${className}`}
         dateFormat="yyyy/MM/dd"
         monthsShown={2}
         selected={calendar[0]}
