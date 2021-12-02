@@ -12,10 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./utils/utils";
 import { removeUser, selectUser, setUser } from "./features/userProfile/userSlice";
 import { hideAlert, showAlert } from "./features/alertMessage/alertMessageSlice";
+import { getAll } from "./features/categoryIcon/categoryIconSlice";
 
 const App = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector(selectUser);
+  const { user, token } = useSelector(selectUser);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -23,6 +24,7 @@ const App = () => {
         if (token) {
           const { user } = await getUser(token);
           dispatch(setUser(user));
+          dispatch(getAll(token));
         }
       }catch(error){
         dispatch(removeUser());

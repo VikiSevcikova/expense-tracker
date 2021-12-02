@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./RecentTransaction.scss";
 import { Row, Col } from "react-bootstrap";
-import CategoriesIcon from "../../utils/CategoriesIcon";
 import { useSelector } from "react-redux";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
+import { selectCategoryIcon } from "../categoryIcon/categoryIconSlice";
+import CategoryIcon from "../categoryIcon/CategoryIcon";
 import {selectUser} from "../userProfile/userSlice";
 import {rateConverter} from "../../utils/CurrencyRates";
 
@@ -34,7 +35,7 @@ export default function RecentTransaction() {
           return (
             <Row key={index}>
               <Col xs={2}>
-                <CategoriesIcon size={20} id={transaction.categoryId} />
+                <CategoryIcon size={20} id={transaction.categoryId} type={transaction.transactionType} />
               </Col>
               <Col xs={3}>{transaction.date.substring(2, 10)}</Col>
               <Col xs={4}>
