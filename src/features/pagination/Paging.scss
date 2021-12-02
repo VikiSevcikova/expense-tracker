@@ -9,6 +9,9 @@
         background-color: transparent;
         color: $txtColor1;
         border: none;
+        &:hover {
+          color: $accentColor1;
+        }
       }
     }
   }
