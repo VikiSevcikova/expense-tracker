@@ -12,9 +12,9 @@ import {
 import { FaTimesCircle } from "react-icons/fa";
 import {
   showAlert,
-  hideAlert
 } from '../alertMessage/alertMessageSlice';
 import { removeUser, updateUser, selectUser } from "../userProfile/userSlice";
+import { getHeaderConfig } from '../../utils/utils';
 
 const EditUser = (props) => {
 
@@ -34,40 +34,18 @@ const EditUser = (props) => {
 
   //method
   //log out
-  const logOut = async () => {
-    try {
-      localStorage.removeItem("ET-token");
-      dispatch(removeUser());
-      dispatch(showAlert({
-        message: "Account has successfully been updated",
-        variant: "info",
-      }));
-      navigate("/login");
-    } catch (error) {
-      dispatch(
-        showAlert({
-          message: error.response.data.error
-            ? error.response.data.error
-            : "Sorry, there is an issues on the server.",
-          variant: "danger",
-        })
-      );
-      setTimeout(() => {
-        dispatch(hideAlert());
-      }, 5000);
-    }
-  };
+  const logOut = () => {
+    dispatch(removeUser());
+    dispatch(showAlert({
+      message: "Account has successfully been updated",
+      variant: "info",
+    }));
+    navigate("/login");
+} ;
 
   //onChange method
   const handleChange = (prop) => (e) => {
     setPassword({ ...password, [prop]: e.target.value });
-  };
-
-  const config = {
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
   };
 
   //Change password
@@ -95,7 +73,7 @@ const EditUser = (props) => {
           {
             password: password.newPassword
           },
-          config);
+          getHeaderConfig(token));
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
@@ -150,7 +128,7 @@ const EditUser = (props) => {
           {
             avatar: imageData.secure_url
           },
-          config);
+          getHeaderConfig(token));
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {

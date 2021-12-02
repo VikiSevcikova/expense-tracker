@@ -12,8 +12,8 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import { hideAlert, showAlert } from '../alertMessage/alertMessageSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { selectUser, updateUser } from './userSlice';
+import { getHeaderConfig, getUser } from "../../utils/utils";
 import EditUser from "../editUser/EditUser";
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { Image } from "cloudinary-react";
@@ -59,19 +59,12 @@ const UserProfile = () => {
     console.log(values);
     if (values.name !== user.username) {
       try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
         const response = await axios.post(
           `/users/edit`,
           {
             username: values.name
           },
-          config);
+          getHeaderConfig(token));
         dispatch(showAlert({
           message: response.data.message,
           variant: "info"
