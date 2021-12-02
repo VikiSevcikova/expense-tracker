@@ -25,7 +25,6 @@ export default function Currency() {
   }, [currency.name]);
 
   const currencyOnChange = (e) => {
-    console.log(e);
     dispatch(setCurrency(e));
   };
 
@@ -39,8 +38,7 @@ export default function Currency() {
               onClick={(e) => currencyOnChange(e.target.value)}
               value={currency.name}
               as="button"
-            >
-              {currency.symbol}{currency.name}
+            >{currency.name}
             </Dropdown.Item>
           );
         })}

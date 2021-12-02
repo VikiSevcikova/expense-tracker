@@ -5,7 +5,6 @@ import useMedia from "use-media";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
 import { selectUser } from "../userProfile/userSlice";
 import { rateConverter } from "../../utils/CurrencyLabel";
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 export default function ExpenseChart() {
   const mobile = useMedia({ maxWidth: 767 });
