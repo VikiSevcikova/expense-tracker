@@ -8,11 +8,14 @@ import {selectUser} from "../userProfile/userSlice";
 import {rateConverter} from "../../utils/CurrencyRates";
 
 export default function RecentTransaction() {
+
+  const [recentTransaction, setRecentTransaction] = useState([]);
+
+  //redux
   const { allTran } = useSelector(transactionListSelector);
   const { currency } = useSelector(selectUser);
   const rate = currency.rate
-  const [recentTransaction, setRecentTransaction] = useState([]);
-
+  
   useEffect(() => {
     //get the last 5 transactions
     const recent = allTran.slice(Math.max(allTran.length - 5,0));

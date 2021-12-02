@@ -9,7 +9,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../userProfile/userSlice";
 import { getUser } from "../../utils/utils";
-import { hideAlert, showAlert } from "../alertMessage/alertMessageSlice";
+import { showAlert } from "../alertMessage/alertMessageSlice";
 import GoogleLoginBtn from "../googleLogin/GoogleLoginBtn";
 
 const LoginSchema = Yup.object().shape({
@@ -18,7 +18,9 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
+  //router
   const navigate = useNavigate();
+  //redux
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
@@ -28,7 +30,6 @@ const LoginForm = () => {
         password: values.password,
       };
       const { data } = await axios.post("/auth/login", formData);
-      localStorage.setItem("ET-token", data.token)
       dispatch(setToken(data.token));
   
       const { user } = await getUser(data.token);
@@ -40,16 +41,12 @@ const LoginForm = () => {
         showAlert({
           message: error.response.data.error
             ? error.response.data.error
-            : "Sorry, there is an issues on the server.",
+            : "Sorry, something went wrong on the server side",
           variant: "danger",
         })
       );
-      setTimeout(() => {
-        dispatch(hideAlert());
-      }, 5000);
     }
   };
-
 
   return (
     <>

@@ -8,20 +8,22 @@ import { AiOutlineTransaction } from "react-icons/ai";
 import { MdLogout } from "react-icons/md";
 import { BiMenu } from "react-icons/bi";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { hideAlert, showAlert } from "../alertMessage/alertMessageSlice";
-import { removeUser } from "../userProfile/userSlice";
+import { showAlert } from "../alertMessage/alertMessageSlice";
+import { removeUser, selectUser } from "../userProfile/userSlice";
 
 export default function Navbar() {
-  const dispatch = useDispatch();
+  //router
   const navigate = useNavigate();
+  //redux
+  const dispatch = useDispatch();
+  const { user } = useSelector(selectUser);
 
   const [menuOnClick, setMenuOnClick] = useState(false);
 
   const handleLogout = async () => {
     try{
-      localStorage.removeItem("ET-token");
       const { data } = await axios.get("/auth/logout");
       dispatch(removeUser());
       dispatch(showAlert({
@@ -34,13 +36,10 @@ export default function Navbar() {
         showAlert({
           message: error.response.data.error
             ? error.response.data.error
-            : "Sorry, there is an issues on the server.",
+            : "Sorry, something went wrong on the server side",
           variant: "danger",
         })
       );
-      setTimeout(() => {
-        dispatch(hideAlert());
-      }, 5000);
     }
   }
 
@@ -75,12 +74,17 @@ export default function Navbar() {
             <p>Transactions</p>
           </Link>
           <Link to="/account" className="navBtn">
-            <MdOutlineAccountCircle size={50} />
-            {/* <Image
-            src="https://via.placeholder.com/50"
-            alt="profile_image"
-            roundedCircle
-          /> */}
+            {
+              user?.avatar ? 
+                <Image
+                src={user.avatar}
+                alt="profile_image"
+                className="avatar"
+                roundedCircle
+              />
+              :
+                <MdOutlineAccountCircle size={50} />
+            }
             <p>Account</p>
           </Link>
           <Nav.Link className="navBtn" onClick={handleLogout}>
@@ -103,12 +107,17 @@ export default function Navbar() {
           <p>Transactions</p>
         </Nav.Link>
         <Nav.Link href="/account" className="navBtn">
-          <MdOutlineAccountCircle size={50} />
-          {/* <Image
-            src="https://via.placeholder.com/50"
-            alt="profile_image"
-            roundedCircle
-          /> */}
+          {
+              user?.avatar ? 
+                <Image
+                src={user.avatar}
+                alt="profile_image"
+                className="avatar"
+                roundedCircle
+              />
+              :
+                <MdOutlineAccountCircle size={50} />
+            }
           <p>Account</p>
         </Nav.Link>
         <Nav.Link className="navBtn" onClick={handleLogout}>

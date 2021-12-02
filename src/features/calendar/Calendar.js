@@ -3,26 +3,20 @@ import DatePicker from "react-datepicker";
 import "./Calendar.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import { selectCalender } from "./calendarSlice";
+import { selectCalendar } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { calendarActions } from "./calendarSlice";
 import { getAllTransaction, getBalance, filterTransaction } from "../transactionList/transactionListSlice";
 import axios from "axios";
+import { selectUser } from "../userProfile/userSlice";
+import { dateFromString, getHeaderConfig, stringifyDate } from "../../utils/utils";
+import { showAlert } from "../alertMessage/alertMessageSlice";
 
 export default function Calendar() {
+  //redux
   const dispatch = useDispatch();
-
-  const { startDate, endDate } = useSelector(selectCalender);
-
-  // Date to ISO string converter
-  const stringifyDate = (date) => {
-    return date.toISOString();
-  };
-
-  // ISO string to Date converter
-  const dateFromString = (date) => {
-    return new Date(date);
-  };
+  const { token } = useSelector(selectUser);
+  const { startDate, endDate } = useSelector(selectCalendar);
 
   const [calendar, setCalendar] = useState([dateFromString(startDate), dateFromString(endDate)]);
 
@@ -34,7 +28,7 @@ export default function Calendar() {
     };
 
     dispatch(calendarActions.setDateRange(dates));
-  }, [calendar]);
+  }, [calendar, dispatch]);
 
   useEffect(() => {
 
@@ -44,9 +38,9 @@ export default function Calendar() {
       dispatch(filterTransaction([]));
 
       try {
-        // Convert to ISO date format which is
         const res = await axios.get(
-          `/transaction?startdate=${startDate}&enddate=${endDate}`
+          `/transaction?startdate=${startDate}&enddate=${endDate}`,
+          getHeaderConfig(token)
         );
 
         if (res.status === 200) {
@@ -56,12 +50,13 @@ export default function Calendar() {
           dispatch(getBalance(res.data)); //pie chart
         }
       } catch (error) {
+        dispatch(showAlert({message: "Something wrong on the server side", variant: "danger"}));
         console.error(`${error}: Something wrong on the server side`);
         return error;
       }
     };
     fetchDateRange();
-  }, [startDate, endDate]);
+  }, [startDate, endDate, token, dispatch]);
 
   return (
     <div className="calendar-wrapper">

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { filterTransaction } from '../transactionList/transactionListSlice';
+import { addTransaction, filterTransaction, updateTransaction } from '../transactionList/transactionListSlice';
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -19,16 +18,14 @@ import {
 } from '../alertMessage/alertMessageSlice';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
-import { selectCalender } from "../calendar/calendarSlice";
+import { selectUser } from '../userProfile/userSlice';
+import { getHeaderConfig } from '../../utils/utils';
 
 const EditTransaction = (props) => {
 
-  //router
-  const navigate = useNavigate();
-
   //redux
   const dispatch = useDispatch();
-  const { startDate, endDate } = useSelector(selectCalender);
+  const { token } = useSelector(selectUser);
 
   //private state
   const [transaction, setTransaction] = useState({
@@ -92,12 +89,6 @@ const EditTransaction = (props) => {
 
     e.preventDefault();
 
-    const config = {
-      headers: {
-        "Content-type": "application/json"
-      },
-    };
-
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
@@ -111,13 +102,14 @@ const EditTransaction = (props) => {
         {
           props.operationType === "edit" ?
             //send data to backend - edit tran
-            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, config) :
+            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction,  getHeaderConfig(token)) :
             //send data to backend - add new
-            response = await axios.post("/alltransaction/add", transaction, config);
+            response = await axios.post("/alltransaction/add", transaction,  getHeaderConfig(token));
         }
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
+
           //close modal pop-up
           props.handleClose();
 
@@ -130,10 +122,12 @@ const EditTransaction = (props) => {
           //clear all filter
           dispatch(filterTransaction([]));
 
-          //go back to alltransaction page
-          navigate("/alltransaction", {
-            state: response.data
-          });
+          //update allTran in reducer
+          {
+            props.operationType === "edit" ?
+              dispatch(updateTransaction(response.data)) :
+              dispatch(addTransaction(response.data));
+          }
 
           //show confirmation message
           {
@@ -154,6 +148,12 @@ const EditTransaction = (props) => {
         }
       }
     } catch (error) {
+      dispatch(
+        showAlert({
+          message: "Sorry, something went wrong on the server side",
+          variant: "danger",
+        })
+      );
       console.error(`${error}: Something wrong on the server side`);
       return error;
     }

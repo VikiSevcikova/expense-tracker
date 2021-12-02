@@ -11,6 +11,7 @@ import useMedia from "use-media";
 export default function BalancePieChart() {
   const mobile = useMedia({ maxWidth: 1500 });
 
+  //redux
   const { currency } = useSelector(selectUser);
   const { balance } = useSelector(transactionListSelector);
   const rate = currency.rate;

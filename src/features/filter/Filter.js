@@ -69,6 +69,7 @@ const Filter = () => {
             <Row className="filterOptions">
               <Col>
                 <Button
+                  name="income"
                   className="incomeFilter"
                   onClick={filterByIncome}
                 >

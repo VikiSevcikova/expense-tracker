@@ -28,7 +28,7 @@ export default function DashBoardCards() {
           <Container fluid className="box_wrapper--top">
             <Row>
               <Col xs={9}>
-                <Calendar/>
+                <Calendar />
               </Col>
               <Col xs={3}>
                 <Currency />
