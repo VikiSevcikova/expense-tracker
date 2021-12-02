@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-function getTransactionTotal(array, type) {
+const getTransactionTotal = (array, type) => {
   let total = 0;
   array.map(transaction => {
     if (transaction.transactionType === type) {
@@ -8,13 +8,14 @@ function getTransactionTotal(array, type) {
     }
   });
   return total;
-}
+};
 
 export const transactionListSlice = createSlice({
   name: 'transactionList',
   initialState: {
     allTran: [],
     filteredTran: [],
+    currentPageTran: [],
     balance: {
       income: 0,
       expense: 0,
@@ -28,11 +29,14 @@ export const transactionListSlice = createSlice({
     filterTransaction: (state, action) => {
       return { ...state, filteredTran: action.payload };
     },
+    getCurrentPageTransaction: (state, action) => {
+      return { ...state, currentPageTran: action.payload };
+    },
     addTransaction: (state, action) => {
       return { ...state, allTran: [action.payload, ...state.allTran] };
     },
     updateTransaction: (state, action) => {
-      return {...state, allTran: state.allTran.map(elem => elem._id === action.payload._id ? action.payload : elem)}
+      return { ...state, allTran: state.allTran.map(elem => elem._id === action.payload._id ? action.payload : elem) };
     },
     deleteTransaction: (state, action) => {
       return { ...state, allTran: state.allTran.filter(elem => elem._id !== action.payload._id) };
@@ -54,6 +58,6 @@ export const transactionListSlice = createSlice({
 
 //export reducer, actions,and state(selector)
 export default transactionListSlice.reducer;
-export const { getAllTransaction, checkTransaction, filterTransaction, addTransaction, updateTransaction, deleteTransaction, getBalance } = transactionListSlice.actions;
+export const { getAllTransaction, checkTransaction, filterTransaction, getCurrentPageTransaction, addTransaction, updateTransaction, deleteTransaction, getBalance } = transactionListSlice.actions;
 export const transactionListSelector = (state) => state.transactionList;
 

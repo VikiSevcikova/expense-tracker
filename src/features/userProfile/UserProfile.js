@@ -13,7 +13,7 @@ import axios from 'axios';
 import { hideAlert, showAlert } from '../alertMessage/alertMessageSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, updateUser } from './userSlice';
-import { getHeaderConfig, getUser } from "../../utils/utils";
+import { getHeaderConfig } from "../../utils/utils";
 import EditUser from "../editUser/EditUser";
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { Image } from "cloudinary-react";
