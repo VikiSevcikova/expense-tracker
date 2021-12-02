@@ -27,6 +27,11 @@ export default function ExpenseChart() {
     { name: "Salary", trans: [] },
   ];
 
+  // make it more dynamic
+  // get categories and create array from the list
+
+
+
   allTran.filter((tran) => {
     dataList.forEach((list) => {
       if (

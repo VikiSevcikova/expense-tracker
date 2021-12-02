@@ -11,6 +11,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setToken: (state, action) => {
+      localStorage.setItem("ET-token", action.payload)
       state.token = action.payload;
     },
     setUser: (state, action) => {
@@ -22,6 +23,7 @@ export const userSlice = createSlice({
       state.user = { ...state.user, ...action.payload };
     },
     removeUser: (state) => {
+      localStorage.removeItem("ET-token");
       state.user = null;
       state.isAuth = false;
       state.token = null;

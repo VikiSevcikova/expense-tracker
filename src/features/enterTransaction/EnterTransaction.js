@@ -18,14 +18,12 @@ import {
 } from '../alertMessage/alertMessageSlice';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
-import { selectCalender } from "../calendar/calendarSlice";
 import { selectUser } from '../userProfile/userSlice';
 
 const EditTransaction = (props) => {
 
   //redux
   const dispatch = useDispatch();
-  const { startDate, endDate } = useSelector(selectCalender);
   const { token } = useSelector(selectUser);
 
   //private state
@@ -158,6 +156,12 @@ const EditTransaction = (props) => {
         }
       }
     } catch (error) {
+      dispatch(
+        showAlert({
+          message: "Sorry, something went wrong on the server side",
+          variant: "danger",
+        })
+      );
       console.error(`${error}: Something wrong on the server side`);
       return error;
     }

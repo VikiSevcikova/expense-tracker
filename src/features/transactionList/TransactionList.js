@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { transactionListSelector, filterTransaction } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
-import { selectCalender } from "../calendar/calendarSlice";
 import {
   Container,
   Table,

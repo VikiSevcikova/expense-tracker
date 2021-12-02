@@ -7,10 +7,8 @@ import { Container } from "react-bootstrap";
 export default function Dashboard() {
   const user = useSelector(selectUser)
   return (
-    // <div className="dashBoard_wrapper">
       <Container fluid>
         <DashBoardCards/>
       </Container>
-    // </div>
   );
 }
