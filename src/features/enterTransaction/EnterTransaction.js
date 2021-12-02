@@ -171,8 +171,8 @@ const EditTransaction = (props) => {
           <Modal.Header>
             {/* <Modal.Title>Enter Transaction</Modal.Title> */}
             {props.operationType === "add" ?
-              <Modal.Title>Add New Transaction</Modal.Title> :
-              <Modal.Title>Edit Transaction</Modal.Title>}
+              <Modal.Title as="h1">Add New Transaction</Modal.Title> :
+              <Modal.Title as="h1">Edit Transaction</Modal.Title>}
             <FaTimesCircle
               className="modalClsBtn"
               onClick={props.handleClose} />
@@ -281,7 +281,6 @@ const EditTransaction = (props) => {
                     checkedItemId={transaction._id}
                     handleClose={props.handleClose} />}
               </Container>
-
             </Form>
           </Modal.Body>
         </Container>

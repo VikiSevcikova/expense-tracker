@@ -56,7 +56,6 @@ const UserProfile = () => {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values);
     if (values.name !== user.username) {
       try {
         const response = await axios.post(

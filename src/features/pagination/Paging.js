@@ -24,8 +24,8 @@ const Paging = (props) => {
   const dispatch = useDispatch();
 
   //Get current transaction list
-  const indexOfLastTran = currentPageNum * numOfTranPerPage; //5
-  const indexOfFirstTran = indexOfLastTran - numOfTranPerPage; //0
+  const indexOfLastTran = currentPageNum * numOfTranPerPage; 
+  const indexOfFirstTran = indexOfLastTran - numOfTranPerPage; 
 
   //when allTran or filteredTran is changed, recalculate the number of pages
   //When pageNum is changed, update the state
@@ -39,6 +39,11 @@ const Paging = (props) => {
     setCurrentPageNum(pageNum);
   };
 
+  const prevPage = () => {
+    console.log("prev clicked");
+    paginate()
+  }
+
   return (
     <>
       {pageNumbersArray.length !== 0 && (
@@ -46,7 +51,7 @@ const Paging = (props) => {
           <Container fluid className="paginationContainer">
             <Pagination>
               <Pagination.First />
-              <Pagination.Prev />
+              <Pagination.Prev onClick={prevPage}/>
               <Pagination.Ellipsis />
               {pageNumbersArray.map((num, index) => (
                 <Pagination.Item
