@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { addTransaction, filterTransaction } from '../transactionList/transactionListSlice';
+import { addTransaction, filterTransaction, updateTransaction } from '../transactionList/transactionListSlice';
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -115,6 +115,9 @@ const EditTransaction = (props) => {
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
+
+          console.log(response.data);
+
           //close modal pop-up
           props.handleClose();
 
@@ -127,7 +130,12 @@ const EditTransaction = (props) => {
           //clear all filter
           dispatch(filterTransaction([]));
 
-          dispatch(addTransaction(response.data));
+          //update allTran in reducer
+          {
+            props.operationType === "edit" ?
+              dispatch(updateTransaction(response.data)) :
+              dispatch(addTransaction(response.data));
+          }
 
           //show confirmation message
           {

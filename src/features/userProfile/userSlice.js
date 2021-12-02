@@ -20,7 +20,7 @@ export const userSlice = createSlice({
       state.token = localStorage.getItem("ET-token");
     },
     updateUser: (state, action) => {
-      state.user = {...state.user, ...action.payload}
+      state.user = { ...state.user, ...action.payload };
     },
     removeUser: (state) => {
       localStorage.removeItem("ET-token");

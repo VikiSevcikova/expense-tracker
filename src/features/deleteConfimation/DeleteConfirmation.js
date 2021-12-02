@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
+import { deleteTransaction } from "../transactionList/transactionListSlice";
 import "./DeleteConfirmation.scss";
 import { FaTimesCircle } from "react-icons/fa";
 import {
@@ -48,10 +49,10 @@ const DeleteConfirmation = (props) => {
           } else {
             //close modal pop-up
             props.closeDelConf();
-            //go back to alltransaction page
-            navigate("/alltransaction", {
-              state: response.data
-            });
+            
+            //update state in redux
+            dispatch(deleteTransaction(response.data));
+
             //show delete confirmation message
             dispatch(
               showAlert({

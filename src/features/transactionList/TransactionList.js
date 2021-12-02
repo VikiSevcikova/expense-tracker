@@ -25,9 +25,6 @@ const TransactionList = () => {
   const isXL = useMedia({ minWidth: "1200px" }); //xl
   const isXXL = useMedia({ minWidth: "1400px" }); //xxl
 
-  //router-dom
-  const location = useLocation();
-
   //redux
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);

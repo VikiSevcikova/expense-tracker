@@ -11,10 +11,10 @@ import {
 } from 'react-bootstrap';
 import { FaTimesCircle } from "react-icons/fa";
 import {
-  showAlert
+  showAlert,
+  hideAlert
 } from '../alertMessage/alertMessageSlice';
-import { removeUser, selectUser } from "../userProfile/userSlice";
-import { getHeaderConfig } from '../../utils/utils';
+import { removeUser, updateUser, selectUser } from "../userProfile/userSlice";
 
 const EditUser = (props) => {
 
@@ -34,18 +34,40 @@ const EditUser = (props) => {
 
   //method
   //log out
-  const logOut = () => {
+  const logOut = async () => {
+    try {
+      localStorage.removeItem("ET-token");
       dispatch(removeUser());
       dispatch(showAlert({
         message: "Account has successfully been updated",
         variant: "info",
       }));
       navigate("/login");
-} ;
+    } catch (error) {
+      dispatch(
+        showAlert({
+          message: error.response.data.error
+            ? error.response.data.error
+            : "Sorry, there is an issues on the server.",
+          variant: "danger",
+        })
+      );
+      setTimeout(() => {
+        dispatch(hideAlert());
+      }, 5000);
+    }
+  };
 
   //onChange method
   const handleChange = (prop) => (e) => {
     setPassword({ ...password, [prop]: e.target.value });
+  };
+
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   };
 
   //Change password
@@ -73,7 +95,7 @@ const EditUser = (props) => {
           {
             password: password.newPassword
           },
-          getHeaderConfig(token));
+          config);
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
@@ -95,7 +117,6 @@ const EditUser = (props) => {
     const formData = new FormData();
     formData.append("file", profPic);
     formData.append("upload_preset", "su4ijezp");
-
     try {
       const res = await axios.post("https://api.cloudinary.com/v1_1/yukim/image/upload", formData);
       if (res.statusText !== "OK") {
@@ -129,16 +150,18 @@ const EditUser = (props) => {
           {
             avatar: imageData.secure_url
           },
-          getHeaderConfig(token));
+          config);
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-          //navigate to account page
-          navigate("/account", {
-            state: response.data.avatar
-          });
+          //update state
+          dispatch(updateUser({
+            avatar: response.data.updatedUser.avatar
+          }));
+
           //close modal pop-up
           props.handleClose();
+
           //show message
           dispatch(showAlert({
             message: "Profile Picture has successfully been updated",
