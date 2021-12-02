@@ -19,6 +19,7 @@ import {
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
 import { selectUser } from '../userProfile/userSlice';
+import { getHeaderConfig } from '../../utils/utils';
 
 const EditTransaction = (props) => {
 
@@ -88,13 +89,6 @@ const EditTransaction = (props) => {
 
     e.preventDefault();
 
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
@@ -108,15 +102,13 @@ const EditTransaction = (props) => {
         {
           props.operationType === "edit" ?
             //send data to backend - edit tran
-            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, config) :
+            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction,  getHeaderConfig(token)) :
             //send data to backend - add new
-            response = await axios.post("/alltransaction/add", transaction, config);
+            response = await axios.post("/alltransaction/add", transaction,  getHeaderConfig(token));
         }
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-
-          console.log(response.data);
 
           //close modal pop-up
           props.handleClose();
