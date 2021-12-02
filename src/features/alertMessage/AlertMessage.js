@@ -5,15 +5,18 @@ import Alert from "react-bootstrap/Alert";
 import "./AlertMessage.scss";
 
 export function AlertMessage() {
+  //redux
   const dispatch = useDispatch();
   const alert = useSelector(selectAlert);
+
   useEffect(() => {
     if (alert.show) {
       setTimeout(() => {
         dispatch(hideAlert());
       }, 3000);
     }
-  }, [alert]);
+  }, [alert, dispatch]);
+
   return (
     <Alert variant={alert.variant} show={alert.show} className="bottom-center">
       {alert.message}

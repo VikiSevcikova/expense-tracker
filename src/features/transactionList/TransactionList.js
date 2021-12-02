@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
 import useMedia from "use-media";
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { transactionListSelector, getAllTransaction, getBalance, filterTransaction } from './transactionListSlice';
+import { transactionListSelector, filterTransaction } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
-import { selectCalender } from "../calendar/calendarSlice";
 import {
   Container,
   Table,
@@ -34,7 +32,6 @@ const TransactionList = () => {
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
-  const { startDate, endDate } = useSelector(selectCalender);
 
   //private state
   const [tranList, setTranList] = useState([]);
@@ -46,29 +43,6 @@ const TransactionList = () => {
       setTranList(transactionList.filteredTran) :
       setTranList(transactionList.allTran);
   }, [transactionList]);
-
-  //when the component is mounted get all transaction data from backend
-  //This is for the case where a user navigates to this page from another page
-  // useEffect(() => {
-
-  //   (async () => {
-  //     try {
-  //       // Convert to ISO date format which is
-  //       const res = await axios.get(
-  //         `/transaction?startdate=${startDate}&enddate=${endDate}`
-  //       );
-  //       if (res.status === 200) {
-  //         //for transaction page
-  //         dispatch(getAllTransaction(res.data));
-  //         //for dashboard page
-  //         dispatch(getBalance(res.data)); //pie chart
-  //       }
-  //     } catch (error) {
-  //       console.error(`${error}: Something wrong on the server side`);
-  //       return error;
-  //     }
-  //   })();
-  // }, [location.state]);
 
   //Checkbox control -- under construction
   const handleCheck = (_id, e) => {

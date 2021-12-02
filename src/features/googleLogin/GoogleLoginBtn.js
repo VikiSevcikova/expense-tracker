@@ -15,7 +15,6 @@ const GoogleLoginBtn = () => {
     const responseSuccessGoogle = async (response) => {
         try{
             const {data} = await axios.post("/auth/google-login", {tokenId: response.tokenId})
-            localStorage.setItem("ET-token", data.token)
             dispatch(setToken(data.token));
         
             const { user } = await getUser(data.token);
@@ -27,20 +26,17 @@ const GoogleLoginBtn = () => {
                 showAlert({
                   message: error.response.data.error
                     ? error.response.data.error
-                    : "Sorry, there is an issues on the server.",
+                    : "Sorry, something went wrong on the server side",
                   variant: "danger",
                 })
               );
-              setTimeout(() => {
-                dispatch(hideAlert());
-              }, 5000);
         }
     }
 
     const responseErrorGoogle = (response) => {
         dispatch(
             showAlert({
-              message: "Sorry, something went wrong.",
+              message: "Sorry, something went wrong on the server side",
               variant: "danger",
             })
           );

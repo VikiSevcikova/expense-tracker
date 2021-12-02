@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import FormBtn from "../formButton/FormBtn";
 import InputField from "../inputField/InputField";
-import { showAlert, hideAlert } from "../alertMessage/alertMessageSlice";
+import { showAlert } from "../alertMessage/alertMessageSlice";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { getUser } from "../../utils/utils";
@@ -48,13 +48,10 @@ const RegistrationForm = () => {
         showAlert({
           message: error.response.data.error
             ? error.response.data.error
-            : "Sorry, there is an issues on the server.",
+            : "Sorry, something went wrong on the server side",
           variant: "danger",
         })
       );
-      setTimeout(() => {
-        dispatch(hideAlert());
-      }, 5000);
     }
   };
 

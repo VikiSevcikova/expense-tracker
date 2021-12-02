@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addTransaction, filterTransaction } from '../transactionList/transactionListSlice';
@@ -19,18 +18,12 @@ import {
 } from '../alertMessage/alertMessageSlice';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
-import { selectCalender } from "../calendar/calendarSlice";
 import { selectUser } from '../userProfile/userSlice';
 
 const EditTransaction = (props) => {
 
-  //router
-  const navigate = useNavigate();
-
   //redux
   const dispatch = useDispatch();
-  const { startDate, endDate } = useSelector(selectCalender);
-  console.log(startDate, endDate);
   const { token } = useSelector(selectUser);
 
   //private state
@@ -136,11 +129,6 @@ const EditTransaction = (props) => {
 
           dispatch(addTransaction(response.data));
 
-          //go back to alltransaction page
-          // navigate("/alltransaction", {
-          //   state: response.data
-          // });
-
           //show confirmation message
           {
             props.operationType === "edit" ?
@@ -160,6 +148,12 @@ const EditTransaction = (props) => {
         }
       }
     } catch (error) {
+      dispatch(
+        showAlert({
+          message: "Sorry, something went wrong on the server side",
+          variant: "danger",
+        })
+      );
       console.error(`${error}: Something wrong on the server side`);
       return error;
     }

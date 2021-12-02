@@ -28,9 +28,7 @@ export default function DashBoardCards() {
           <Container fluid className="box_wrapper">
             <Row>
               <Col xs={9}>
-                <Calendar
-                //  setDate={setDate}
-                />
+                <Calendar />
               </Col>
               <Col xs={3}>
                 <Currency />

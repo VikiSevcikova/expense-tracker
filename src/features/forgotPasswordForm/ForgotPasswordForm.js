@@ -14,8 +14,10 @@ const ForgotPasswordSchema = Yup.object().shape({
 });
 
 const ForgotPasswordForm = () => {
-  const [submitted, setSubmitted] = useState(false);
+  //redux
   const dispatch = useDispatch();
+
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (values) => {
     try {
@@ -26,7 +28,7 @@ const ForgotPasswordForm = () => {
         showAlert({
           message: error.response.data.error
             ? error.response.data.error
-            : "Sorry, there is an issues on the server.",
+            : "Sorry, something went wrong on the server side",
           variant: "danger",
         })
       );

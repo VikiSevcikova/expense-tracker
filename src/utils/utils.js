@@ -1,27 +1,26 @@
 import axios from "axios";
 
-export const getUser =  async (token) => {
-    const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        }
-      };
-      const { data } = await axios.get("/users/me", config);
-      return data;
+export const getHeaderConfig = (token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }
+  };
+  return config;
 }
 
+export const getUser =  async (token) => {
+  const { data } = await axios.get("/users/me", getHeaderConfig(token));
+  return data;
+}
 
-// export const loginUser = async (formData) => {
-//     const { data } = await axios.post("/auth/login", formData);
-//     return data;
-// }
+// Date to ISO string converter
+export const stringifyDate = (date) => {
+  return date.toISOString();
+};
 
-// export const logout = async () => {
-//     const { data } = await axios.get("/auth/logout");
-// }
-
-// export const registerUser = async (formData) => {
-//     const { data } = await axios.post("/auth/register", formData);
-//     return data;
-// }
+  // ISO string to Date converter
+export const dateFromString = (date) => {
+  return new Date(date);
+};

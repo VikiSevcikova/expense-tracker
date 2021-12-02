@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./EditUser.scss";
 import {
   Container,
@@ -11,10 +11,10 @@ import {
 } from 'react-bootstrap';
 import { FaTimesCircle } from "react-icons/fa";
 import {
-  showAlert,
-  hideAlert
+  showAlert
 } from '../alertMessage/alertMessageSlice';
-import { removeUser } from "../userProfile/userSlice";
+import { removeUser, selectUser } from "../userProfile/userSlice";
+import { getHeaderConfig } from '../../utils/utils';
 
 const EditUser = (props) => {
 
@@ -27,48 +27,25 @@ const EditUser = (props) => {
 
   //redux
   const dispatch = useDispatch();
+  const { token } = useSelector(selectUser);
 
   //router
   const navigate = useNavigate();
 
   //method
   //log out
-  const logOut = async () => {
-    try {
-      localStorage.removeItem("ET-token");
+  const logOut = () => {
       dispatch(removeUser());
       dispatch(showAlert({
         message: "Account has successfully been updated",
         variant: "info",
       }));
       navigate("/login");
-    } catch (error) {
-      dispatch(
-        showAlert({
-          message: error.response.data.error
-            ? error.response.data.error
-            : "Sorry, there is an issues on the server.",
-          variant: "danger",
-        })
-      );
-      setTimeout(() => {
-        dispatch(hideAlert());
-      }, 5000);
-    }
-  };
+} ;
 
   //onChange method
   const handleChange = (prop) => (e) => {
     setPassword({ ...password, [prop]: e.target.value });
-  };
-
-  const token = localStorage.getItem("ET-token");
-
-  const config = {
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
   };
 
   //Change password
@@ -96,7 +73,7 @@ const EditUser = (props) => {
           {
             password: password.newPassword
           },
-          config);
+          getHeaderConfig(token));
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
@@ -152,7 +129,7 @@ const EditUser = (props) => {
           {
             avatar: imageData.secure_url
           },
-          config);
+          getHeaderConfig(token));
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {

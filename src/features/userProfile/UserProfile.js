@@ -14,7 +14,7 @@ import { hideAlert, showAlert } from '../alertMessage/alertMessageSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { selectUser, setUser, updateUser } from './userSlice';
-import { getUser } from "../../utils/utils";
+import { getHeaderConfig, getUser } from "../../utils/utils";
 import EditUser from "../editUser/EditUser";
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { Image } from "cloudinary-react";
@@ -42,13 +42,15 @@ const UserProfile = () => {
   const [avatar, setAvatar] = useState(setState());
 
   //when the user profile is changed, re-mount the componant to display the new pic
-  useEffect(async () => {
-    if (location.state !== null) {
-      setAvatar(location.state);
-      //update reducer (selector)
-      const { user } = await getUser(token);
-      dispatch(setUser(user));
-    }
+  useEffect(() =>{
+    (async () => {
+      if (location.state !== null) {
+        setAvatar(location.state);
+        //update reducer (selector)
+        const { user } = await getUser(token);
+        dispatch(setUser(user));
+      }
+    })();
   }, [location.state]);
 
   //Modal pop up (enter transaction)
@@ -77,19 +79,13 @@ const UserProfile = () => {
     console.log(values)
     if(values.name !== user.username) {
       try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
         const response = await axios.post(
           `/users/edit`,
           {
             username: values.name
           },
-          config);
+          getHeaderConfig(token)
+        );
         dispatch(showAlert({
           message: response.data.message,
           variant: "info"
