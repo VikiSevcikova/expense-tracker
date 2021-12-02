@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./RecentTransaction.scss";
 import { Row, Col } from "react-bootstrap";
-import CategoriesIcon from "../../utils/CategoriesIcon";
 import { useSelector } from "react-redux";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
+import { selectCategoryIcon } from "../categoryIcon/categoryIconSlice";
+import CategoryIcon from "../categoryIcon/CategoryIcon";
 
 export default function RecentTransaction() {
 
@@ -11,6 +12,8 @@ export default function RecentTransaction() {
 
   //redux
   const { allTran } = useSelector(transactionListSelector);
+  const {categories} = useSelector(selectCategoryIcon);
+  console.log(categories)
 
   useEffect(() => {
     //get the last 5 transactions
@@ -30,7 +33,7 @@ export default function RecentTransaction() {
           return (
             <Row key={index}>
               <Col xs={2}>
-                <CategoriesIcon size={20} id={transaction.categoryId} />
+                <CategoryIcon size={20} id={transaction.categoryId} type={transaction.transactionType} />
               </Col>
               <Col xs={3}>{transaction.date.substring(2, 10)}</Col>
               <Col xs={4}>
@@ -38,7 +41,7 @@ export default function RecentTransaction() {
               </Col>
               <Col xs={3}>
                 <p className="amount">
-                  {transaction.transactionType === "income" ? "+ " : null}
+                  {transaction.transactionType === "expense" ? "-" : null}
                   {transaction.amount}
                 </p>
               </Col>

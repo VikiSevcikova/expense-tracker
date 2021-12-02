@@ -17,18 +17,18 @@ import {
   showAlert
 } from '../alertMessage/alertMessageSlice';
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
-import { categories } from '../../utils/Categories';
 import { selectUser } from '../userProfile/userSlice';
+import { selectCategoryIcon } from '../categoryIcon/categoryIconSlice';
 
 const EditTransaction = (props) => {
 
   //redux
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
+  const { categories } = useSelector(selectCategoryIcon);
 
   //private state
   const [transaction, setTransaction] = useState({
-    id: "",
     date: new Date(),
     categoryId: 0, //default 0 : need to get from backend
     categoryName: "",
@@ -74,7 +74,7 @@ const EditTransaction = (props) => {
       setTransaction(
         {
           ...transaction,
-          ["categoryId"]: targetCategory.id,
+          ["categoryId"]: targetCategory._id,
           [prop]: e.target.value
         }
       );
@@ -234,7 +234,7 @@ const EditTransaction = (props) => {
                 </Form.Group>
 
                 <Form.Group className="transactionDescription" >
-                  <Form.Label>Desctription</Form.Label>
+                  <Form.Label>Description</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter item description..."
@@ -278,7 +278,7 @@ const EditTransaction = (props) => {
                     show={delConf}
                     delete={"transaction"}
                     closeDelConf={closeDelConf}
-                    checkedItemId={transaction.id}
+                    checkedItemId={transaction._id}
                     handleClose={props.handleClose} />}
               </Container>
 
