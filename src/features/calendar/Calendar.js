@@ -8,9 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { calendarActions } from "./calendarSlice";
 import { getAllTransaction, getBalance, filterTransaction } from "../transactionList/transactionListSlice";
 import axios from "axios";
+import { selectUser } from "../userProfile/userSlice";
 
 export default function Calendar() {
   const dispatch = useDispatch();
+  const { token} = useSelector(selectUser);
 
   const { startDate, endDate } = useSelector(selectCalender);
 
@@ -44,9 +46,16 @@ export default function Calendar() {
       dispatch(filterTransaction([]));
 
       try {
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
         // Convert to ISO date format which is
         const res = await axios.get(
-          `/transaction?startdate=${startDate}&enddate=${endDate}`
+          `/transaction?startdate=${startDate}&enddate=${endDate}`,
+          config
         );
 
         if (res.status === 200) {

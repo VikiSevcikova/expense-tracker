@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
+import { deleteTransaction } from "../transactionList/transactionListSlice";
 import "./DeleteConfirmation.scss";
 import { FaTimesCircle } from "react-icons/fa";
 import {
@@ -30,7 +31,7 @@ const DeleteConfirmation = (props) => {
       localStorage.removeItem("ET-token");
       dispatch(removeUser());
       dispatch(showAlert({
-        message: "Account has successfully been deleted",
+        message: "You were logged out.",
         variant: "info",
       }));
       navigate("/login");
@@ -72,10 +73,8 @@ const DeleteConfirmation = (props) => {
           } else {
             //close modal pop-up
             props.closeDelConf();
-            //go back to alltransaction page
-            navigate("/alltransaction", {
-              state: response.data
-            });
+            //update state in redux
+            dispatch(deleteTransaction(response.data));
           }
         } catch (error) {
           console.error(`${error}: Something wrong on the server side`);

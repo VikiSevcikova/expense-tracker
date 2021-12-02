@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { filterTransaction } from '../transactionList/transactionListSlice';
+import { addTransaction, filterTransaction, updateTransaction } from '../transactionList/transactionListSlice';
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./EnterTransaction.scss";
 import {
@@ -20,15 +19,14 @@ import {
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { categories } from '../../utils/Categories';
 import { selectCalender } from "../calendar/calendarSlice";
+import { selectUser } from '../userProfile/userSlice';
 
 const EditTransaction = (props) => {
-
-  //router
-  const navigate = useNavigate();
 
   //redux
   const dispatch = useDispatch();
   const { startDate, endDate } = useSelector(selectCalender);
+  const { token } = useSelector(selectUser);
 
   //private state
   const [transaction, setTransaction] = useState({
@@ -94,7 +92,8 @@ const EditTransaction = (props) => {
 
     const config = {
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -118,7 +117,9 @@ const EditTransaction = (props) => {
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-          console.log(response)
+
+          console.log(response.data);
+
           //close modal pop-up
           props.handleClose();
 
@@ -131,10 +132,12 @@ const EditTransaction = (props) => {
           //clear all filter
           dispatch(filterTransaction([]));
 
-          //go back to alltransaction page
-          navigate("/alltransaction", {
-            state: response.data
-          });
+          //update allTran in reducer
+          {
+            props.operationType === "edit" ?
+              dispatch(updateTransaction(response.data)) :
+              dispatch(addTransaction(response.data));
+          }
 
           //show confirmation message
           {

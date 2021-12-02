@@ -27,8 +27,7 @@ const EditUser = (props) => {
 
   //redux
   const dispatch = useDispatch();
-  const {token} = useSelector(selectUser);
-
+  const { token } = useSelector(selectUser);
 
   //router
   const navigate = useNavigate();
@@ -118,7 +117,6 @@ const EditUser = (props) => {
     const formData = new FormData();
     formData.append("file", profPic);
     formData.append("upload_preset", "su4ijezp");
-
     try {
       const res = await axios.post("https://api.cloudinary.com/v1_1/yukim/image/upload", formData);
       if (res.statusText !== "OK") {
@@ -156,14 +154,14 @@ const EditUser = (props) => {
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-          //navigate to account page
-          // navigate("/account", {
-          //   state: response.data.avatar
-          // });
           //update state
-          dispatch(updateUser(response.data))
+          dispatch(updateUser({
+            avatar: response.data.updatedUser.avatar
+          }));
+
           //close modal pop-up
           props.handleClose();
+
           //show message
           dispatch(showAlert({
             message: "Profile Picture has successfully been updated",
