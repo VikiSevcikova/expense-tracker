@@ -1,0 +1,60 @@
+@import "../../utils/component";
+
+.currencyWrap {
+  // margin-top: 30%;
+  // transform-style: preserve-3d;
+  // transform: translate3d(0,0,10px) !important;
+  overflow: visible;
+  // position: relative;
+  // z-index: 10000;
+  // .dropdownButton{
+  //     background-color: black;
+  // }
+}
+// .btn-primary {
+//   background-color: #3f85a4;
+//   border-color: #3f85a4;
+
+//   &focus {
+//     background-color: #3f85a4;
+//     border-color: #3f85a4;
+//   }
+
+//   &hover{
+//     background-color: #3f85a4;
+//     border-color: #3f85a4;
+//   }
+// }
+
+.show {
+  .btn-primary.dropdown-toggle {
+    background-color: #3f85a4!important;
+    border-color: #3f85a4!important;
+  }
+}
+
+.btn-check,
+.btn-check:focus,
+.btn-check:active,
+.btn-check:visited {
+  background-color: #3f85a4 !important;
+  border-color: #3f85a4 !important;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+  background-color: #3f85a4 !important;
+  border-color: #3f85a4 !important;
+}
+
+#dropdown-item-button {
+  background-color: #3f85a4 !important;
+  border-color: #3f85a4 !important;
+}
+
+.dropdown-menu, .show{
+    position: relative;
+    z-index: 1000;
+}

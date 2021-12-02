@@ -25,7 +25,7 @@ export default function DashBoardCards() {
               <Greeting />
             </Row>
           </Container>
-          <Container fluid className="box_wrapper">
+          <Container fluid className="box_wrapper--top">
             <Row>
               <Col xs={9}>
                 <Calendar />
@@ -50,7 +50,6 @@ export default function DashBoardCards() {
         </>
       ) : (
         <>
-          <p>Big then mobile</p>
           <Container fluid>
             <Row>
               <Col xl={4}>
@@ -58,7 +57,7 @@ export default function DashBoardCards() {
                   <Greeting />
                 </Container>
               </Col>
-              <Col xl={8}>
+              <Col xl={8} className="top">
                 <Container fluid className="box_wrapper">
                   <Row>
                     <Col xs={9}>
