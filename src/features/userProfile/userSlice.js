@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import CurrencyLabel from "../../utils/CurrencyLabel";
 
 const token = localStorage.getItem("ET-token");
 
@@ -10,6 +11,7 @@ const initialState = token
       currency: {
         name: "CAD",
         rate: 1,
+        symbol: "$",
       }
     }
   : { isAuth: false, user: null, token: null };
@@ -37,14 +39,16 @@ export const userSlice = createSlice({
       state.token = null;
     },
     setCurrency: (state, action) => {
+      const symbol = CurrencyLabel.find((currency)=>{
+        return currency.name === action.payload
+      })
+
       return {
         ...state,
-        // currency: currencyRates.find((cur) => {
-        //   return cur.name === action.payload;
-        // }),
         currency: {
           ...state.currency,
-          name: action.payload
+          name: action.payload,
+          symbol: symbol.symbol
         }
       };
     },
