@@ -57,6 +57,16 @@ export default function DashBoardCards() {
                   <Greeting />
                 </Container>
               </Col>
+              {/* <Container fluid>
+                <Row className="align-items-center">
+                  <Col xs={9} className="p-0">
+                    <Calendar className="shadow no-border"/>
+                  </Col>
+                  <Col xs={3}>
+                    <Currency />
+                  </Col>
+                </Row>
+              </Container> */}
               <Col xl={8} className="top">
                 <Container fluid className="box_wrapper">
                   <Row>
