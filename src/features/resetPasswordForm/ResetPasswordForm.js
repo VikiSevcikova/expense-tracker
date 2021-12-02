@@ -22,9 +22,13 @@ const ResetPasswordSchema = Yup.object().shape({
 });
 
 const ResetPasswordForm = () => {
+  //router
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const {userId, token} = useParams();
+
+  //redux
+  const dispatch = useDispatch();
+
   
   const handleSubmit = async (values) => {
     try {
@@ -41,7 +45,7 @@ const ResetPasswordForm = () => {
         showAlert({
           message: error.response.data.error
             ? error.response.data.error
-            : "Sorry, there is an issues on the server.",
+            : "Sorry, something went wrong on the server side",
           variant: "danger",
         })
       );

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeOperation } from '../enterTransaction/enterTransactionSlice';
 import "./DeleteConfirmation.scss";
 import { FaTimesCircle } from "react-icons/fa";
@@ -11,10 +11,10 @@ import {
   Modal,
 } from 'react-bootstrap';
 import {
-  showAlert,
-  hideAlert
+  showAlert
 } from '../alertMessage/alertMessageSlice';
-import { removeUser } from "../userProfile/userSlice";
+import { removeUser, selectUser } from "../userProfile/userSlice";
+import { getHeaderConfig } from '../../utils/utils';
 
 const DeleteConfirmation = (props) => {
 
@@ -23,49 +23,25 @@ const DeleteConfirmation = (props) => {
 
   //redux
   const dispatch = useDispatch();
+  const { token } = useSelector(selectUser);
 
   //method
-  const logOut = async () => {
-    try {
-      localStorage.removeItem("ET-token");
+  const logOut = () => {
       dispatch(removeUser());
       dispatch(showAlert({
-        message: "You were logged out.",
+        message: "You were logged out. Bye.",
         variant: "info",
       }));
       navigate("/login");
-    } catch (error) {
-      dispatch(
-        showAlert({
-          message: error.response.data.error
-            ? error.response.data.error
-            : "Sorry, there is an issues on the server.",
-          variant: "danger",
-        })
-      );
-      setTimeout(() => {
-        dispatch(hideAlert());
-      }, 5000);
-    }
   };
 
   //delete account
   const handleDelete = async (id) => {
-
-    const token = localStorage.getItem("ET-token");
-
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
     switch (props.delete) {
       case "transaction":
         //send data to backend - delete single tran
         try {
-          const response = await axios.delete(`/alltransaction/delete/${id}`, config);
+          const response = await axios.delete(`/alltransaction/delete/${id}`, getHeaderConfig(token));
 
           if (response.statusText !== "OK") {
             throw response.statusText;
@@ -76,8 +52,22 @@ const DeleteConfirmation = (props) => {
             navigate("/alltransaction", {
               state: response.data
             });
+            //show delete confirmation message
+            dispatch(
+              showAlert({
+                message: "Transaction has successfully been deleted",
+                variant: "info",
+              })
+            );
           }
         } catch (error) {
+          //show delete error message
+          dispatch(
+            showAlert({
+              message: "Sorry, something went wrong on the server side",
+              variant: "info",
+            })
+          );
           console.error(`${error}: Something wrong on the server side`);
           return error;
         }
@@ -88,18 +78,11 @@ const DeleteConfirmation = (props) => {
           editDelBtnVisible: false,
           checkedItem: {}
         }));
-        //show delete confirmation message
-        dispatch(
-          showAlert({
-            message: "Transaction has successfully been deleted",
-            variant: "info",
-          })
-        );
         break;
       case "userAccount":
         //send data to backend - delete single tran
         try {
-          const response = await axios.delete(`/users/delete`, config);
+          const response = await axios.delete(`/users/delete`, getHeaderConfig(token));
 
           if (response.statusText !== "OK") {
             throw response.statusText;
@@ -110,7 +93,7 @@ const DeleteConfirmation = (props) => {
             logOut();
           }
         } catch (error) {
-          console.error(`${error}: Something wrong on the server side`);
+          console.error(`${error}: Something went wrong on the server side`);
           return error;
         }
         break;

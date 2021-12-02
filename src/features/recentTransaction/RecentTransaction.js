@@ -6,8 +6,11 @@ import { useSelector } from "react-redux";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
 
 export default function RecentTransaction() {
-  const { allTran } = useSelector(transactionListSelector);
+
   const [recentTransaction, setRecentTransaction] = useState([]);
+
+  //redux
+  const { allTran } = useSelector(transactionListSelector);
 
   useEffect(() => {
     //get the last 5 transactions

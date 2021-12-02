@@ -66,6 +66,10 @@
         text-align: left;
         img {
           height: 30px;
+          width: 30px;
+          object-fit: cover;
+          border: 2px solid white;
+          margin: 0 10px;
         }
         svg {
           height: 30px;
@@ -109,6 +113,12 @@
     .navBtn {
       color: white;
       text-decoration: none;
+      img {
+        height: 50px;
+        width: 50px;
+        object-fit: cover;
+        border: 2px solid white;
+      }
       &__active {
         color: white;
       }
