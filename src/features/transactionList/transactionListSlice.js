@@ -10,6 +10,13 @@ const getTransactionTotal = (array, type) => {
   return total;
 };
 
+const sortTranByDateASC = (allTranList, payload) => {
+  //add payload to the list then sort
+  const tranList = [...allTranList, payload];
+  const sortedTran = tranList.sort((a, b) => (new Date(a["date"]) - new Date(b["date"])));
+  return sortedTran;
+};
+
 export const transactionListSlice = createSlice({
   name: 'transactionList',
   initialState: {
@@ -33,7 +40,7 @@ export const transactionListSlice = createSlice({
       return { ...state, currentPageTran: action.payload };
     },
     addTransaction: (state, action) => {
-      return { ...state, allTran: [action.payload, ...state.allTran] };
+      return { ...state, allTran: sortTranByDateASC(state.allTran, action.payload) };
     },
     updateTransaction: (state, action) => {
       return { ...state, allTran: state.allTran.map(elem => elem._id === action.payload._id ? action.payload : elem) };

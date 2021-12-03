@@ -17,6 +17,7 @@ import {
   MdCheckBoxOutlineBlank,
 } from "react-icons/md";
 import Paging from '../pagination/Paging';
+import moment from "moment";
 
 const TransactionList = () => {
 
@@ -61,7 +62,7 @@ const TransactionList = () => {
           paymentMethod: payload[0].paymentMethod,
           isDeleted: payload[0].isDeleted,
           isEditing: true
-        } 
+        }
       }));
     }
     else {
@@ -80,7 +81,7 @@ const TransactionList = () => {
           paymentMethod: payload[0].paymentMethod,
           isDeleted: payload[0].isDeleted,
           isEditing: false
-        } 
+        }
       }));
     }
   };
@@ -153,7 +154,7 @@ const TransactionList = () => {
                             {elem.transactionType === "expense" ?
                               <p className="negativeAmount">-${elem.amount}</p> :
                               <p>${elem.amount}</p>}
-                            <p>{elem.date.substr(0, 10).replace(/-/g, "/")}</p>
+                            <p>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</p>
                           </td>
                         </tr>
                       </>
@@ -216,7 +217,7 @@ const TransactionList = () => {
                                 operation.checkedItem._id !== elem._id ? true : false}
                             onClick={(e) => handleCheck(elem._id, e)} /></td>
                           <td>{elem.categoryName}</td>
-                          <td>{elem.date.substr(0, 10).replace(/-/g, "/")}</td>
+                          <td>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</td>
                           <td>{elem.paymentMethod}</td>
                           <td>{elem.description}</td>
                           {elem.transactionType === "expense" ?

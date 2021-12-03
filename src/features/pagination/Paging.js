@@ -11,7 +11,7 @@ const Paging = (props) => {
 
   //private state
   const [currentPageNum, setCurrentPageNum] = useState(1);
-  const [numOfTranPerPage] = useState(5);
+  const [numOfTranPerPage] = useState(10);
 
   //paging num array
   const pageNumbersArray = [];
@@ -24,13 +24,13 @@ const Paging = (props) => {
   const dispatch = useDispatch();
 
   //Get current transaction list
-  const indexOfLastTran = currentPageNum * numOfTranPerPage; 
-  const indexOfFirstTran = indexOfLastTran - numOfTranPerPage; 
+  const indexOfLastTran = currentPageNum * numOfTranPerPage;
+  const indexOfFirstTran = indexOfLastTran - numOfTranPerPage;
 
   //when allTran or filteredTran is changed, recalculate the number of pages
   //When pageNum is changed, update the state
   useEffect(() => {
-    const currentPageTranList = props.tranList.slice(indexOfFirstTran, indexOfLastTran); //0 - 4
+    const currentPageTranList = props.tranList.slice(indexOfFirstTran, indexOfLastTran);
     dispatch(getCurrentPageTransaction(currentPageTranList));
   }, [props.tranList, currentPageNum]);
 
@@ -39,28 +39,30 @@ const Paging = (props) => {
     setCurrentPageNum(pageNum);
   };
 
-  const prevPage = () => {
-    console.log("prev clicked");
-    paginate()
-  }
-
   return (
     <>
       {pageNumbersArray.length !== 0 && (
         <>
           <Container fluid className="paginationContainer">
             <Pagination>
-              <Pagination.First />
-              <Pagination.Prev onClick={prevPage}/>
+              <Pagination.First
+                onClick={() => paginate(1)} />
+              <Pagination.Prev
+                onClick={() => paginate(currentPageNum - 1)}
+                disabled={currentPageNum === 1 && true} />
               <Pagination.Ellipsis />
               {pageNumbersArray.map((num, index) => (
                 <Pagination.Item
                   key={index}
+                  className={currentPageNum === num && "currentPage"}
                   onClick={() => paginate(num)}>{num}</Pagination.Item>
               ))}
               <Pagination.Ellipsis />
-              <Pagination.Next />
-              <Pagination.Last />
+              <Pagination.Next
+                onClick={() => paginate(currentPageNum + 1)}
+                disabled={currentPageNum === pageNumbersArray.length && true} />
+              <Pagination.Last
+                onClick={() => paginate(pageNumbersArray.length)} />
             </Pagination>
           </Container>
         </>
