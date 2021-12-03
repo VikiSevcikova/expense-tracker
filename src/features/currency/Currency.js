@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrency, setRate, selectUser } from "../userProfile/userSlice";
-import currencyRates from "../../utils/CurrencyRates";
+import currencyLabel from "../../utils/CurrencyLabel";
 import "./Currency.scss";
 
 import { Convert } from "easy-currencies";
@@ -25,22 +25,20 @@ export default function Currency() {
   }, [currency.name]);
 
   const currencyOnChange = (e) => {
-    console.log(e);
     dispatch(setCurrency(e));
   };
 
   return (
     <div className="currencyWrap">
       <DropdownButton id="dropdown-item-button" title={currency.name}>
-        {currencyRates.map((currency, index) => {
+        {currencyLabel.map((currency, index) => {
           return (
             <Dropdown.Item
               key={index}
               onClick={(e) => currencyOnChange(e.target.value)}
-              value={currency}
+              value={currency.name}
               as="button"
-            >
-              {currency}
+            >{currency.name}
             </Dropdown.Item>
           );
         })}

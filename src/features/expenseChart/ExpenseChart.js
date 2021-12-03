@@ -4,7 +4,7 @@ import { Doughnut } from "react-chartjs-2";
 import useMedia from "use-media";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
 import { selectUser } from "../userProfile/userSlice";
-import { rateConverter } from "../../utils/CurrencyRates";
+import { rateConverter } from "../../utils/CurrencyLabel";
 
 export default function ExpenseChart() {
   const mobile = useMedia({ maxWidth: 767 });
@@ -12,6 +12,7 @@ export default function ExpenseChart() {
   const { allTran } = useSelector(transactionListSelector);
   const { currency } = useSelector(selectUser);
   const rate = currency.rate;
+  const symbol = currency.symbol;
 
   const dataList = [
     { name: "Food & Beverage", trans: [] },
@@ -34,8 +35,6 @@ export default function ExpenseChart() {
   // make it more dynamic
   // get categories and create array from the list
 
-
-
   allTran.filter((tran) => {
     dataList.forEach((list) => {
       if (
@@ -54,7 +53,11 @@ export default function ExpenseChart() {
 
   // Get the list catagory label
   const catagorylabel = dataCatagory.map((label) => {
-    return label.name;
+    return label.name
+  });
+
+  const chartLabel = dataCatagory.map((label) => {
+    return `${label.name} ${symbol}`
   });
 
   const catagoryAmount =  dataCatagory.map((label) => {
@@ -87,7 +90,7 @@ export default function ExpenseChart() {
     labels: catagorylabel,
     datasets: [
       {
-        labels: catagorylabel,
+        labels: chartLabel,
         data: catagoryAmount,
         backgroundColor: [
           "#a1bfa3",

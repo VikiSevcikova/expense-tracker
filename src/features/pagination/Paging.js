@@ -39,6 +39,11 @@ const Paging = (props) => {
     setCurrentPageNum(pageNum);
   };
 
+  const prevPage = () => {
+    console.log("prev clicked");
+    paginate()
+  }
+
   return (
     <>
       {pageNumbersArray.length !== 0 && (
