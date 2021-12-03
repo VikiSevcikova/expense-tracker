@@ -92,7 +92,7 @@
     }
     .delBtn {
       border-radius: 10vw;
-      background-color: $accentColor3;
+      background-color: $accentColor3 !important;
       border: none;
       box-shadow: none;
       transition: all 0.5s ease-in-out;

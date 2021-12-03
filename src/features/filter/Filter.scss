@@ -93,7 +93,7 @@
       color: $accentColor1;
     }
     .deleteBtn {
-      color: $accentColor3;
+      color: $accentColor3 !important;
     }
   }
 
@@ -164,7 +164,7 @@
     .deleteBtn {
       border-radius: 10vw;
       width: 8vw;
-      background-color: $accentColor3;
+      background-color: $accentColor3 !important;
       border: none;
       box-shadow: none;
       transition: all 0.5s ease-in-out;

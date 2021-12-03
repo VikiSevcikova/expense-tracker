@@ -12,6 +12,17 @@
         &:hover {
           color: $accentColor1;
         }
+        &:focus {
+          box-shadow: unset;
+        }
+      }
+      &.currentPage {
+        background-color: #393b49;
+        filter: drop-shadow(1px 1px 1px rgba(252, 249, 249, 0.386));
+       // border-radius: 50%;
+        .page-link {
+          color: $accentColor1;
+        }
       }
     }
   }

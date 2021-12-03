@@ -102,9 +102,9 @@ const EditTransaction = (props) => {
         {
           props.operationType === "edit" ?
             //send data to backend - edit tran
-            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction,  getHeaderConfig(token)) :
+            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, getHeaderConfig(token)) :
             //send data to backend - add new
-            response = await axios.post("/alltransaction/add", transaction,  getHeaderConfig(token));
+            response = await axios.post("/alltransaction/add", transaction, getHeaderConfig(token));
         }
         if (response.statusText !== "OK") {
           throw response.statusText;
@@ -163,13 +163,12 @@ const EditTransaction = (props) => {
     <>
       <Modal
         className="editModal"
-        show={props.show} //coming from filter.js
+        show={props.show}
         fullscreen
       >
         <Container fluid className="editTransactionContainer">
           {/* Header */}
           <Modal.Header>
-            {/* <Modal.Title>Enter Transaction</Modal.Title> */}
             {props.operationType === "add" ?
               <Modal.Title as="h1">Add New Transaction</Modal.Title> :
               <Modal.Title as="h1">Edit Transaction</Modal.Title>}
@@ -204,7 +203,8 @@ const EditTransaction = (props) => {
                   <DatePicker
                     required
                     selected={new Date(transaction.date)}
-                    onChange={(selectedDate) => setTransaction({ ...transaction, date: selectedDate })} />
+                    onChange={(selectedDate) => setTransaction({ ...transaction, date: selectedDate })}
+                  />
                 </Form.Group>
 
                 <Form.Group className="transactionCategory">
