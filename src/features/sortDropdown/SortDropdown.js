@@ -14,26 +14,43 @@ const SortDropdown = (props) => {
   const dispatch = useDispatch();
 
   //sorting method
-  const sortTransaction = (sortOrder, sortBy) => {
+  const sortTransaction = (sortOrder, sortBy, order) => {
 
-    console.log("sort clicked");
+    console.log("sort clicked", sortOrder, sortBy, order);
 
     let sortedTran = [];
     switch (sortOrder) {
       case "alphabet":
-        sortedTran = props.tranList.slice().sort((a, b) => (a[`${sortBy}`].localeCompare(b[`${sortBy}`])));
+        if (order === "asc") {
+          sortedTran = props.tranList.slice().sort((a, b) => (a[`${sortBy}`].localeCompare(b[`${sortBy}`])));
+        } else {
+          sortedTran = props.tranList.slice().sort((a, b) => (b[`${sortBy}`].localeCompare(a[`${sortBy}`])));
+        }
         break;
       case "number":
-        const expense = props.tranList.filter(e => e.transactionType === "expense").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
-        const income = props.tranList.filter(e => e.transactionType === "income").sort((a, b) => (a[`${sortBy}`] - (b[`${sortBy}`])));
-        sortedTran = expense.concat(income);
+        let expense;
+        let income;
+        if (order === "asc") {
+          expense = props.tranList.filter(e => e.transactionType === "expense").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
+          income = props.tranList.filter(e => e.transactionType === "income").sort((a, b) => (a[`${sortBy}`] - (b[`${sortBy}`])));
+          sortedTran = expense.concat(income);
+        } else {
+          expense = props.tranList.filter(e => e.transactionType === "expense").sort((a, b) => (a[`${sortBy}`] - (b[`${sortBy}`])));
+          income = props.tranList.filter(e => e.transactionType === "income").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
+          sortedTran = income.concat(expense);
+        }
         break;
       case "date":
-        sortedTran = props.tranList.slice().sort((a, b) => (new Date(b[`${sortBy}`]) - new Date(a[`${sortBy}`])));
+        if (order === "asc") {
+          sortedTran = props.tranList.slice().sort((a, b) => (new Date(a[`${sortBy}`]) - new Date(b[`${sortBy}`])));
+        } else {
+          sortedTran = props.tranList.slice().sort((a, b) => (new Date(b[`${sortBy}`]) - new Date(a[`${sortBy}`])));
+        }
         break;
       default:
         break;
     }
+    console.log(sortedTran)
     dispatch(filterTransaction(sortedTran));
   };
 
@@ -50,12 +67,12 @@ const SortDropdown = (props) => {
             case "alphabet":
               return (
                 <>
-                  <Dropdown.Item >
-                    <BsSortAlphaDown
-                      className="sortIcon"
-                      onClick={() => sortTransaction("alphabet", props.sortBy)} />
+                  <Dropdown.Item
+                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")}>
+                    <BsSortAlphaDown className="sortIcon" />
                   </Dropdown.Item>
-                  <Dropdown.Item >
+                  <Dropdown.Item
+                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
                     <BsSortAlphaDownAlt className="sortIcon" />
                   </Dropdown.Item>
                 </>
@@ -63,12 +80,12 @@ const SortDropdown = (props) => {
             case "number":
               return (
                 <>
-                  <Dropdown.Item >
-                    <BsSortNumericDown
-                      className="sortIcon"
-                      onClick={() => sortTransaction("number", props.sortBy)} />
+                  <Dropdown.Item
+                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")} >
+                    <BsSortNumericDown className="sortIcon" />
                   </Dropdown.Item>
-                  <Dropdown.Item >
+                  <Dropdown.Item
+                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
                     <BsSortNumericUpAlt className="sortIcon" />
                   </Dropdown.Item>
                 </>
@@ -76,12 +93,12 @@ const SortDropdown = (props) => {
             case "date":
               return (
                 <>
-                  <Dropdown.Item >
-                    <BsSortDown
-                      className="sortIcon"
-                      onClick={() => sortTransaction("date", props.sortBy)} />
+                  <Dropdown.Item
+                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")}>
+                    <BsSortDown className="sortIcon" />
                   </Dropdown.Item>
-                  <Dropdown.Item >
+                  <Dropdown.Item
+                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
                     <BsSortUpAlt className="sortIcon" />
                   </Dropdown.Item>
                 </>

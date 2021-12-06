@@ -87,30 +87,6 @@ const TransactionList = () => {
     }
   };
 
-  //sorting method
-  const sortTransaction = (sortOrder, sortBy) => {
-
-    console.log("sort clicked");
-
-    let sortedTran = [];
-    switch (sortOrder) {
-      case "alphabet":
-        sortedTran = tranList.slice().sort((a, b) => (a[`${sortBy}`].localeCompare(b[`${sortBy}`])));
-        break;
-      case "number":
-        const expense = tranList.filter(e => e.transactionType === "expense").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
-        const income = tranList.filter(e => e.transactionType === "income").sort((a, b) => (a[`${sortBy}`] - (b[`${sortBy}`])));
-        sortedTran = expense.concat(income);
-        break;
-      case "date":
-        sortedTran = tranList.slice().sort((a, b) => (new Date(b[`${sortBy}`]) - new Date(a[`${sortBy}`])));
-        break;
-      default:
-        break;
-    }
-    dispatch(filterTransaction(sortedTran));
-  };
-
   return (
     <>
       <Container fluid className="transactionListContainer">
@@ -124,27 +100,21 @@ const TransactionList = () => {
                     <tr>
                       <th><MdCheckBoxOutlineBlank /></th>
                       <th
-                        className="title"
-                      // onClick={() => sortTransaction("alphabet", "categoryName")} 
-                      >
+                        className="title"          >
                         <MdOutlineCategory />
                         Category
                         <SortDropdown
                           tranList={tranList}
                           sortOrder="alphabet"
                           sortBy="paymentMethod" />
-                        {/* <BsSortAlphaDown className="sortIcon" /> */}
                       </th>
                       <th
-                        className="titleAmount"
-                      // onClick={() => sortTransaction("number", "amount")}
-                      >
+                        className="titleAmount" >
                         <MdAttachMoney />
                         <SortDropdown
                           tranList={tranList}
                           sortOrder="number"
                           sortBy="amount" />
-                        {/* <BsSortNumericDown className="sortIcon" /> */}
                       </th>
                     </tr>
                   </thead>
@@ -188,61 +158,44 @@ const TransactionList = () => {
                     <tr>
                       <th><MdCheckBoxOutlineBlank /></th>
                       <th
-                        className="title"
-                      // onClick={() => sortTransaction("alphabet", "categoryName")}
-                      >
+                        className="title" >
                         Category
                         <SortDropdown
                           tranList={tranList}
                           sortOrder="alphabet"
                           sortBy="categoryName" />
-                        {/* <BsSortAlphaDown
-                          className="sortIcon"
-                           /> */}
                       </th>
                       <th
-                        className="title"
-                      // onClick={() => sortTransaction("date", "date")}
-                      >
+                        className="title"  >
                         Date
                         <SortDropdown
                           tranList={tranList}
                           sortOrder="date"
                           sortBy="amount" />
-                        {/* <BsSortDown className="sortIcon" /> */}
                       </th>
                       <th
-                        className="title"
-                      // onClick={() => sortTransaction("alphabet", "paymentMethod")}
-                      >
+                        className="title"   >
                         Payment Method
                         <SortDropdown
                           tranList={tranList}
                           sortOrder="alphabet"
                           sortBy="paymentMethod" />
-                        {/* <BsSortAlphaDown className="sortIcon" /> */}
                       </th>
                       <th
-                        className="title"
-                      // onClick={() => sortTransaction("alphabet", "description")}
-                      >
+                        className="title" >
                         Description
                         <SortDropdown
                           tranList={tranList}
                           sortOrder="alphabet"
                           sortBy="description" />
-                        {/* <BsSortAlphaDown className="sortIcon" /> */}
                       </th>
                       <th
-                        className="title"
-                      // onClick={() => sortTransaction("number", "amount")}
-                      >
+                        className="title"  >
                         Amount
                         <SortDropdown
                           tranList={tranList}
                           sortOrder="number"
                           sortBy="amount" />
-                        {/* <BsSortNumericDown className="sortIcon" /> */}
                       </th>
                     </tr>
                   </thead>
