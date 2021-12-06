@@ -24,10 +24,9 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try{
-      const { data } = await axios.get("/auth/logout");
       dispatch(removeUser());
       dispatch(showAlert({
-        message: data.message,
+        message: "You were successfully logged out.",
         variant: "info",
       }))
       navigate("/login");
