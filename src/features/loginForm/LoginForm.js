@@ -39,7 +39,7 @@ const LoginForm = () => {
     }catch(error){
       dispatch(
         showAlert({
-          message: error.response.data.error
+          message: error && error.response && error.response.data
             ? error.response.data.error
             : "Sorry, something went wrong on the server side",
           variant: "danger",

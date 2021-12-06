@@ -12,9 +12,18 @@ const initialState = token
         name: "CAD",
         rate: 1,
         symbol: "$",
-      }
+      },
     }
-  : { isAuth: false, user: null, token: null };
+  : {
+      isAuth: false,
+      user: null,
+      token: null,
+      currency: {
+        name: "CAD",
+        rate: 1,
+        symbol: "$",
+      },
+    };
 
 export const userSlice = createSlice({
   name: "user",
@@ -39,17 +48,17 @@ export const userSlice = createSlice({
       state.token = null;
     },
     setCurrency: (state, action) => {
-      const symbol = CurrencyLabel.find((currency)=>{
-        return currency.name === action.payload
-      })
+      const symbol = CurrencyLabel.find((currency) => {
+        return currency.name === action.payload;
+      });
 
       return {
         ...state,
         currency: {
           ...state.currency,
           name: action.payload,
-          symbol: symbol.symbol
-        }
+          symbol: symbol.symbol,
+        },
       };
     },
     setRate: (state, action) => {
@@ -57,14 +66,21 @@ export const userSlice = createSlice({
         ...state,
         currency: {
           ...state.currency,
-          rate: action.payload
-        }
+          rate: action.payload,
+        },
       };
     },
   },
 });
 
-export const { setUser, updateUser, removeUser, setToken, setCurrency, setRate } = userSlice.actions;
+export const {
+  setUser,
+  updateUser,
+  removeUser,
+  setToken,
+  setCurrency,
+  setRate,
+} = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
