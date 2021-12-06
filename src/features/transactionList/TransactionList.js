@@ -9,7 +9,6 @@ import {
   Form
 } from 'react-bootstrap';
 import "./TransactionList.scss";
-import { BsSortUpAlt, BsSortDown, BsSortAlphaDown, BsSortAlphaDownAlt, BsSortNumericUpAlt, BsSortNumericDown } from "react-icons/bs";
 import {
   MdOutlineCategory,
   MdAttachMoney,
@@ -33,7 +32,6 @@ const TransactionList = () => {
 
   //private state
   const [tranList, setTranList] = useState([]);
-  const [asc, setAsc] = useState(false);
 
   //method
   //when the component is mounted
@@ -171,7 +169,7 @@ const TransactionList = () => {
                         <SortDropdown
                           tranList={tranList}
                           sortOrder="date"
-                          sortBy="amount" />
+                          sortBy="date" />
                       </th>
                       <th
                         className="title"   >
