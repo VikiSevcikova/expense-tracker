@@ -11,7 +11,7 @@ const Paging = (props) => {
 
   //private state
   const [currentPageNum, setCurrentPageNum] = useState(1);
-  const [numOfTranPerPage] = useState(10);
+  const [numOfTranPerPage] = useState(5);
 
   //paging num array
   const pageNumbersArray = [];
@@ -38,11 +38,6 @@ const Paging = (props) => {
   const paginate = (pageNum) => {
     setCurrentPageNum(pageNum);
   };
-
-  const prevPage = () => {
-    console.log("prev clicked");
-    paginate()
-  }
 
   return (
     <>
