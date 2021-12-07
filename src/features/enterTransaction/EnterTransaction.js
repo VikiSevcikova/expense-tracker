@@ -164,7 +164,7 @@ const EditTransaction = (props) => {
       <Modal
         className="editModal"
         show={props.show}
-        fullscreen
+        // fullscreen
       >
         <Container fluid className="editTransactionContainer">
           {/* Header */}
