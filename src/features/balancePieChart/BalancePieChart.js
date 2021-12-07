@@ -4,7 +4,7 @@ import { Pie } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
 import { selectUser } from "../userProfile/userSlice";
-import {rateConverter} from "../../utils/CurrencyLabel";
+import { rateConverter } from "../../utils/CurrencyLabel";
 
 import useMedia from "use-media";
 
@@ -18,17 +18,18 @@ export default function BalancePieChart() {
   const symbol = currency.symbol;
 
   const data = {
-    labels: [
-      `Expense: ${symbol}${rateConverter(balance.expense, rate)}`,
-      `Income: ${symbol}${rateConverter(balance.income,rate)}`,
-    ],
+    labels: [`Expense`, `Income`],
+    labelText: "[[percents]]%",
     datasets: [
       {
         label: "balance",
-        data: [90, 270],
+        data: [
+          rateConverter(balance.expense, rate),
+          rateConverter(balance.income, rate),
+        ],
         backgroundColor: ["#de4c4c", "#5fa43f"],
         borderColor: ["#393b49"],
-        borderWidth: 5,
+        borderWidth: 0,
         hoverOffset: 2,
       },
     ],
@@ -37,8 +38,34 @@ export default function BalancePieChart() {
     },
   };
 
+  const tooltip = {
+    boxWidth: 30,
+    boxHeight: 30,
+    bodyFont: {
+      size: 16,
+      family: "Josefin Sans, sans-serif",
+    },
+    callbacks: {
+      label: function (item) {
+        return `${item.label}: ${symbol}${item.dataset.data[item.dataIndex]}`;
+      },
+    },
+  };
+
+  const legendLabels = function (chart) {
+    let data = chart.data;
+    const color = data.datasets[0].backgroundColor;
+    return data.labels.map((item, i) => {
+      return {
+        text: `${item}: ${symbol}${data.datasets[0].data[i]}`,
+        fillStyle: color[i],
+      };
+    });
+  };
+
   const config = {
     plugins: {
+      tooltip: tooltip,
       legend: {
         display: true,
         position: "right",
@@ -48,6 +75,7 @@ export default function BalancePieChart() {
             family: "Josefin Sans, sans-serif",
             size: 18,
           },
+          generateLabels: legendLabels,
         },
       },
     },
@@ -55,6 +83,7 @@ export default function BalancePieChart() {
 
   const mobileConfig = {
     plugins: {
+      tooltip: tooltip,
       legend: {
         display: true,
         position: "bottom",
@@ -64,6 +93,7 @@ export default function BalancePieChart() {
             family: "Josefin Sans, sans-serif",
             size: 18,
           },
+          generateLabels: legendLabels,
         },
       },
     },
@@ -71,7 +101,10 @@ export default function BalancePieChart() {
 
   return (
     <div>
-      <h5>Total balance: {symbol}{rateConverter(balance.total,rate)}</h5>
+      <h5>
+        Total balance: {symbol}
+        {rateConverter(balance.total, rate)}
+      </h5>
       <Pie data={data} options={mobile ? mobileConfig : config} />
     </div>
   );

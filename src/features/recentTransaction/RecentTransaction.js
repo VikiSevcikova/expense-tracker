@@ -44,8 +44,8 @@ export default function RecentTransaction() {
               </Col>
               <Col xs={3}>
                 <p className="amount">
-                  {symbol} {transaction.transactionType === "income" ? "+ " : null}
-                  {rateConverter(transaction.amount,rate)}
+                 {transaction.transactionType === "income" ? "+ " : null}
+                 {symbol} {rateConverter(transaction.amount,rate)}
                 </p>
               </Col>
               <hr />
