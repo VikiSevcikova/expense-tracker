@@ -12,7 +12,8 @@ import { selectUser } from "../userProfile/userSlice";
 import { dateFromString, getHeaderConfig, stringifyDate } from "../../utils/utils";
 import { showAlert } from "../alertMessage/alertMessageSlice";
 
-export default function Calendar({className}) {
+const Calendar = (props) => {
+
   //redux
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
@@ -29,6 +30,23 @@ export default function Calendar({className}) {
 
     dispatch(calendarActions.setDateRange(dates));
   }, [calendar, dispatch]);
+
+  //clear filter on transaction list
+  useEffect(() => {
+    if (props.clear === true) {
+      const initialStartOfMonth = new Date(moment(new Date()).startOf("month").startOf("day"));
+      const initialEndOfMonth = new Date(moment(new Date()).endOf("day"));
+      const initialDateRange = {
+        startDate: stringifyDate(initialStartOfMonth),
+        endDate: stringifyDate(initialEndOfMonth),
+      };
+      setCalendar([
+        dateFromString(initialDateRange.startDate),
+        dateFromString(initialDateRange.endDate)
+      ]);//reset display calendar
+      dispatch(calendarActions.setDateRange(initialDateRange)); //clear date range filter
+    };
+  }, [props.clear]);
 
   useEffect(() => {
 
@@ -50,7 +68,7 @@ export default function Calendar({className}) {
           dispatch(getBalance(res.data)); //pie chart
         }
       } catch (error) {
-        dispatch(showAlert({message: "Something wrong on the server side", variant: "danger"}));
+        dispatch(showAlert({ message: "Something wrong on the server side", variant: "danger" }));
         console.error(`${error}: Something wrong on the server side`);
         return error;
       }
@@ -63,7 +81,7 @@ export default function Calendar({className}) {
       <DatePicker
         portalId="root-portal"
         popperClassName="picker-popper"
-        className={`dateFilter ${className}`}
+        className={`dateFilter ${props.className}`}
         dateFormat="yyyy/MM/dd"
         monthsShown={2}
         selected={calendar[0]}
@@ -74,4 +92,6 @@ export default function Calendar({className}) {
       />
     </div>
   );
-}
+};
+
+export default Calendar;
