@@ -5,16 +5,25 @@ const token = localStorage.getItem("ET-token");
 
 const initialState = token
   ? {
-      isAuth: true,
-      user: null,
-      token: token,
-      currency: {
-        name: "CAD",
-        rate: 1,
-        symbol: "$",
-      }
+    isAuth: true,
+    user: null,
+    token: token,
+    currency: {
+      name: "CAD",
+      rate: 1,
+      symbol: "$",
     }
-  : { isAuth: false, user: null, token: null };
+  }
+  : {
+    isAuth: false,
+    user: null,
+    token: null,
+    currency: {
+      name: "CAD",
+      rate: 1,
+      symbol: "$",
+    }
+  };
 
 export const userSlice = createSlice({
   name: "user",
@@ -39,9 +48,9 @@ export const userSlice = createSlice({
       state.token = null;
     },
     setCurrency: (state, action) => {
-      const symbol = CurrencyLabel.find((currency)=>{
-        return currency.name === action.payload
-      })
+      const symbol = CurrencyLabel.find((currency) => {
+        return currency.name === action.payload;
+      });
 
       return {
         ...state,

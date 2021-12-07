@@ -158,7 +158,6 @@ const EditUser = (props) => {
       <Modal
         className="editUserAccountModal"
         show={props.show}
-        fullscreen
       >
         <Container fluid className="editUserAccountContainer">
           {/* Header */}
