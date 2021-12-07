@@ -158,6 +158,8 @@ const EditUser = (props) => {
       <Modal
         className="editUserAccountModal"
         show={props.show}
+        centered
+        onHide={props.handleClose}
       >
         <Container fluid className="editUserAccountContainer">
           {/* Header */}
