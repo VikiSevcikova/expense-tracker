@@ -164,7 +164,8 @@ const EditTransaction = (props) => {
       <Modal
         className="editModal"
         show={props.show}
-        // fullscreen
+        centered
+        onHide={props.handleClose}
       >
         <Container fluid className="editTransactionContainer">
           {/* Header */}
