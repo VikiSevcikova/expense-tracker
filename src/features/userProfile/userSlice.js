@@ -57,8 +57,8 @@ export const userSlice = createSlice({
         currency: {
           ...state.currency,
           name: action.payload,
-          symbol: symbol.symbol
-        }
+          symbol: symbol.symbol,
+        },
       };
     },
     setRate: (state, action) => {
@@ -66,14 +66,21 @@ export const userSlice = createSlice({
         ...state,
         currency: {
           ...state.currency,
-          rate: action.payload
-        }
+          rate: action.payload,
+        },
       };
     },
   },
 });
 
-export const { setUser, updateUser, removeUser, setToken, setCurrency, setRate } = userSlice.actions;
+export const {
+  setUser,
+  updateUser,
+  removeUser,
+  setToken,
+  setCurrency,
+  setRate,
+} = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

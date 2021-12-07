@@ -53,14 +53,14 @@ export default function ExpenseChart() {
 
   // Get the list catagory label
   const catagorylabel = dataCatagory.map((label) => {
-    return label.name
+    return label.name;
   });
 
-  const chartLabel = dataCatagory.map((label) => {
-    return `${label.name} ${symbol}`
-  });
+  // const chartLabel = dataCatagory.map((label) => {
+  //   return label.name
+  // });
 
-  const catagoryAmount =  dataCatagory.map((label) => {
+  const catagoryAmount = dataCatagory.map((label) => {
     const trans = label.trans.map((tran) => {
       return tran.amount;
     });
@@ -69,7 +69,7 @@ export default function ExpenseChart() {
     });
     // exchange rates
     return rateConverter(sumTrans, rate);
-  })
+  });
 
   const noData = {
     labels: ["no data"],
@@ -90,7 +90,7 @@ export default function ExpenseChart() {
     labels: catagorylabel,
     datasets: [
       {
-        labels: chartLabel,
+        // labels: chartLabel,
         data: catagoryAmount,
         backgroundColor: [
           "#a1bfa3",
@@ -116,15 +116,28 @@ export default function ExpenseChart() {
 
   const desktopConfig = {
     plugins: {
+      tooltip: {
+        boxWidth: 30,
+        boxHeight: 30,
+        bodyFont: {
+          size: 16,
+          family: "Josefin Sans, sans-serif",
+        },
+        callbacks: {
+          label: function (item) {
+            return `${item.label}: ${symbol}${
+              item.dataset.data[item.dataIndex]
+            }`;
+          },
+        },
+      },
       legend: {
         display: true,
         position: "right",
-
         labels: {
           color: "white",
           font: {
             family: "Josefin Sans, sans-serif",
-            // wordWrap: "break-word",
             size: 12,
           },
         },
@@ -137,12 +150,10 @@ export default function ExpenseChart() {
       legend: {
         display: true,
         position: "right",
-
         labels: {
           color: "white",
           font: {
             family: "Josefin Sans, sans-serif",
-            // wordWrap: "break-word",
             size: 8,
           },
         },
