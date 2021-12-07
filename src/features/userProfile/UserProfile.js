@@ -17,6 +17,7 @@ import { getHeaderConfig } from "../../utils/utils";
 import EditUser from "../editUser/EditUser";
 import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { Image } from "cloudinary-react";
+import { MdOutlineAccountCircle } from "react-icons/md";
 
 const NameSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -26,12 +27,6 @@ const UserProfile = () => {
   //redux
   const { user, token } = useSelector(selectUser);
   const dispatch = useDispatch();
-
-  let avatar;
-  {
-    user.avatar ? avatar = user.avatar :
-    avatar = "http://res.cloudinary.com/yukim/image/upload/v1638336063/cgqrfyythk5eqrpoiakw.jpg";
-  }
 
   //Modal pop up (enter transaction)
   const [show, setShow] = useState(false);
@@ -122,10 +117,13 @@ const UserProfile = () => {
             </Formik>
           }
         </Card.Title>
-        <Image
-          className="avatar"
-          cloudName="yukim"
-          publicId={avatar} />
+        {user.avatar ?
+          <Image
+            className="avatar"
+            cloudName="yukim"
+            publicId={user.avatar} /> :
+          <MdOutlineAccountCircle className="avatar" />
+        }
         <Card.Body>
           <Button
             onClick={() => changeUserAccount("profilePic")}

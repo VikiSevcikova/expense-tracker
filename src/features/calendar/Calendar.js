@@ -17,7 +17,7 @@ const Calendar = (props) => {
   //redux
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
-  const { startDate, endDate } = useSelector(selectCalendar);
+  const { startDate, endDate, isFilterCleared } = useSelector(selectCalendar);
 
   const [calendar, setCalendar] = useState([dateFromString(startDate), dateFromString(endDate)]);
 
@@ -33,20 +33,19 @@ const Calendar = (props) => {
 
   //clear filter on transaction list
   useEffect(() => {
-    if (props.clear === true) {
-      const initialStartOfMonth = new Date(moment(new Date()).startOf("month").startOf("day"));
-      const initialEndOfMonth = new Date(moment(new Date()).endOf("day"));
-      const initialDateRange = {
-        startDate: stringifyDate(initialStartOfMonth),
-        endDate: stringifyDate(initialEndOfMonth),
-      };
-      setCalendar([
-        dateFromString(initialDateRange.startDate),
-        dateFromString(initialDateRange.endDate)
-      ]);//reset display calendar
-      dispatch(calendarActions.setDateRange(initialDateRange)); //clear date range filter
+    // toggle state
+    const initialStartOfMonth = new Date(moment(new Date()).startOf("month").startOf("day"));
+    const initialEndOfMonth = new Date(moment(new Date()).endOf("day"));
+    const initialDateRange = {
+      startDate: stringifyDate(initialStartOfMonth),
+      endDate: stringifyDate(initialEndOfMonth),
     };
-  }, [props.clear]);
+    setCalendar([
+      dateFromString(initialDateRange.startDate),
+      dateFromString(initialDateRange.endDate)
+    ]);//reset display calendar
+    dispatch(calendarActions.setDateRange(initialDateRange)); //clear date range filter
+  }, [isFilterCleared]);
 
   useEffect(() => {
 

@@ -10,15 +10,19 @@ const calendarSlice = createSlice({
   initialState: {
     startDate: stringifyDate(startOfMonth),
     endDate: stringifyDate(endOfMonth),
+    isFilterCleared: false
   },
   reducers: {
     setDateRange(state, action) {
-      const {startDate, endDate} = action.payload;
+      const { startDate, endDate } = action.payload;
       return {
         ...state,
         startDate: startDate,
         endDate: endDate
       };
+    },
+    clearDateRange(state, action) {
+      return {...state, isFilterCleared:action.payload}
     },
   },
 });

@@ -50,7 +50,7 @@ const Filter = () => {
   const transactionList = useSelector(transactionListSelector);
 
   //filter clear
-  const [clear, setClear] = useState(false);
+  const { isFilterCleared } = useSelector(selectCalendar);
 
   //method
   const filterByTranType = (tranType) => {
@@ -60,7 +60,9 @@ const Filter = () => {
 
   const clearFilter = () => {
     dispatch(filterTransaction([]));//clear income/expense filter
-    setClear(true); //clear date range filter, props passed to Calendar.js
+    isFilterCleared ?
+      dispatch(calendarActions.clearDateRange(false)) :
+      dispatch(calendarActions.clearDateRange(true)); //clear date range filter, toggle state
   };
 
   return (
@@ -99,7 +101,7 @@ const Filter = () => {
             </Row>
 
             <Row className="dateRangeFilter">
-              <Calendar clear={clear} />
+              <Calendar />
             </Row>
 
             <Row className="buttons">
@@ -155,7 +157,7 @@ const Filter = () => {
               >
                 Clear
               </Button>
-              <Calendar clear={clear} />
+              <Calendar />
             </Col>
 
             <Col className="buttonsDesktop">

@@ -9,7 +9,6 @@ import { MdLogout } from "react-icons/md";
 import { BiMenu } from "react-icons/bi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { showAlert } from "../alertMessage/alertMessageSlice";
 import { removeUser, selectUser } from "../userProfile/userSlice";
 
