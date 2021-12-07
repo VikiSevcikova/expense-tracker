@@ -217,9 +217,7 @@ const EditTransaction = (props) => {
                     onChange={handleChange("categoryName")}>
                     <option>Choose...</option>
                     {categories.map((elem, index) => (
-                      <>
-                        <option key={index}>{elem.name}</option>
-                      </>
+                      <option key={index}>{elem.name}</option>
                     ))}
                   </Form.Select>
                 </Form.Group>
