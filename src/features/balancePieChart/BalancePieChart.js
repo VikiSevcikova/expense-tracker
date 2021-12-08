@@ -64,12 +64,16 @@ export default function BalancePieChart() {
   };
 
   const config = {
+    layout: {
+      padding: 20
+  },
     plugins: {
       tooltip: tooltip,
       legend: {
         display: true,
         position: "right",
         labels: {
+          margin:0,
           color: "white",
           font: {
             family: "Josefin Sans, sans-serif",
