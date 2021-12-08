@@ -124,19 +124,60 @@
                 }
               }
             }
-          }
-          .paymentMethod {
-            margin: 1rem 0;
-            .form-label {
+            .paymentMethod {
+              margin: 1rem 0;
               @include media-breakpoint-up(lg) {
-                display: block;
+                grid-row: 3;
+                grid-column: 1;
+              }
+              .form-label {
+                @include media-breakpoint-up(lg) {
+                  display: block;
+                }
+              }
+              .form-check {
+                margin-bottom: 1rem;
+                margin-top: 1rem;
+                @include media-breakpoint-up(lg) {
+                  display: inline-block;
+                  margin-right: 2rem;
+                }
               }
             }
-            .form-check {
-              margin-bottom: 1rem;
+            .splitPayment {
+              margin: 1rem 0;
               @include media-breakpoint-up(lg) {
-                display: inline-block;
-                margin-right: 2rem;
+                grid-row: 3;
+                grid-column: 2;
+              }
+              .split {
+                display: flex;
+                gap: 0.5rem;
+                .form-control {
+                  color: $txtColor1;
+                  background-color: transparent;
+                  border: none;
+                  border-bottom: solid 0.1rem $txtColor1;
+                  &:focus {
+                    outline: none;
+                    box-shadow: none;
+                  }
+                }
+                .calcBtn {
+                  text-align: center;
+                  margin: 0;
+                  width: fit-content;
+                  border-radius: 10vw;
+                  border: none;
+                  box-shadow: none;
+                  transition: all 0.5s ease-in-out;
+                  &:hover {
+                    transform: scale(1.05);
+                  }
+                }
+              }
+              p {
+                margin-top: 0.5rem;
               }
             }
           }
