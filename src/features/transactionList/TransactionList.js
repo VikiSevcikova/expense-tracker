@@ -3,6 +3,7 @@ import useMedia from "use-media";
 import { useSelector, useDispatch } from "react-redux";
 import { transactionListSelector } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
+import { selectUser } from '../userProfile/userSlice';
 import {
   Container,
   Table,
@@ -29,6 +30,7 @@ const TransactionList = () => {
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
+  const user = useSelector(selectUser)
 
   //private state
   const [tranList, setTranList] = useState([]);
@@ -138,8 +140,8 @@ const TransactionList = () => {
                         </td>
                         <td className="tdRight">
                           {elem.transactionType === "expense" ?
-                            <p className="negativeAmount">-${elem.amount}</p> :
-                            <p>${elem.amount}</p>}
+                            <p className="negativeAmount">-{user.currency.symbol}{elem.amount}</p> :
+                            <p>{user.currency.symbol}{elem.amount}</p>}
                           <p>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</p>
                         </td>
                       </tr>
@@ -215,8 +217,8 @@ const TransactionList = () => {
                         <td>{elem.paymentMethod}</td>
                         <td>{elem.description}</td>
                         {elem.transactionType === "expense" ?
-                          <td className="negativeAmount">-${elem.hasOwnProperty("splitAmount") && elem.splitAmount !== 0 ? elem.splitAmount : elem.amount}</td> :
-                          <td>${elem.amount}</td>}
+                          <td className="negativeAmount">-{user.currency.symbol}{elem.hasOwnProperty("splitAmount") && elem.splitAmount !== 0 ? elem.splitAmount : elem.amount}</td> :
+                          <td>{user.currency.symbol}{elem.amount}</td>}
                       </tr>
                     ))}
                     <tr className="paging">
