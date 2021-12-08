@@ -7,7 +7,6 @@ import { selectUser } from "../userProfile/userSlice";
 import { rateConverter } from "../../utils/CurrencyLabel";
 import "./ExpenseChart.scss";
 import CategoryIcon from "../categoryIcon/CategoryIcon";
-
 import { AiFillAccountBook } from "react-icons/ai";
 import * as ReactIcons from "react-icons/all";
 

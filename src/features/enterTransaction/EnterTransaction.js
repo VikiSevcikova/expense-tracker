@@ -71,6 +71,17 @@ const EditTransaction = (props) => {
     }
   }, [props.operationType]);
 
+  //in case where calculate button is not clicked before save
+  //calculate the split amount and update state
+  useEffect(() => {
+    //validation check
+    if (transaction.divideBy === "" || transaction.amount === "" || transaction.divideBy === "0" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
+      return;
+    } else if ((transaction.divideBy !== 1 && transaction.splitAmount === 0) || (transaction.amount !== 0)) {
+      calcSplitAmount();
+    }
+  }, [transaction.divideBy, transaction.amount]);
+
   //onChange
   const handleChange = (prop) => (e) => {
     //get category id based on category name;
@@ -88,78 +99,29 @@ const EditTransaction = (props) => {
     }
   };
 
-  //Calculate per person
-  const calcAmount = () => {
-    //validation check
-    if (transaction.divideBy === "" || transaction.amount === "" || transaction.divideBy === "0" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
-      dispatch(showAlert({
-        message: "Please enter an amount and split per person (minimun 1 person). Only number accepted",
-        variant: "danger"
-      }));
-    } else {
-      //convert to nummber and update state
-      calcSplitAmount();
-    };
-  };
+  //Calculate per person - onClick
+  // const calcAmount = () => {
+  //   //validation check
+  //   if (transaction.divideBy === "" || transaction.amount === "" || transaction.divideBy === "0" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
+  //     dispatch(showAlert({
+  //       message: "Please enter an amount and split per person (minimun 1 person). Only number accepted",
+  //       variant: "danger"
+  //     }));
+  //   } else {
+  //     //calculate splitAmount and update state
+  //     calcSplitAmount();
+  //   };
+  // };
 
-  const calcSplitAmount = async () => {
-    console.log("inside calcsplitAmount function");
+  //calculate splitAmount and update state
+  const calcSplitAmount = () => {
     const splitAmout = (Math.round((parseInt(transaction.amount) / parseInt(transaction.divideBy)) * 100)) / 100;
     setTransaction({ ...transaction, splitAmount: splitAmout });
   };
 
-  const dbSave = async () => {
-    console.log("dvsave")
-    let response;
-    props.operationType === "edit" ?
-      //send data to backend - edit tran
-      response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, getHeaderConfig(token)) :
-      //send data to backend - add new
-      response = await axios.post("/alltransaction/add", transaction, getHeaderConfig(token));
-
-    if (response.statusText !== "OK") {
-      throw response.statusText;
-    } else {
-      //close modal pop-up
-      props.handleClose();
-
-      //hide edit and delete button and remove checked
-      dispatch(changeOperation({
-        editDelBtnVisible: false,
-        checkedItem: {}
-      }));
-
-      //clear all filter
-      dispatch(filterTransaction([]));
-
-      //update allTran in reducer
-      props.operationType === "edit" ?
-        dispatch(updateTransaction(response.data)) :
-        dispatch(addTransaction(response.data));
-
-      //show confirmation message
-      props.operationType === "edit" ?
-        dispatch(
-          showAlert({
-            message: "Transaction has successfully been edited",
-            variant: "info",
-          })
-        ) :
-        dispatch(
-          showAlert({
-            message: "Transaction has successfully been added",
-            variant: "info",
-          })
-        );
-    }
-  };
-
   //onSubmit -- save
   const handleSubmit = async (e) => {
-
-    console.log(transaction.divideBy, typeof (transaction.divideBy));
     e.preventDefault();
-
     try {
       //validation check
       if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.divideBy == 0 || transaction.paymentMethod === "" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
@@ -169,14 +131,47 @@ const EditTransaction = (props) => {
         }));
         return;
       } else {
-        //in case where calculate button is not clicked before save
-        //calculate the split amount and update state
-        if (transaction.divideBy !== 1 && transaction.splitAmount === 0) {
-          console.log("calculate");
-          await calcSplitAmount();
-          await dbSave();
+        let response;
+        props.operationType === "edit" ?
+          //send data to backend - edit tran
+          response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, getHeaderConfig(token)) :
+          //send data to backend - add new
+          response = await axios.post("/alltransaction/add", transaction, getHeaderConfig(token));
+
+        if (response.statusText !== "OK") {
+          throw response.statusText;
         } else {
-          dbSave();
+          //close modal pop-up
+          props.handleClose();
+
+          //hide edit and delete button and remove checked
+          dispatch(changeOperation({
+            editDelBtnVisible: false,
+            checkedItem: {}
+          }));
+
+          //clear all filter
+          dispatch(filterTransaction([]));
+
+          //update allTran in reducer
+          props.operationType === "edit" ?
+            dispatch(updateTransaction(response.data)) :
+            dispatch(addTransaction(response.data));
+
+          //show confirmation message
+          props.operationType === "edit" ?
+            dispatch(
+              showAlert({
+                message: "Transaction has successfully been edited",
+                variant: "info",
+              })
+            ) :
+            dispatch(
+              showAlert({
+                message: "Transaction has successfully been added",
+                variant: "info",
+              })
+            );
         }
       }
     } catch (error) {
@@ -305,10 +300,10 @@ const EditTransaction = (props) => {
                       value={transaction.divideBy}
                       onFocus={() => setTransaction({ ...transaction, ["divideBy"]: "" })}
                       onChange={handleChange("divideBy")} />
-                    <Button
+                    {/* <Button
                       className="calcBtn"
                       type="button"
-                      onClick={calcAmount}>Calculate</Button>
+                      onClick={calcAmount}>Calculate</Button> */}
                   </div>
                   <p>Amount per person is : $ {transaction.splitAmount}</p>
                 </Form.Group>
