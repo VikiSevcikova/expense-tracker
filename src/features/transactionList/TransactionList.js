@@ -32,7 +32,9 @@ const TransactionList = () => {
 
   //private state
   const [tranList, setTranList] = useState([]);
-  
+
+  console.log("transactionList.js!!!!!!!!!!!!! ", tranList);
+
   //method
   //when the component is mounted
   useEffect(() => {
@@ -41,7 +43,7 @@ const TransactionList = () => {
       setTranList(transactionList.allTran);
   }, [transactionList]);
 
-  //Checkbox control -- under construction
+  //Checkbox control
   const handleCheck = (_id, e) => {
     const payload = tranList.filter(e => e._id == _id);
     //when it is checked, delete or edit action can be done
@@ -60,7 +62,9 @@ const TransactionList = () => {
           amount: payload[0].amount,
           paymentMethod: payload[0].paymentMethod,
           isDeleted: payload[0].isDeleted,
-          isEditing: true
+          isEditing: true,
+          divideBy: payload[0].divideBy,
+          splitAmount: payload[0].splitAmount,
         }
       }));
     }
@@ -79,7 +83,9 @@ const TransactionList = () => {
           amount: payload[0].amount,
           paymentMethod: payload[0].paymentMethod,
           isDeleted: payload[0].isDeleted,
-          isEditing: false
+          isEditing: false,
+          divideBy: payload[0].divideBy,
+          splitAmount: payload[0].splitAmount,
         }
       }));
     }
@@ -211,7 +217,7 @@ const TransactionList = () => {
                         <td>{elem.paymentMethod}</td>
                         <td>{elem.description}</td>
                         {elem.transactionType === "expense" ?
-                          <td className="negativeAmount">-${elem.amount}</td> :
+                          <td className="negativeAmount">-${elem.hasOwnProperty("splitAmount") && elem.splitAmount !== 0 ? elem.splitAmount : elem.amount}</td> :
                           <td>${elem.amount}</td>}
                       </tr>
                     ))}
