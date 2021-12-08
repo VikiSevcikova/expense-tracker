@@ -73,7 +73,7 @@ export default function Navbar() {
             <p>Transactions</p>
           </Link>
           <Link to="/account" className="navBtn">
-            {
+            {/* {
               user?.avatar ? 
                 <Image
                 src={user.avatar}
@@ -81,9 +81,9 @@ export default function Navbar() {
                 className="avatar"
                 roundedCircle
               />
-              :
+              : */}
                 <MdOutlineAccountCircle size={50} />
-            }
+            {/* } */}
             <p>Account</p>
           </Link>
           <Nav.Link className="navBtn" onClick={handleLogout}>

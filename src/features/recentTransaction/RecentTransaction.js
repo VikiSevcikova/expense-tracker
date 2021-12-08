@@ -11,7 +11,6 @@ import {rateConverter} from "../../utils/CurrencyLabel";
 export default function RecentTransaction() {
 
   const [recentTransaction, setRecentTransaction] = useState([]);
-
   //redux
   const { allTran } = useSelector(transactionListSelector);
   const { currency } = useSelector(selectUser);
@@ -31,6 +30,10 @@ export default function RecentTransaction() {
     <div>
       <h5>RecentTransaction</h5>
 
+      {(recentTransaction.length === 0) && 
+        <h5>No Transaction</h5>
+      }
+      
       {recentTransaction &&
         recentTransaction.map((transaction, index) => {
           return (

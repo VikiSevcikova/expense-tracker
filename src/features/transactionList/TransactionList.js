@@ -120,7 +120,6 @@ const TransactionList = () => {
                   </thead>
                   <tbody className="tableBody">
                     {transactionList.currentPageTran.map((elem, index) => (
-                      <>
                         <tr key={index}>
                           <td><Form.Check
                             checked={
@@ -142,7 +141,6 @@ const TransactionList = () => {
                             <p>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</p>
                           </td>
                         </tr>
-                      </>
                     ))}
                     <tr className="paging">
                       <td colSpan="6"><Paging tranList={tranList} /></td>
