@@ -33,8 +33,6 @@ const TransactionList = () => {
   //private state
   const [tranList, setTranList] = useState([]);
 
-  console.log("transactionList.js!!!!!!!!!!!!! ", tranList);
-
   //method
   //when the component is mounted
   useEffect(() => {
