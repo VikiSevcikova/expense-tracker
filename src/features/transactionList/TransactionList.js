@@ -30,7 +30,7 @@ const TransactionList = () => {
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
-  const user = useSelector(selectUser)
+  const user = useSelector(selectUser);
 
   //private state
   const [tranList, setTranList] = useState([]);
@@ -132,7 +132,7 @@ const TransactionList = () => {
                           disabled={
                             operation.editDelBtnVisible === true &&
                               operation.checkedItem._id !== elem._id ? true : false}
-                          onClick={(e) => handleCheck(elem._id, e)} /></td>
+                          onChange={(e) => handleCheck(elem._id, e)} /></td>
                         <td className="tdLeft">
                           <p className="category">{elem.categoryName}</p>
                           <p>{elem.description}</p>
@@ -211,7 +211,7 @@ const TransactionList = () => {
                           disabled={
                             operation.editDelBtnVisible === true &&
                               operation.checkedItem._id !== elem._id ? true : false}
-                          onClick={(e) => handleCheck(elem._id, e)} /></td>
+                          onChange={(e) => handleCheck(elem._id, e)} /></td>
                         <td>{elem.categoryName}</td>
                         <td>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</td>
                         <td>{elem.paymentMethod}</td>

@@ -11,6 +11,7 @@ import { MdOutlineAccountCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { showAlert } from "../alertMessage/alertMessageSlice";
 import { removeUser, selectUser } from "../userProfile/userSlice";
+import ThemeChanger from "../themeChanger/ThemeChanger";
 
 export default function Navbar() {
   //router
@@ -22,14 +23,14 @@ export default function Navbar() {
   const [menuOnClick, setMenuOnClick] = useState(false);
 
   const handleLogout = async () => {
-    try{
+    try {
       dispatch(removeUser());
       dispatch(showAlert({
         message: "You were successfully logged out.",
         variant: "info",
-      }))
+      }));
       navigate("/login");
-    }catch(error){
+    } catch (error) {
       dispatch(
         showAlert({
           message: error.response.data.error
@@ -39,7 +40,7 @@ export default function Navbar() {
         })
       );
     }
-  }
+  };
 
   return (
     <Nav className="navbar text-center">
@@ -65,7 +66,7 @@ export default function Navbar() {
           </Nav.Item>
           <Link to="/" className="navBtn">
             <RiProfileLine size={50} />
-          <p>Dashboard</p>
+            <p>Dashboard</p>
           </Link>
           <Link to="/alltransaction" className="navBtn">
             <AiOutlineTransaction size={50} />
@@ -73,18 +74,21 @@ export default function Navbar() {
           </Link>
           <Link to="/account" className="navBtn">
             {
-              user?.avatar ? 
+              user?.avatar ?
                 <Image
-                src={user.avatar}
-                alt="profile_image"
-                className="avatar"
-                roundedCircle
-              />
-              :
+                  src={user.avatar}
+                  alt="profile_image"
+                  className="avatar"
+                  roundedCircle
+                />
+                :
                 <MdOutlineAccountCircle size={50} />
             }
             <p>Account</p>
           </Link>
+          <Nav.Item className="nav-logo">
+            <ThemeChanger />
+          </Nav.Item>
           <Nav.Link className="navBtn" onClick={handleLogout}>
             <MdLogout size={50} />
             <p>Logout</p>
@@ -93,8 +97,6 @@ export default function Navbar() {
       </div>
       <div
         className={menuOnClick ? "nav-dropdown__active" : "nav-dropdown"}
-
-      // style={menuOnClick ? { display: "block" } : { display: "none" }}
       >
         <Nav.Link href="/" className="navBtn">
           <RiProfileLine size={50} />
@@ -106,18 +108,21 @@ export default function Navbar() {
         </Nav.Link>
         <Nav.Link href="/account" className="navBtn">
           {
-              user?.avatar ? 
-                <Image
+            user?.avatar ?
+              <Image
                 src={user.avatar}
                 alt="profile_image"
                 className="avatar"
                 roundedCircle
               />
               :
-                <MdOutlineAccountCircle size={50} />
-            }
+              <MdOutlineAccountCircle size={50} />
+          }
           <p>Account</p>
         </Nav.Link>
+        <Nav.Item className="nav-logo">
+          <ThemeChanger />
+        </Nav.Item>
         <Nav.Link className="navBtn" onClick={handleLogout}>
           <MdLogout size={50} />
           <p>Logout</p>

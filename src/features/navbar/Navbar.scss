@@ -48,6 +48,9 @@
       @include media-breakpoint-up(sm) {
         display: none;
       }
+      img {
+        margin-bottom: 1rem;
+      }
     }
   }
 
@@ -60,7 +63,7 @@
       .navBtn {
         display: block;
         width: 100vw;
-        color: white;
+        color: $txtColor1;
         border: 2px solid $bgColor;
         border-style: none solid solid;
         text-align: left;
@@ -68,7 +71,7 @@
           height: 30px;
           width: 30px;
           object-fit: cover;
-          border: 2px solid white;
+          border: 2px solid $txtColor1;
           margin: 0 10px;
         }
         svg {
@@ -108,41 +111,43 @@
       width: 80px;
       display: block;
       margin: 20px 0 0;
+      img {
+        margin-bottom: 1rem;
+      }
     }
 
     .navBtn {
-      color: white;
+      color: $txtColor1;
       text-decoration: none;
       img {
         height: 50px;
         width: 50px;
         object-fit: cover;
-        border: 2px solid white;
+        border: 2px solid $txtColor1;
       }
       &__active {
-        color: white;
+        color: $txtColor1;
       }
       &__active:hover {
         user-select: none;
         cursor: default;
-        color: white;
+        color: $txtColor1;
       }
       &__active:focus {
         user-select: none;
         cursor: default;
-        color: white;
+        color: $txtColor1;
       }
     }
 
     .navBtn:hover {
-      color: white;
+      color: $txtColor1;
       text-decoration: none;
       transform: scale(1.05);
       transition: all 0.5s ease-in-out;
     }
-
     .navBtn:focus {
-      color: white;
+      color: $txtColor1;
     }
   }
 }

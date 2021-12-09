@@ -1,10 +1,13 @@
 @import "~bootstrap/scss/_functions.scss";
 @import "~bootstrap/scss/_variables.scss";
 @import "~bootstrap/scss/mixins/_breakpoints.scss";
-/* Color Palette */
+
+/* Color Palette - dark mode*/
 $bgColor: #282a38;
 $bgColorTR: #191a24c8;
+$bgColorLight: #ffffffa9;
 $boxColor: #393b49;
+$boxColorTr: #393b496b;
 $accentColor1: #3f85a4;
 $accentColor2: #34a0a4;
 $accentColor3: #de4c4c;
