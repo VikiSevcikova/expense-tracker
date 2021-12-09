@@ -1,11 +1,11 @@
 @import "../../utils/component";
 
 .dashBoard_wrapper {
-  color: white;
+  color: $txtColor1;
   padding: 0 2rem;
 }
 
-.row_wrapper{
+.row_wrapper {
   // margin-right:  15px;
 }
 
@@ -13,27 +13,58 @@
   background-color: $boxColor;
   padding: 1rem;
   border-radius: 30px;
+  max-width: unset;
+  @include media-breakpoint-up(md) {
+    max-width: unset;
+  }
+  @include media-breakpoint-up(lg) {
+    max-width: unset;
+  }
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   margin: 0.5rem auto;
   min-height: 100px;
   &--top {
     z-index: 2;
   }
-  canvas{
-    height:100px;
+  canvas {
+    height: 100px;
+  }
+  h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+  }
+  .wrapper-top-row {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    margin: 0 1rem;
   }
 }
 
-.box_wrapper_top{
+.box_wrapper_top {
   background-color: $boxColor;
   padding: 1rem;
   border-radius: 30px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   margin: 0.5rem auto;
   min-height: 100px;
-
-    z-index: 2;
-
+  z-index: 2;
+  .wrapper-top-row {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    margin: 0 1rem;
+  }
 }
 
 .box_wrapperr {
@@ -45,8 +76,17 @@
   min-height: 100px;
   // height: 50vh;
   // height: 505px;
-  canvas{
-    height:100px;
+  canvas {
+    height: 100px;
+  }
+  .wrapper-top-row {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    margin: 0 1rem;
   }
 }
 

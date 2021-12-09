@@ -59,7 +59,7 @@ export default function DashBoardCards() {
               </Col>
               <Col xl={6}>
                 <Container fluid className="box_wrapper_top">
-                  <Row>
+                  <Row className="wrapper-top-row">
                     <Col xl={9}>
                       <Calendar />
                     </Col>
@@ -155,7 +155,7 @@ export default function DashBoardCards() {
               </Col>
               <Col xl={8} className="top">
                 <Container fluid className="box_wrapper">
-                  <Row>
+                  <Row className="wrapper-top-row">
                     <Col xs={9}>
                       <Calendar />
                     </Col>

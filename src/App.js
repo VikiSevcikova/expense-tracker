@@ -13,20 +13,24 @@ import { getUser } from "./utils/utils";
 import { removeUser, selectUser, setUser } from "./features/userProfile/userSlice";
 import { hideAlert, showAlert } from "./features/alertMessage/alertMessageSlice";
 import { getAll } from "./features/categoryIcon/categoryIconSlice";
+import { selectTheme } from "./features/themeChanger/themeChangerSlice";
 
 const App = () => {
   const dispatch = useDispatch();
   const { user, token } = useSelector(selectUser);
+  const theme = useSelector(selectTheme);
+
+  console.log("App,js", theme);
 
   useEffect(() => {
     const loadUser = async () => {
-      try{
+      try {
         if (token) {
           const { user } = await getUser(token);
           dispatch(setUser(user));
           dispatch(getAll(token));
         }
-      }catch(error){
+      } catch (error) {
         dispatch(removeUser());
         dispatch(
           showAlert({
@@ -45,29 +49,29 @@ const App = () => {
   }, [dispatch, token]);
 
   return (
-    <div className="App">
+    <div className={theme.mode === "dark" ? "App" : "App light"}>
       <Router>
         <Routes>
-            <Route path="/login" element={
-              <PublicRoute>
-                <Auth />
-              </PublicRoute>
-            } />
-            <Route path="/registration" element={
-              <PublicRoute>
-                <Auth />
-              </PublicRoute>
-            } />
-            <Route path="/forgot-password" element={
-              <PublicRoute>
-                <Auth />
-              </PublicRoute>
-            } />
-            <Route path="/reset-password/:userId/:token" element={
-              <PublicRoute>
-                <Auth />
-              </PublicRoute>
-            } />
+          <Route path="/login" element={
+            <PublicRoute>
+              <Auth />
+            </PublicRoute>
+          } />
+          <Route path="/registration" element={
+            <PublicRoute>
+              <Auth />
+            </PublicRoute>
+          } />
+          <Route path="/forgot-password" element={
+            <PublicRoute>
+              <Auth />
+            </PublicRoute>
+          } />
+          <Route path="/reset-password/:userId/:token" element={
+            <PublicRoute>
+              <Auth />
+            </PublicRoute>
+          } />
           <Route
             path="/"
             element={
