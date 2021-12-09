@@ -158,7 +158,8 @@ const EditUser = (props) => {
       <Modal
         className="editUserAccountModal"
         show={props.show}
-        fullscreen
+        centered
+        onHide={props.handleClose}
       >
         <Container fluid className="editUserAccountContainer">
           {/* Header */}
@@ -194,7 +195,7 @@ const EditUser = (props) => {
                   <Form.Group className="passwordInput" >
                     <Form.Label>Enter New Password *</Form.Label>
                     <Form.Control
-                      type="text"
+                      type="password"
                       placeholder="Enter new password..."
                       value={password.newPassword}
                       onFocus={() => setPassword({ ...password, newPassword: "" })}
@@ -204,7 +205,7 @@ const EditUser = (props) => {
                   <Form.Group className="passwordInputConfirm" >
                     <Form.Label>Confirm New Password *</Form.Label>
                     <Form.Control
-                      type="text"
+                      type="password"
                       placeholder="Confirm new password..."
                       value={password.confirmPassword}
                       onFocus={() => setPassword({ ...password, confirmPassword: "" })}

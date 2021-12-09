@@ -4,7 +4,7 @@ import {
   DropdownButton,
   Dropdown
 } from 'react-bootstrap';
-import { BsFillCaretDownFill, BsSortUpAlt, BsSortDown, BsSortAlphaDown, BsSortAlphaDownAlt, BsSortNumericUpAlt, BsSortNumericDown } from "react-icons/bs";
+import { BsSortUpAlt, BsSortDown, BsSortAlphaDown, BsSortAlphaDownAlt, BsSortNumericUpAlt, BsSortNumericDown } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { filterTransaction } from '../transactionList/transactionListSlice';
 
@@ -15,8 +15,6 @@ const SortDropdown = (props) => {
 
   //sorting method
   const sortTransaction = (sortOrder, sortBy, order) => {
-
-    console.log("sort clicked", sortOrder, sortBy, order);
 
     let sortedTran = [];
     switch (sortOrder) {
@@ -36,11 +34,12 @@ const SortDropdown = (props) => {
           sortedTran = expense.concat(income);
         } else {
           expense = props.tranList.filter(e => e.transactionType === "expense").sort((a, b) => (a[`${sortBy}`] - (b[`${sortBy}`])));
-          income = props.tranList.filter(e => e.transactionType === "income").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
+          income = props.tranList.ter(e => e.transactionType === "income").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
           sortedTran = income.concat(expense);
         }
         break;
       case "date":
+        console.log(props.tranList);
         if (order === "asc") {
           sortedTran = props.tranList.slice().sort((a, b) => (new Date(a[`${sortBy}`]) - new Date(b[`${sortBy}`])));
         } else {
@@ -50,7 +49,6 @@ const SortDropdown = (props) => {
       default:
         break;
     }
-    console.log(sortedTran)
     dispatch(filterTransaction(sortedTran));
   };
 
@@ -59,7 +57,6 @@ const SortDropdown = (props) => {
       <DropdownButton
         className="sortDropdown"
         variant="secondary"
-      // menuVariant="dark"
       >
         {/* Self-invoking function : to change icon */}
         {(() => {

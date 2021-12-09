@@ -108,7 +108,7 @@ const DeleteConfirmation = (props) => {
     <>
       <Modal
         className="delConfModal"
-        show={props.show} //coming from filter.js
+        show={props.show}
         centered
         onHide={props.closeDelConf}
       >

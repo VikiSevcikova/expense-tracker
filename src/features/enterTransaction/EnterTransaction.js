@@ -31,7 +31,7 @@ const EditTransaction = (props) => {
   //private state
   const [transaction, setTransaction] = useState({
     date: new Date(),
-    categoryId: 0, //default 0 : need to get from backend
+    categoryId: 0,
     categoryName: "",
     transactionType: "expense",
     description: "",
@@ -40,6 +40,8 @@ const EditTransaction = (props) => {
     paymentMethod: "",
     isDeleted: false,
     isEditing: false,
+    divideBy: 1,
+    splitAmount: 0
   });
 
   //Modal pop up (delete conf)
@@ -63,9 +65,22 @@ const EditTransaction = (props) => {
         paymentMethod: props.checkedItem.paymentMethod,
         isDeleted: props.checkedItem.isDeleted,
         isEditing: props.checkedItem.isEditing,
+        divideBy: props.checkedItem.divideBy,
+        splitAmount: props.checkedItem.splitAmount
       });
     }
   }, [props.operationType]);
+
+  //in case where calculate button is not clicked before save
+  //calculate the split amount and update state
+  useEffect(() => {
+    //validation check
+    if (transaction.divideBy === "" || transaction.amount === "" || transaction.divideBy === "0" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
+      return;
+    } else if ((transaction.divideBy !== 1 && transaction.splitAmount === 0) || (transaction.amount !== 0)) {
+      calcSplitAmount();
+    }
+  }, [transaction.divideBy, transaction.amount]);
 
   //onChange
   const handleChange = (prop) => (e) => {
@@ -84,32 +99,48 @@ const EditTransaction = (props) => {
     }
   };
 
+  //Calculate per person - onClick
+  // const calcAmount = () => {
+  //   //validation check
+  //   if (transaction.divideBy === "" || transaction.amount === "" || transaction.divideBy === "0" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
+  //     dispatch(showAlert({
+  //       message: "Please enter an amount and split per person (minimun 1 person). Only number accepted",
+  //       variant: "danger"
+  //     }));
+  //   } else {
+  //     //calculate splitAmount and update state
+  //     calcSplitAmount();
+  //   };
+  // };
+
+  //calculate splitAmount and update state
+  const calcSplitAmount = () => {
+    const splitAmout = (Math.round((parseInt(transaction.amount) / parseInt(transaction.divideBy)) * 100)) / 100;
+    setTransaction({ ...transaction, splitAmount: splitAmout });
+  };
+
   //onSubmit -- save
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-
     try {
       //validation check
-      if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.paymentMethod === "") {
+      if (transaction.transactionType === "" || transaction.categoryName === "" || transaction.amount === 0 || transaction.divideBy == 0 || transaction.paymentMethod === "" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
         dispatch(showAlert({
-          message: "Please fill in all the required fields",
+          message: "Please fill in all the required fields in a valid format",
           variant: "danger"
         }));
         return;
       } else {
         let response;
-        {
-          props.operationType === "edit" ?
-            //send data to backend - edit tran
-            response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, getHeaderConfig(token)) :
-            //send data to backend - add new
-            response = await axios.post("/alltransaction/add", transaction, getHeaderConfig(token));
-        }
+        props.operationType === "edit" ?
+          //send data to backend - edit tran
+          response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, getHeaderConfig(token)) :
+          //send data to backend - add new
+          response = await axios.post("/alltransaction/add", transaction, getHeaderConfig(token));
+
         if (response.statusText !== "OK") {
           throw response.statusText;
         } else {
-
           //close modal pop-up
           props.handleClose();
 
@@ -123,28 +154,24 @@ const EditTransaction = (props) => {
           dispatch(filterTransaction([]));
 
           //update allTran in reducer
-          {
-            props.operationType === "edit" ?
-              dispatch(updateTransaction(response.data)) :
-              dispatch(addTransaction(response.data));
-          }
+          props.operationType === "edit" ?
+            dispatch(updateTransaction(response.data)) :
+            dispatch(addTransaction(response.data));
 
           //show confirmation message
-          {
-            props.operationType === "edit" ?
-              dispatch(
-                showAlert({
-                  message: "Transaction has successfully been edited",
-                  variant: "info",
-                })
-              ) :
-              dispatch(
-                showAlert({
-                  message: "Transaction has successfully been added",
-                  variant: "info",
-                })
-              );
-          }
+          props.operationType === "edit" ?
+            dispatch(
+              showAlert({
+                message: "Transaction has successfully been edited",
+                variant: "info",
+              })
+            ) :
+            dispatch(
+              showAlert({
+                message: "Transaction has successfully been added",
+                variant: "info",
+              })
+            );
         }
       }
     } catch (error) {
@@ -164,7 +191,8 @@ const EditTransaction = (props) => {
       <Modal
         className="editModal"
         show={props.show}
-        fullscreen
+        centered
+        onHide={props.handleClose}
       >
         <Container fluid className="editTransactionContainer">
           {/* Header */}
@@ -216,15 +244,13 @@ const EditTransaction = (props) => {
                     onChange={handleChange("categoryName")}>
                     <option>Choose...</option>
                     {categories.map((elem, index) => (
-                      <>
-                        <option key={index}>{elem.name}</option>
-                      </>
+                      <option key={index}>{elem.name}</option>
                     ))}
                   </Form.Select>
                 </Form.Group>
 
                 <Form.Group className="transactionAmount" >
-                  <Form.Label>Enter an Amount *</Form.Label>
+                  <Form.Label>Enter an Amount * (only number accepted)</Form.Label>
                   <Form.Control
                     required type="text"
                     placeholder="$"
@@ -242,29 +268,46 @@ const EditTransaction = (props) => {
                     onFocus={() => setTransaction({ ...transaction, ["description"]: "" })}
                     onChange={handleChange("description")} />
                 </Form.Group>
-              </Container>
 
-              <Form.Group className="paymentMethod">
-                <Form.Label>Payment Method *</Form.Label>
-                <Form.Check
-                  type="radio"
-                  label="Debit Card"
-                  value="Debit Card"
-                  checked={transaction.paymentMethod === "Debit Card" && true}
-                  onChange={handleChange("paymentMethod")} />
-                <Form.Check
-                  type="radio"
-                  label="Credit Card"
-                  value="Credit Card"
-                  checked={transaction.paymentMethod === "Credit Card" && true}
-                  onChange={handleChange("paymentMethod")} />
-                <Form.Check
-                  type="radio"
-                  label="Cash"
-                  value="Cash"
-                  checked={transaction.paymentMethod === "Cash" && true}
-                  onChange={handleChange("paymentMethod")} />
-              </Form.Group>
+                <Form.Group className="paymentMethod">
+                  <Form.Label>Payment Method *</Form.Label>
+                  <Form.Check
+                    type="radio"
+                    label="Debit Card"
+                    value="Debit Card"
+                    checked={transaction.paymentMethod === "Debit Card" && true}
+                    onChange={handleChange("paymentMethod")} />
+                  <Form.Check
+                    type="radio"
+                    label="Credit Card"
+                    value="Credit Card"
+                    checked={transaction.paymentMethod === "Credit Card" && true}
+                    onChange={handleChange("paymentMethod")} />
+                  <Form.Check
+                    type="radio"
+                    label="Cash"
+                    value="Cash"
+                    checked={transaction.paymentMethod === "Cash" && true}
+                    onChange={handleChange("paymentMethod")} />
+                </Form.Group>
+
+                <Form.Group className="splitPayment" >
+                  <Form.Label>Split the payment? (only number accepted)</Form.Label>
+                  <div className="split">
+                    <Form.Control
+                      type="text"
+                      placeholder="Divide by... * min 1 person required"
+                      value={transaction.divideBy}
+                      onFocus={() => setTransaction({ ...transaction, ["divideBy"]: "" })}
+                      onChange={handleChange("divideBy")} />
+                    {/* <Button
+                      className="calcBtn"
+                      type="button"
+                      onClick={calcAmount}>Calculate</Button> */}
+                  </div>
+                  <p>Amount per person is : $ {transaction.splitAmount}</p>
+                </Form.Group>
+              </Container>
 
               <Container className="buttons">
                 <Button className="saveBtn" type="submit">Save</Button>

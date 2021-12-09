@@ -3,6 +3,7 @@ import useMedia from "use-media";
 import { useSelector, useDispatch } from "react-redux";
 import { enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
 import { transactionListSelector, filterTransaction } from '../transactionList/transactionListSlice';
+import { calendarActions, selectCalendar } from '../calendar/calendarSlice';
 import "./Filter.scss";
 import {
   Container,
@@ -48,15 +49,20 @@ const Filter = () => {
   const operation = useSelector(enterTransactionSelector);
   const transactionList = useSelector(transactionListSelector);
 
+  //filter clear
+  const { isFilterCleared } = useSelector(selectCalendar);
+
   //method
-  const filterByIncome = () => {
-    const incomeTran = transactionList.allTran.filter(e => e.transactionType === "income");
-    dispatch(filterTransaction(incomeTran));
+  const filterByTranType = (tranType) => {
+    const filtered = transactionList.allTran.filter(e => e.transactionType === tranType);
+    dispatch(filterTransaction(filtered));
   };
 
-  const filterByExpense = () => {
-    const expenseTran = transactionList.allTran.filter(e => e.transactionType === "expense");
-    dispatch(filterTransaction(expenseTran));
+  const clearFilter = () => {
+    dispatch(filterTransaction([]));//clear income/expense filter
+    isFilterCleared ?
+      dispatch(calendarActions.clearDateRange(false)) :
+      dispatch(calendarActions.clearDateRange(true)); //clear date range filter, toggle state
   };
 
   return (
@@ -71,7 +77,7 @@ const Filter = () => {
                 <Button
                   name="income"
                   className="incomeFilter"
-                  onClick={filterByIncome}
+                  onClick={() => filterByTranType("income")}
                 >
                   Income
                 </Button>
@@ -79,9 +85,17 @@ const Filter = () => {
               <Col>
                 <Button
                   className="expenseFilter"
-                  onClick={filterByExpense}
+                  onClick={() => filterByTranType("expense")}
                 >
                   Expense
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  className="clearFilter"
+                  onClick={clearFilter}
+                >
+                  Clear
                 </Button>
               </Col>
             </Row>
@@ -127,15 +141,21 @@ const Filter = () => {
             <Col className="filterOptionsDesktop">
               <Button
                 className="incomeFilter"
-                onClick={filterByIncome}
+                onClick={() => filterByTranType("income")}
               >
                 Income
               </Button>
               <Button
                 className="expenseFilter"
-                onClick={filterByExpense}
+                onClick={() => filterByTranType("expense")}
               >
                 Expense
+              </Button>
+              <Button
+                className="clearFilter"
+                onClick={clearFilter}
+              >
+                Clear
               </Button>
               <Calendar />
             </Col>
