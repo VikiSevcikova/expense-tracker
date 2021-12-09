@@ -8,6 +8,8 @@ import { rateConverter } from "../../utils/CurrencyLabel";
 import "./ExpenseChart.scss";
 import CategoryIcon from "../categoryIcon/CategoryIcon";
 
+import { Chart } from "chart.js";
+
 import { AiFillAccountBook } from "react-icons/ai";
 import * as ReactIcons from "react-icons/all";
 
@@ -80,10 +82,11 @@ export default function ExpenseChart() {
     const totalExpense = catagoryAmount.reduce((a, b) => {
       return a + b;
     }, 0);
-    return Math.round((amount/totalExpense) *100)
+    return Math.round((amount / totalExpense) * 100);
   };
+  // ===============================================================================================
 
-  
+  // ===============================================================================================
 
   const legendLabels = function (chart) {
     let data = chart.data;
@@ -95,12 +98,8 @@ export default function ExpenseChart() {
       return {
         text: `${label} ${percentage(data.datasets[0].data[i])}%
    ${(
-          <CategoryIcon
-            size={20}
-            id={data.labels.indexOf(label)}
-            type={label}
-          />
-        )}`,
+     <CategoryIcon size={20} id={data.labels.indexOf(label)} type={label} />
+   )}`,
         fillStyle: color[i],
       };
     });
@@ -169,19 +168,43 @@ export default function ExpenseChart() {
         },
       },
       legend: {
-        display: true,
-        position: "right",
-        labels: {
-          color: "white",
-          font: {
-            family: "Josefin Sans, sans-serif",
-            size: 18,
-          },
-          generateLabels: legendLabels,
-        },
+        display: false,
+        // position: "right",
+        // labels: {
+        //   color: "white",
+        //   font: {
+        //     family: "Josefin Sans, sans-serif",
+        //     size: 18,
+        //   },
+        //   // generateLabels: legendLabels,
+        // },
       },
     },
+
+    legend: false,
+    legendCallback: function (chart) {
+      console.log(chart);
+    },
   };
+
+  // const plugins = [
+  //   {
+  //     beforeInit: function (chart, args, options) {
+  //       console.log(chart);
+
+  //       const ul = document.createElement("ul");
+  //       chart.data.labels.forEach((label, i) => {
+  //         ul.innerHTML += `
+  //             <li>
+  //               <span style="background-color: ${chart.data.datasets[0].backgroundColor[i]}">${chart.data.datasets[0].data[i]}</span>
+  //               ${label}
+  //             </li>
+  //           `;
+  //       });
+  //       return document.getElementById("js-legend").appendChild(ul);
+  //     },
+  //   },
+  // ];
 
   const config = {
     plugins: {
@@ -259,13 +282,54 @@ export default function ExpenseChart() {
     },
   };
 
+  // var options = {
+  //   plugins: {
+  //     legend: {
+  //       display: false,
+  //     },
+  //   },
+  // };
+
+  // const context = document.querySelector("#chart-idd");
+  // const chart = new Chart(context, {
+  //   type: "doughnut",
+  //   data,
+  //   options,
+  //   plugins: [
+  //     {
+  //       beforeInit: function (chart, args, options) {
+  //         // Make sure we're applying the legend to the right chart
+  //         console.log(chart);
+  //         if (chart.canvas.id === "chart-idd") {
+  //           const ul = document.createElement("ul");
+  //           chart.data.labels.forEach((label, i) => {
+  //             ul.innerHTML += `
+  //             <li>
+  //               <span style="background-color: ${chart.data.datasets[0].backgroundColor[i]}">
+  //                 ${chart.data.datasets[0].data[i]}
+  //               </span>
+  //               ${label}
+  //             </li>
+  //           `;
+  //           });
+  //           return document.getElementById("js-legend").appendChild(ul);
+  //         }
+  //         return;
+  //       },
+  //     },
+  //   ],
+  // });
+
   return (
     <div className="chart">
       <h5>ExpenseChart</h5>
+      {/* <div id="legend-id"></div>
+      <canvas id="chart-idd"></canvas> */}
       {data.labels.length !== 0 ? (
         <Doughnut
           data={data}
           options={mobile ? mobileConfig : medium ? config : desktopConfig}
+          // plugins={plugins}
         />
       ) : (
         <Doughnut data={noData} options={nodataConfig} />
