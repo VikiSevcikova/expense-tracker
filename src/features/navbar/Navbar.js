@@ -73,17 +73,18 @@ export default function Navbar() {
             <p>Transactions</p>
           </Link>
           <Link to="/account" className="navBtn">
-            {
-              user?.avatar ?
+            {/* {
+              user?.avatar ? 
                 <Image
-                  src={user.avatar}
-                  alt="profile_image"
-                  className="avatar"
-                  roundedCircle
-                />
-                :
+                src={user.avatar}
+                alt="profile_image"
+                className="avatar"
+                roundedCircle
+              />
+              : */}
+
                 <MdOutlineAccountCircle size={50} />
-            }
+            {/* } */}
             <p>Account</p>
           </Link>
           <Nav.Item className="nav-logo">
