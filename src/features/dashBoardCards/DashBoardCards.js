@@ -23,7 +23,7 @@ export default function DashBoardCards() {
               <Greeting />
             </div>
           </Col>
-          <Col xs={12} xl={6} >
+          <Col xs={12} xl={6} style={{zIndex:1}}>
             <div className="box_wrapper name mb-0">
             <Row>
               <Col xs={8}>

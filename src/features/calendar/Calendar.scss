@@ -25,6 +25,9 @@
 
 
 .picker-popper {
+  .react-datepicker-popper{
+    z-index: 2;
+  }
   .react-datepicker__day--selected,
   .react-datepicker__day--in-range {
     background-color: $accentColor1;

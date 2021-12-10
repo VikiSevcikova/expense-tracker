@@ -64,7 +64,7 @@
         display: block;
         width: 100vw;
         color: $txtColor1;
-        border: 2px solid $bgColor;
+        border: 2px solid $txtColor1;
         border-style: none solid solid;
         text-align: left;
         img {
@@ -86,9 +86,9 @@
       .navBtn:nth-child(1) {
         border-style: solid solid solid;
       }
-      .navBtn:nth-child(4) {
-        border-style: none solid none;
-      }
+      // .navBtn:nth-child(4) {
+      //   border-style: none solid none;
+      // }
 
       @include media-breakpoint-up(sm) {
         display: none;

@@ -99,15 +99,15 @@ export default function Navbar() {
       <div
         className={menuOnClick ? "nav-dropdown__active" : "nav-dropdown"}
       >
-        <Nav.Link href="/" className="navBtn">
+        <Link to="/" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
           <RiProfileLine size={50} />
           <p>Dashboard</p>
-        </Nav.Link>
-        <Nav.Link href="/alltransaction" className="navBtn">
+        </Link>
+        <Link to="/alltransaction" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
           <AiOutlineTransaction size={50} />
           <p>Transactions</p>
-        </Nav.Link>
-        <Nav.Link href="/account" className="navBtn">
+        </Link>
+        <Link to="/account" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
           {
             user?.avatar ?
               <Image
@@ -120,10 +120,10 @@ export default function Navbar() {
               <MdOutlineAccountCircle size={50} />
           }
           <p>Account</p>
-        </Nav.Link>
-        <Nav.Item className="nav-logo">
+        </Link>
+        <Nav.Link className="navBtn nav-link">
           <ThemeChanger />
-        </Nav.Item>
+        </Nav.Link>
         <Nav.Link className="navBtn" onClick={handleLogout}>
           <MdLogout size={50} />
           <p>Logout</p>
