@@ -26,7 +26,8 @@
     border: none;
     .editTransactionContainer {
       flex: 1;
-      background-color: $boxColorTr;
+      background-color: $bgColorTR;
+      box-shadow: $boxShadowDark;
       backdrop-filter: blur(15px);
       padding: 1rem;
       border-radius: 30px;
@@ -80,7 +81,7 @@
               }
               .form-select {
                 color: $txtColor1;
-                background-color: $boxColor;
+                background-color: $bgColorTR;
                 border: none;
                 border-bottom: solid 0.1rem $txtColor1;
                 background-image: url("http://www.w3.org/2000/svg");

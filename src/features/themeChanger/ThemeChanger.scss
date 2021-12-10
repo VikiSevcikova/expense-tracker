@@ -1,18 +1,5 @@
 @import "../../utils/component";
 
-// .themeChangeSwitch {
-//   .themeChanger {
-//     input {
-//       height: 20px;
-//       width: 100%;
-//       margin-bottom: 0.5rem;
-//       &:checked {
-//         background-color: #7bb0b2;
-//       }
-//     }
-//   }
-// }
-
 .themeChangeSwitch {
   .themeChanger {
     input {
@@ -32,6 +19,8 @@
     .themeChanger {
       width: 80px;
       .input {
+        box-shadow: unset;
+        border: none;
         height: 20px;
         width: 100%;
         margin-bottom: 0.5rem;

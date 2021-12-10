@@ -10,7 +10,8 @@
 }
 
 .box_wrapper {
-  background-color: $boxColor;
+  background-color: $bgColorTR;
+  box-shadow: $boxShadowDark;
   padding: 1rem;
   border-radius: 30px;
   max-width: unset;
@@ -20,7 +21,7 @@
   @include media-breakpoint-up(lg) {
     max-width: unset;
   }
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: $dropShadowDark;
   margin: 0.5rem auto;
   min-height: 100px;
   &--top {
@@ -49,10 +50,11 @@
 }
 
 .box_wrapper_top {
-  background-color: $boxColor;
+  background-color: $bgColorTR;
+  box-shadow: $boxShadowDark;
   padding: 1rem;
   border-radius: 30px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: $dropShadowDark;
   margin: 0.5rem auto;
   min-height: 100px;
   z-index: 2;
@@ -68,10 +70,11 @@
 }
 
 .box_wrapperr {
-  background-color: $boxColor;
+  background-color: $bgColorTR;
+  box-shadow: $boxShadowDark;
   padding: 1rem;
   border-radius: 30px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: $dropShadowDark;
   margin: 0.5rem auto;
   min-height: 100px;
   // height: 50vh;

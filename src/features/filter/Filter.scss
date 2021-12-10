@@ -1,10 +1,11 @@
 @import "../../utils/component";
 
 .filterContainer {
-  background-color: $boxColor;
+  background-color: $bgColorTR;
+  box-shadow: $boxShadowDark;
   padding: 1rem;
   border-radius: 30px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: $dropShadowDark;
   margin: 1rem auto;
   @include media-breakpoint-up(lg) {
     display: flex;
