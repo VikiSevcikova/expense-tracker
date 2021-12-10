@@ -6,7 +6,7 @@ import moment from "moment";
 import { selectCalendar } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { calendarActions } from "./calendarSlice";
-import { getAllTransaction, getBalance, filterTransaction } from "../transactionList/transactionListSlice";
+import { getAllTransaction, getBalance, filterTransaction, transactionListSelector } from "../transactionList/transactionListSlice";
 import axios from "axios";
 import { selectUser } from "../userProfile/userSlice";
 import { dateFromString, getHeaderConfig, stringifyDate } from "../../utils/utils";
@@ -16,9 +16,10 @@ const Calendar = (props) => {
 
   //redux
   const dispatch = useDispatch();
-  const { token } = useSelector(selectUser);
+  const { token,currency } = useSelector(selectUser);
   const { startDate, endDate, isFilterCleared } = useSelector(selectCalendar);
-
+  const { allTran } = useSelector(transactionListSelector);
+console.log(allTran)
   const [calendar, setCalendar] = useState([dateFromString(startDate), dateFromString(endDate)]);
 
   useEffect(() => {
@@ -64,7 +65,8 @@ const Calendar = (props) => {
           //for transaction page
           dispatch(getAllTransaction(res.data));
           //for dashboard page
-          dispatch(getBalance(res.data)); //pie chart
+          // dispatch(getBalance(res.data)); //pie chart
+          // dispatch(getBalance({amount:allTran,rate:currency.rate,preRate:currency.preRate})); //pie chart
         }
       } catch (error) {
         dispatch(showAlert({ message: "Something wrong on the server side", variant: "danger" }));
