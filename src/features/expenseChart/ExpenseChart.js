@@ -12,6 +12,7 @@ import { Chart } from "chart.js";
 
 import { AiFillAccountBook } from "react-icons/ai";
 import * as ReactIcons from "react-icons/all";
+import { Col } from "react-bootstrap";
 
 export default function ExpenseChart() {
   const mobile = useMedia({ maxWidth: 767 });
@@ -20,6 +21,8 @@ export default function ExpenseChart() {
   const { currency } = useSelector(selectUser);
   const rate = currency.rate;
   const symbol = currency.symbol;
+
+  // console.log(allTran);
 
   const dataList = [
     { name: "Food & Beverage", trans: [] },
@@ -74,8 +77,10 @@ export default function ExpenseChart() {
     const sumTrans = trans.reduce((a, b) => {
       return a + b;
     });
+
     // exchange rates
-    return rateConverter(sumTrans, rate);
+    // return rateConverter(sumTrans, rate);
+    return sumTrans;
   });
 
   const percentage = (amount) => {
@@ -84,8 +89,6 @@ export default function ExpenseChart() {
     }, 0);
     return Math.round((amount / totalExpense) * 100);
   };
-  // ===============================================================================================
-
   // ===============================================================================================
 
   const legendLabels = function (chart) {
@@ -150,7 +153,7 @@ export default function ExpenseChart() {
 
   const desktopConfig = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     plugins: {
       tooltip: {
         boxWidth: 30,
@@ -207,6 +210,8 @@ export default function ExpenseChart() {
   // ];
 
   const config = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
@@ -220,8 +225,8 @@ export default function ExpenseChart() {
         },
       },
       tooltip: {
-        boxWidth: 30,
-        boxHeight: 30,
+        boxWidth: 10,
+        boxHeight: 10,
         bodyFont: {
           size: 16,
           family: "Josefin Sans, sans-serif",
@@ -238,6 +243,8 @@ export default function ExpenseChart() {
   };
 
   const mobileConfig = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
@@ -256,6 +263,8 @@ export default function ExpenseChart() {
   };
 
   const nodataConfig = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: true,
@@ -325,15 +334,20 @@ export default function ExpenseChart() {
       <h5>ExpenseChart</h5>
       {/* <div id="legend-id"></div>
       <canvas id="chart-idd"></canvas> */}
+      <div className="chart-wrapper">
       {data.labels.length !== 0 ? (
         <Doughnut
+          width="inherit"
+          height="inherit"
           data={data}
           options={mobile ? mobileConfig : medium ? config : desktopConfig}
           // plugins={plugins}
         />
       ) : (
-        <Doughnut data={noData} options={nodataConfig} />
+        <Doughnut height="inherit" width="inherit" data={noData} options={nodataConfig} />
       )}
+      </div>
+
     </div>
   );
 }

@@ -15,6 +15,7 @@ import {
 } from '../alertMessage/alertMessageSlice';
 import { removeUser, updateUser, selectUser } from "../userProfile/userSlice";
 import { getHeaderConfig } from '../../utils/utils';
+import { selectTheme } from "../themeChanger/themeChangerSlice";
 
 const EditUser = (props) => {
 
@@ -28,6 +29,7 @@ const EditUser = (props) => {
   //redux
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
+  const theme = useSelector(selectTheme);
 
   //router
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ const EditUser = (props) => {
       variant: "info",
     }));
     navigate("/login");
-} ;
+  };
 
   //onChange method
   const handleChange = (prop) => (e) => {
@@ -156,9 +158,10 @@ const EditUser = (props) => {
   return (
     <>
       <Modal
-        className="editUserAccountModal"
+        className={theme.mode === "dark" ? "editUserAccountModal" : "editUserAccountModal light"}
         show={props.show}
-        fullscreen
+        centered
+        onHide={props.handleClose}
       >
         <Container fluid className="editUserAccountContainer">
           {/* Header */}
@@ -194,7 +197,7 @@ const EditUser = (props) => {
                   <Form.Group className="passwordInput" >
                     <Form.Label>Enter New Password *</Form.Label>
                     <Form.Control
-                      type="text"
+                      type="password"
                       placeholder="Enter new password..."
                       value={password.newPassword}
                       onFocus={() => setPassword({ ...password, newPassword: "" })}
@@ -204,7 +207,7 @@ const EditUser = (props) => {
                   <Form.Group className="passwordInputConfirm" >
                     <Form.Label>Confirm New Password *</Form.Label>
                     <Form.Control
-                      type="text"
+                      type="password"
                       placeholder="Confirm new password..."
                       value={password.confirmPassword}
                       onFocus={() => setPassword({ ...password, confirmPassword: "" })}

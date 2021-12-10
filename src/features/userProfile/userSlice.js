@@ -5,25 +5,27 @@ const token = localStorage.getItem("ET-token");
 
 const initialState = token
   ? {
-      isAuth: true,
-      user: null,
-      token: token,
-      currency: {
-        name: "CAD",
-        rate: 1,
-        symbol: "$",
-      },
+    isAuth: true,
+    user: null,
+    token: token,
+    currency: {
+      name: "CAD",
+      rate: 1,
+      symbol: "$",
+      preRate: 1
     }
+  }
   : {
-      isAuth: false,
-      user: null,
-      token: null,
-      currency: {
-        name: "CAD",
-        rate: 1,
-        symbol: "$",
-      },
-    };
+    isAuth: false,
+    user: null,
+    token: null,
+    currency: {
+      name: "CAD",
+      rate: 1,
+      symbol: "$",
+      preRate: 1
+    }
+  };
 
 export const userSlice = createSlice({
   name: "user",
@@ -47,26 +49,44 @@ export const userSlice = createSlice({
       state.isAuth = false;
       state.token = null;
     },
-    setCurrency: (state, action) => {
+    // setCurrency: (state, action) => {
+    //   const symbol = CurrencyLabel.find((currency) => {
+    //     return currency.name === action.payload;
+    //   });
+
+    //   return {
+    //     ...state,
+    //     currency: {
+    //       ...state.currency,
+    //       name: action.payload,
+    //       symbol: symbol.symbol,
+    //     },
+    //   };
+    // },
+    // setRate: (state, action) => {
+    //   return {
+    //     ...state,
+    //     currency: {
+    //       ...state.currency,
+    //       preRate: state.currency.rate,
+    //       rate: action.payload,
+    //     },
+    //   };
+    // },
+    setRate: (state, action) => {
       const symbol = CurrencyLabel.find((currency) => {
-        return currency.name === action.payload;
-      });
+            return currency.name === action.payload.name;
+          });
+          // console.log(`set rate: pre rate${action.payload.rate}`)
 
       return {
         ...state,
         currency: {
           ...state.currency,
-          name: action.payload,
+          name:action.payload.name,
           symbol: symbol.symbol,
-        },
-      };
-    },
-    setRate: (state, action) => {
-      return {
-        ...state,
-        currency: {
-          ...state.currency,
-          rate: action.payload,
+          preRate: action.payload.preRate,
+          rate: action.payload.rate,
         },
       };
     },

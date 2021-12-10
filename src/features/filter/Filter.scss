@@ -1,10 +1,11 @@
 @import "../../utils/component";
 
 .filterContainer {
-  background-color: $boxColor;
+  background-color: $bgColorTR;
+  box-shadow: $boxShadowDark;
   padding: 1rem;
   border-radius: 30px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: $dropShadowDark;
   margin: 1rem auto;
   @include media-breakpoint-up(lg) {
     display: flex;
@@ -16,7 +17,8 @@
     margin-bottom: 1rem;
     .col {
       .incomeFilter,
-      .expenseFilter {
+      .expenseFilter,
+      .clearFilter {
         width: 100%;
         border-radius: 10vw;
         border: none;
@@ -47,8 +49,6 @@
           background-color: transparent;
           color: $txtColor1;
           border-radius: 10vw;
-          // border-top-right-radius: 0;
-          // border-bottom-right-radius: 0;
           border: solid 0.1rem $txtColor1;
           padding: 0.3rem;
           width: 100%;
@@ -105,7 +105,8 @@
     flex-direction: row;
     gap: 1rem;
     .incomeFilter,
-    .expenseFilter {
+    .expenseFilter,
+    .clearFilter {
       border-radius: 10vw;
       background-color: $accentColor1;
       width: 10vw;

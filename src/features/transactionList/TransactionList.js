@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import useMedia from "use-media";
 import { useSelector, useDispatch } from "react-redux";
-import { transactionListSelector, filterTransaction } from './transactionListSlice';
+import { transactionListSelector } from './transactionListSlice';
 import { changeOperation, enterTransactionSelector } from '../enterTransaction/enterTransactionSlice';
+import { selectUser } from '../userProfile/userSlice';
 import {
   Container,
   Table,
@@ -29,6 +30,7 @@ const TransactionList = () => {
   const dispatch = useDispatch();
   const transactionList = useSelector(transactionListSelector);
   const operation = useSelector(enterTransactionSelector);
+  const user = useSelector(selectUser);
 
   //private state
   const [tranList, setTranList] = useState([]);
@@ -41,7 +43,7 @@ const TransactionList = () => {
       setTranList(transactionList.allTran);
   }, [transactionList]);
 
-  //Checkbox control -- under construction
+  //Checkbox control
   const handleCheck = (_id, e) => {
     const payload = tranList.filter(e => e._id == _id);
     //when it is checked, delete or edit action can be done
@@ -60,7 +62,9 @@ const TransactionList = () => {
           amount: payload[0].amount,
           paymentMethod: payload[0].paymentMethod,
           isDeleted: payload[0].isDeleted,
-          isEditing: true
+          isEditing: true,
+          divideBy: payload[0].divideBy,
+          splitAmount: payload[0].splitAmount,
         }
       }));
     }
@@ -79,7 +83,9 @@ const TransactionList = () => {
           amount: payload[0].amount,
           paymentMethod: payload[0].paymentMethod,
           isDeleted: payload[0].isDeleted,
-          isEditing: false
+          isEditing: false,
+          divideBy: payload[0].divideBy,
+          splitAmount: payload[0].splitAmount,
         }
       }));
     }
@@ -118,29 +124,27 @@ const TransactionList = () => {
                   </thead>
                   <tbody className="tableBody">
                     {transactionList.currentPageTran.map((elem, index) => (
-                      <>
-                        <tr key={index}>
-                          <td><Form.Check
-                            checked={
-                              operation.editDelBtnVisible === true &&
-                              operation.checkedItem._id === elem._id && true}
-                            disabled={
-                              operation.editDelBtnVisible === true &&
-                                operation.checkedItem._id !== elem._id ? true : false}
-                            onClick={(e) => handleCheck(elem._id, e)} /></td>
-                          <td className="tdLeft">
-                            <p className="category">{elem.categoryName}</p>
-                            <p>{elem.description}</p>
-                            <p className="paymentMethod">{elem.paymentMethod}</p>
-                          </td>
-                          <td className="tdRight">
-                            {elem.transactionType === "expense" ?
-                              <p className="negativeAmount">-${elem.amount}</p> :
-                              <p>${elem.amount}</p>}
-                            <p>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</p>
-                          </td>
-                        </tr>
-                      </>
+                      <tr key={index}>
+                        <td><Form.Check
+                          checked={
+                            operation.editDelBtnVisible === true &&
+                            operation.checkedItem._id === elem._id && true}
+                          disabled={
+                            operation.editDelBtnVisible === true &&
+                              operation.checkedItem._id !== elem._id ? true : false}
+                          onChange={(e) => handleCheck(elem._id, e)} /></td>
+                        <td className="tdLeft">
+                          <p className="category">{elem.categoryName}</p>
+                          <p>{elem.description}</p>
+                          <p className="paymentMethod">{elem.paymentMethod}</p>
+                        </td>
+                        <td className="tdRight">
+                          {elem.transactionType === "expense" ?
+                            <p className="negativeAmount">-{user.currency.symbol}{elem.amount}</p> :
+                            <p>{user.currency.symbol}{elem.amount}</p>}
+                          <p>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</p>
+                        </td>
+                      </tr>
                     ))}
                     <tr className="paging">
                       <td colSpan="6"><Paging tranList={tranList} /></td>
@@ -199,25 +203,23 @@ const TransactionList = () => {
                   </thead>
                   <tbody className="tableBody">
                     {transactionList.currentPageTran.map((elem, index) => (
-                      <>
-                        <tr key={elem._id}>
-                          <td><Form.Check
-                            checked={
-                              operation.editDelBtnVisible === true &&
-                              operation.checkedItem._id === elem._id && true}
-                            disabled={
-                              operation.editDelBtnVisible === true &&
-                                operation.checkedItem._id !== elem._id ? true : false}
-                            onClick={(e) => handleCheck(elem._id, e)} /></td>
-                          <td>{elem.categoryName}</td>
-                          <td>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</td>
-                          <td>{elem.paymentMethod}</td>
-                          <td>{elem.description}</td>
-                          {elem.transactionType === "expense" ?
-                            <td className="negativeAmount">-${elem.amount}</td> :
-                            <td>${elem.amount}</td>}
-                        </tr>
-                      </>
+                      <tr key={elem._id}>
+                        <td><Form.Check
+                          checked={
+                            operation.editDelBtnVisible === true &&
+                            operation.checkedItem._id === elem._id && true}
+                          disabled={
+                            operation.editDelBtnVisible === true &&
+                              operation.checkedItem._id !== elem._id ? true : false}
+                          onChange={(e) => handleCheck(elem._id, e)} /></td>
+                        <td>{elem.categoryName}</td>
+                        <td>{moment(new Date(elem.date)).local().format('YYYY/MM/DD')}</td>
+                        <td>{elem.paymentMethod}</td>
+                        <td>{elem.description}</td>
+                        {elem.transactionType === "expense" ?
+                          <td className="negativeAmount">-{user.currency.symbol}{elem.hasOwnProperty("splitAmount") && elem.splitAmount !== 0 ? elem.splitAmount : elem.amount}</td> :
+                          <td>{user.currency.symbol}{elem.amount}</td>}
+                      </tr>
                     ))}
                     <tr className="paging">
                       <td colSpan="6"><Paging tranList={tranList} /></td>
