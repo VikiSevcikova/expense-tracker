@@ -1,13 +1,17 @@
 @import "../../utils/component";
 
-.dashBoard_wrapper {
-  color: $txtColor1;
-  padding: 0 2rem;
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  @include media-breakpoint-up(xl) {
+    height: 100vh;
+  }
 }
 
-.row_wrapper {
-  // margin-right:  15px;
-}
+// .row_wrapper{
+//   // margin-right:  15px;
+// }
 
 .box_wrapper {
   background-color: $bgColorTR;
@@ -22,8 +26,11 @@
     max-width: unset;
   }
   filter: $dropShadowDark;
-  margin: 0.5rem auto;
+  margin: 1rem auto;
   min-height: 100px;
+  &.name{
+    min-height: 60px;
+  }
   &--top {
     z-index: 2;
   }

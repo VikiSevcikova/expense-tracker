@@ -14,13 +14,15 @@
       border: 0.1rem solid $accentColor1 !important;
     }
   }
-  .shadow {
-    filter: $dropShadowDark;
-  }
-  .no-border {
-    border: none;
-  }
+  // .dashboard {
+  //   filter: $dropShadowDark;
+  //   border: none;
+  //   background-color: $bgColorTR;
+  //   height: 60px;
+  // }
 }
+
+
 
 .picker-popper {
   .react-datepicker__day--selected,

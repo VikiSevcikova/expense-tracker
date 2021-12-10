@@ -80,6 +80,8 @@ export default function BalancePieChart() {
   };
 
   const config = {
+    responsive: true,
+    maintainAspectRatio: false,
     layout: {
       padding: 20,
     },
@@ -102,6 +104,8 @@ export default function BalancePieChart() {
   };
 
   const mobileConfig = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       tooltip: tooltip,
       legend: {
@@ -125,7 +129,9 @@ export default function BalancePieChart() {
         Total balance: {symbol}
         {income-expense}
       </h5>
-      <Pie data={data} options={mobile ? mobileConfig : config} />
+      <div className="chart-wrapper">
+         <Pie width="inherit" height="inherit" data={data} options={mobile ? mobileConfig : config} />
+      </div>
     </div>
   );
 }

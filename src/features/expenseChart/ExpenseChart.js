@@ -9,6 +9,7 @@ import "./ExpenseChart.scss";
 import CategoryIcon from "../categoryIcon/CategoryIcon";
 import { AiFillAccountBook } from "react-icons/ai";
 import * as ReactIcons from "react-icons/all";
+import { Col } from "react-bootstrap";
 
 export default function ExpenseChart() {
   const mobile = useMedia({ maxWidth: 767 });
@@ -148,7 +149,7 @@ export default function ExpenseChart() {
 
   const desktopConfig = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     plugins: {
       tooltip: {
         boxWidth: 30,
@@ -181,6 +182,8 @@ export default function ExpenseChart() {
   };
 
   const config = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
@@ -194,8 +197,8 @@ export default function ExpenseChart() {
         },
       },
       tooltip: {
-        boxWidth: 30,
-        boxHeight: 30,
+        boxWidth: 10,
+        boxHeight: 10,
         bodyFont: {
           size: 16,
           family: "Josefin Sans, sans-serif",
@@ -212,6 +215,8 @@ export default function ExpenseChart() {
   };
 
   const mobileConfig = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
@@ -230,6 +235,8 @@ export default function ExpenseChart() {
   };
 
   const nodataConfig = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: true,
@@ -259,14 +266,19 @@ export default function ExpenseChart() {
   return (
     <div className="chart">
       <h5>ExpenseChart</h5>
+      <div className="chart-wrapper">
       {data.labels.length !== 0 ? (
         <Doughnut
+          width="inherit"
+          height="inherit"
           data={data}
           options={mobile ? mobileConfig : medium ? config : desktopConfig}
         />
       ) : (
-        <Doughnut data={noData} options={nodataConfig} />
+        <Doughnut height="inherit" width="inherit" data={noData} options={nodataConfig} />
       )}
+      </div>
+
     </div>
   );
 }
