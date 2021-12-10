@@ -30,9 +30,6 @@ export default function Currency() {
     updateRates();
   }, [currency.name]);
 
-  // const currencyOnChange = (e) => {
-  //   dispatch(setCurrency(e));
-  // };
   const currencyOnChange = (e) => {
     dispatch(setRate({...currency,name:e,preRate:currency.rate}));
   };
