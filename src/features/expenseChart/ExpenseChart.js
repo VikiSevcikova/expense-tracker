@@ -99,10 +99,10 @@ export default function ExpenseChart() {
 
     return data.labels.map((label, i) => {
       return {
-        text: `${label} ${percentage(data.datasets[0].data[i])}%
-   ${(
-     <CategoryIcon size={20} id={data.labels.indexOf(label)} type={label} />
-   )}`,
+        text: `${label}: ${symbol}${data.datasets[0].data[i]} (${percentage(data.datasets[0].data[i])}%)`,
+  //  ${(
+  //    <CategoryIcon size={20} id={data.labels.indexOf(label)} type={label} />
+  //  )}`,
         fillStyle: color[i],
       };
     });
@@ -171,23 +171,23 @@ export default function ExpenseChart() {
         },
       },
       legend: {
-        display: false,
-        // position: "right",
-        // labels: {
-        //   color: "white",
-        //   font: {
-        //     family: "Josefin Sans, sans-serif",
-        //     size: 18,
-        //   },
-        //   // generateLabels: legendLabels,
-        // },
+        display: true,
+        position: "right",
+        labels: {
+          color: "white",
+          font: {
+            family: "Josefin Sans, sans-serif",
+            size: 18,
+          },
+          generateLabels: legendLabels,
+        },
       },
     },
 
-    legend: false,
-    legendCallback: function (chart) {
-      console.log(chart);
-    },
+    // legend: false,
+    // legendCallback: function (chart) {
+    //   console.log(chart);
+    // },
   };
 
   // const plugins = [
