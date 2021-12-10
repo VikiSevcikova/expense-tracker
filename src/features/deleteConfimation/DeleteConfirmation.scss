@@ -9,15 +9,17 @@
 .delConfModal {
   padding-left: 0 !important;
   background-color: $bgColorTR;
+  box-shadow: $boxShadowDark;
   .modal-dialog {
     height: fit-content;
     width: 100%;
     .modal-content {
-      background-color: $bgColor;
+      background-color: $bgColorTR;
       padding: 0 1rem;
       background-color: transparent;
       border: none;
       .delConfContainer {
+        box-shadow: $boxShadowDark;
         flex: 1;
         background-color: $boxColorTr;
         backdrop-filter: blur(15px);
