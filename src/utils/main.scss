@@ -56,6 +56,13 @@ body {
         background-color: $bgColorLight;
         border: 0.1rem solid $accentColor1;
       }
+      .dark:-webkit-autofill,
+      .dark:-webkit-autofill:hover,
+      .dark:-webkit-autofill:focus,
+      .dark:-webkit-autofill:active {
+        color: $txtColor2 !important;
+        -webkit-text-fill-color: $txtColor2 !important;
+      }
     }
     //transaction page: header, search
     header {
@@ -64,6 +71,23 @@ body {
     .searchInput {
       color: $txtColor2;
       border: 0.1rem solid $txtColor2;
+    }
+    .transactionListContainer {
+      .sortDropdown {
+        .dropdown-item {
+          color: $txtColor2;
+        }
+      }
+    }
+    //background color change
+    .box_wrapper,
+    .box_wrapper_top,
+    .box_wrapperr,
+    .delConfModal,
+    .filterContainer,
+    .transactionListContainer,
+    .userProfileCard {
+      background-color: $bgColorTrLight;
     }
   }
 }
