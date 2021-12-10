@@ -20,6 +20,7 @@ import DeleteConfirmation from '../deleteConfimation/DeleteConfirmation';
 import { selectUser } from '../userProfile/userSlice';
 import { selectCategoryIcon } from '../categoryIcon/categoryIconSlice';
 import { getHeaderConfig } from '../../utils/utils';
+import { selectTheme } from "../themeChanger/themeChangerSlice";
 
 const EditTransaction = (props) => {
 
@@ -27,6 +28,7 @@ const EditTransaction = (props) => {
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
   const { categories } = useSelector(selectCategoryIcon);
+  const theme = useSelector(selectTheme)
 
   //private state
   const [transaction, setTransaction] = useState({
@@ -175,7 +177,7 @@ const EditTransaction = (props) => {
   return (
     <>
       <Modal
-        className="editModal"
+        className={theme.mode === "dark" ? "editModal" : "editModal light"}
         show={props.show}
         centered
         onHide={props.handleClose}
