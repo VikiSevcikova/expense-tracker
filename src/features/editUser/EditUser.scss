@@ -19,12 +19,12 @@
     width: 70%;
   }
   .modal-content {
-    background-color: $bgColor;
     padding: 0 1rem;
     background-color: transparent;
     border: none;
     .editUserAccountContainer {
-      background-color: #393b496b;
+      background-color: $bgColorTR;
+      box-shadow: $boxShadowDark;
       backdrop-filter: blur(15px);
       flex: 1;
       padding: 1rem;

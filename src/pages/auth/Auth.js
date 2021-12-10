@@ -32,10 +32,10 @@ const Auth = () => {
 
   return (
     <>
-      <Container fluid className="auth-container d-flex align-items-center" style={{padding:"20px"}}>
+      <Container fluid className="auth-container d-flex align-items-center" style={{ padding: "20px" }}>
         <Col md={6} className="m-3">
-        <Row>
-          <Col md={6} className="m-auto">
+          <Row>
+            <Col md={6} className="m-auto">
               {content}
             </Col>
           </Row>

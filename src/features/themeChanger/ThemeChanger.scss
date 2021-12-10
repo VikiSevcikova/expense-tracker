@@ -1,0 +1,37 @@
+@import "../../utils/component";
+
+.themeChangeSwitch {
+  .themeChanger {
+    input {
+      height: 20px;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      &:checked {
+        background-color: #7bb0b2;
+      }
+    }
+  }
+  @include media-breakpoint-down(sm) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 2px solid $bgColor;
+    .themeChanger {
+      width: 80px;
+      .input {
+        box-shadow: unset;
+        border: none;
+        height: 20px;
+        width: 100%;
+        margin-bottom: 0.5rem;
+        &:checked {
+          background-color: #7bb0b2;
+        }
+      }
+    }
+  }
+  .form-label {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+}

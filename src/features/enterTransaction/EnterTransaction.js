@@ -99,20 +99,6 @@ const EditTransaction = (props) => {
     }
   };
 
-  //Calculate per person - onClick
-  // const calcAmount = () => {
-  //   //validation check
-  //   if (transaction.divideBy === "" || transaction.amount === "" || transaction.divideBy === "0" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
-  //     dispatch(showAlert({
-  //       message: "Please enter an amount and split per person (minimun 1 person). Only number accepted",
-  //       variant: "danger"
-  //     }));
-  //   } else {
-  //     //calculate splitAmount and update state
-  //     calcSplitAmount();
-  //   };
-  // };
-
   //calculate splitAmount and update state
   const calcSplitAmount = () => {
     const splitAmout = (Math.round((parseInt(transaction.amount) / parseInt(transaction.divideBy)) * 100)) / 100;
@@ -300,10 +286,6 @@ const EditTransaction = (props) => {
                       value={transaction.divideBy}
                       onFocus={() => setTransaction({ ...transaction, ["divideBy"]: "" })}
                       onChange={handleChange("divideBy")} />
-                    {/* <Button
-                      className="calcBtn"
-                      type="button"
-                      onClick={calcAmount}>Calculate</Button> */}
                   </div>
                   <p>Amount per person is : $ {transaction.splitAmount}</p>
                 </Form.Group>

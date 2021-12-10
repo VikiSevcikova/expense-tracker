@@ -1,13 +1,21 @@
 @import "~bootstrap/scss/_functions.scss";
 @import "~bootstrap/scss/_variables.scss";
 @import "~bootstrap/scss/mixins/_breakpoints.scss";
+
 /* Color Palette */
 $bgColor: #282a38;
-$bgColorTR: #191a24c8;
+$bgColorTR: #20212cc8;  //background: rgba(57, 59, 73, 0.6); -- light
+$bgColorLight: #ffffffa9;
+
 $boxColor: #393b49;
+$boxColorTr: #393b496b;
+$dropShadowDark: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+$boxShadowDark: 6px 6px 14px rgba(0, 0, 0, 0.77);
+
 $accentColor1: #3f85a4;
 $accentColor2: #34a0a4;
 $accentColor3: #de4c4c;
 $accentColor4: #5fa43f;
 $txtColor1: white;
-$txtColor2: black;
+$txtColor2: #22242c;
+

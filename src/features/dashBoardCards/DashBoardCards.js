@@ -17,20 +17,25 @@ export default function DashBoardCards() {
 
   return (
       <Container fluid className={!tablet && "dashboard-wrapper"}>
-        <Row className="align-items-center mx-1">
-          <Col xs={12} xl={6} className="box_wrapper name mb-0">
+        <Row className="align-items-center">
+          <Col xs={12} xl={6} >
+            <div className="box_wrapper name mb-0">
               <Greeting />
+            </div>
           </Col>
-          <Col xs={12} xl={6}>
-            <Row className="mt-3 mb-0 p-2">
-              <Col xs={9}>
-                <Calendar />
+          <Col xs={12} xl={6} >
+            <div className="box_wrapper name mb-0">
+            <Row>
+              <Col xs={8}>
+                <Calendar className="dashboard"/>
               </Col>
-              <Col xs={3}>
+              <Col xs={4}>
                 <Currency />
               </Col>
             </Row>
+            </div>
           </Col>
+
         </Row>
         {tablet ? (
           <>
