@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import "./BalancePieChart.scss";
 import { Pie } from "react-chartjs-2";
 import { useSelector } from "react-redux";
@@ -14,8 +14,27 @@ export default function BalancePieChart() {
   //redux
   const { currency } = useSelector(selectUser);
   const { balance } = useSelector(transactionListSelector);
+  const { allTran } = useSelector(transactionListSelector);
   const rate = currency.rate;
   const symbol = currency.symbol;
+  const [income,setIncome] = useState()
+  const [expense,setExpense] = useState()
+
+  console.log(allTran);
+
+  useEffect(() => {
+    const getTransactionTotal = (array, type) => {
+      let total = 0;
+      array.map((transaction) => {
+        if (transaction.transactionType === type) {
+          total += transaction.amount;
+        }
+      });
+      return total;
+    };
+    setIncome(Math.round(getTransactionTotal(allTran, "income")*10)/10)
+    setExpense(Math.round(getTransactionTotal(allTran, "expense")*10)/10)
+  },[allTran]);
 
   const data = {
     labels: [`Expense`, `Income`],
@@ -23,10 +42,7 @@ export default function BalancePieChart() {
     datasets: [
       {
         label: "balance",
-        data: [
-          rateConverter(balance.expense, rate),
-          rateConverter(balance.income, rate),
-        ],
+        data: [expense, income],
         backgroundColor: ["#de4c4c", "#5fa43f"],
         borderColor: ["#393b49"],
         borderWidth: 0,
@@ -65,15 +81,15 @@ export default function BalancePieChart() {
 
   const config = {
     layout: {
-      padding: 20
-  },
+      padding: 20,
+    },
     plugins: {
       tooltip: tooltip,
       legend: {
         display: true,
         position: "right",
         labels: {
-          margin:0,
+          margin: 0,
           color: "white",
           font: {
             family: "Josefin Sans, sans-serif",
@@ -107,7 +123,7 @@ export default function BalancePieChart() {
     <div>
       <h5>
         Total balance: {symbol}
-        {rateConverter(balance.total, rate)}
+        {income-expense}
       </h5>
       <Pie data={data} options={mobile ? mobileConfig : config} />
     </div>

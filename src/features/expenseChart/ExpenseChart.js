@@ -18,6 +18,8 @@ export default function ExpenseChart() {
   const rate = currency.rate;
   const symbol = currency.symbol;
 
+  // console.log(allTran);
+
   const dataList = [
     { name: "Food & Beverage", trans: [] },
     { name: "Shopping", trans: [] },
@@ -71,18 +73,18 @@ export default function ExpenseChart() {
     const sumTrans = trans.reduce((a, b) => {
       return a + b;
     });
+
     // exchange rates
-    return rateConverter(sumTrans, rate);
+    // return rateConverter(sumTrans, rate);
+    return sumTrans;
   });
 
   const percentage = (amount) => {
     const totalExpense = catagoryAmount.reduce((a, b) => {
       return a + b;
     }, 0);
-    return Math.round((amount/totalExpense) *100)
+    return Math.round((amount / totalExpense) * 100);
   };
-
-  
 
   const legendLabels = function (chart) {
     let data = chart.data;
@@ -94,12 +96,8 @@ export default function ExpenseChart() {
       return {
         text: `${label} ${percentage(data.datasets[0].data[i])}%
    ${(
-          <CategoryIcon
-            size={20}
-            id={data.labels.indexOf(label)}
-            type={label}
-          />
-        )}`,
+     <CategoryIcon size={20} id={data.labels.indexOf(label)} type={label} />
+   )}`,
         fillStyle: color[i],
       };
     });
