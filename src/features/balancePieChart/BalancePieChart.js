@@ -43,7 +43,7 @@ export default function BalancePieChart() {
       {
         label: "balance",
         data: [expense, income],
-        backgroundColor: ["#de4c4c", "#5fa43f"],
+        backgroundColor: ["#DD8181", "#99BE9F"],
         borderColor: ["#393b49"],
         borderWidth: 0,
         hoverOffset: 2,

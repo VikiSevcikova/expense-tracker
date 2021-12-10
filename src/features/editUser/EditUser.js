@@ -15,6 +15,7 @@ import {
 } from '../alertMessage/alertMessageSlice';
 import { removeUser, updateUser, selectUser } from "../userProfile/userSlice";
 import { getHeaderConfig } from '../../utils/utils';
+import { selectTheme } from "../themeChanger/themeChangerSlice";
 
 const EditUser = (props) => {
 
@@ -28,6 +29,7 @@ const EditUser = (props) => {
   //redux
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
+  const theme = useSelector(selectTheme);
 
   //router
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ const EditUser = (props) => {
       variant: "info",
     }));
     navigate("/login");
-} ;
+  };
 
   //onChange method
   const handleChange = (prop) => (e) => {
@@ -156,7 +158,7 @@ const EditUser = (props) => {
   return (
     <>
       <Modal
-        className="editUserAccountModal"
+        className={theme.mode === "dark" ? "editUserAccountModal" : "editUserAccountModal light"}
         show={props.show}
         centered
         onHide={props.handleClose}

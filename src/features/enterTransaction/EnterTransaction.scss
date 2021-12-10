@@ -217,4 +217,12 @@
       }
     }
   }
+  &.light {
+    .editTransactionContainer {
+      background-color: $bgColorTrLight;
+      .modal-content .editTransactionContainer .modal-body .editForm .container-fluid .transactionCategory .form-select{
+        background-color: transparent;
+      }
+    }
+  }
 }
