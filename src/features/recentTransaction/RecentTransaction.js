@@ -27,7 +27,7 @@ export default function RecentTransaction() {
   }, [allTran]);
 
   return (
-    <div>
+    <div className="recent-transactions">
       <h5>RecentTransaction</h5>
 
       {(recentTransaction.length === 0) && 

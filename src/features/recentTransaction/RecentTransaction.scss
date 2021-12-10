@@ -3,8 +3,17 @@
 
 .description{
     text-align: center;
+    margin-bottom: 0.4rem;
 }
 
 .amount{
     text-align: right;
+    margin-bottom: 0.4rem;
 }
+
+.recent-transactions{
+    height: auto;
+    @include media-breakpoint-up(lg) {
+        height: 36vh;
+    }
+  }

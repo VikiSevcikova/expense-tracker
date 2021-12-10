@@ -136,6 +136,8 @@ export default function BalanceLineChart() {
   };
 
   const config = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
@@ -154,7 +156,9 @@ export default function BalanceLineChart() {
   return (
     <div>
       <h5>Balance Change</h5>
-      <Line data={data} options={config} />
+      <div className="chart-wrapper">
+        <Line width="inherit" height="inherit" data={data} options={config} />
+      </div>
     </div>
   );
 }
