@@ -164,9 +164,10 @@
                     box-shadow: none;
                   }
                 }
-                .calcBtn {
+                .splitBtn {
                   text-align: center;
                   margin: 0;
+                  padding: 0 1rem;
                   width: fit-content;
                   border-radius: 10vw;
                   border: none;
@@ -220,7 +221,13 @@
   &.light {
     .editTransactionContainer {
       background-color: $bgColorTrLight;
-      .modal-content .editTransactionContainer .modal-body .editForm .container-fluid .transactionCategory .form-select{
+      .modal-content
+        .editTransactionContainer
+        .modal-body
+        .editForm
+        .container-fluid
+        .transactionCategory
+        .form-select {
         background-color: transparent;
       }
     }

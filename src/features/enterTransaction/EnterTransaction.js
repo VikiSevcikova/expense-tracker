@@ -28,7 +28,7 @@ const EditTransaction = (props) => {
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
   const { categories } = useSelector(selectCategoryIcon);
-  const theme = useSelector(selectTheme)
+  const theme = useSelector(selectTheme);
 
   //private state
   const [transaction, setTransaction] = useState({
@@ -73,13 +73,14 @@ const EditTransaction = (props) => {
     }
   }, [props.operationType]);
 
-  //in case where calculate button is not clicked before save
+  //in case where either amount or divided by is updated 
   //calculate the split amount and update state
   useEffect(() => {
     //validation check
     if (transaction.divideBy === "" || transaction.amount === "" || transaction.divideBy === "0" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
-      return;
+      return; // invalid format, do nothing
     } else if ((transaction.divideBy !== 1 && transaction.splitAmount === 0) || (transaction.amount !== 0)) {
+      console.log("I am here in useEffect");
       calcSplitAmount();
     }
   }, [transaction.divideBy, transaction.amount]);
@@ -105,6 +106,11 @@ const EditTransaction = (props) => {
   const calcSplitAmount = () => {
     const splitAmout = (Math.round((parseInt(transaction.amount) / parseInt(transaction.divideBy)) * 100)) / 100;
     setTransaction({ ...transaction, splitAmount: splitAmout });
+  };
+
+  //set splitAmount to amount
+  const splitAmount = () => {
+    setTransaction({ ...transaction, amount: transaction.splitAmount });
   };
 
   //onSubmit -- save
@@ -243,7 +249,12 @@ const EditTransaction = (props) => {
                     required type="text"
                     placeholder="$"
                     value={transaction.amount}
-                    onFocus={() => setTransaction({ ...transaction, ["amount"]: "" })}
+                    onFocus={() => setTransaction({
+                      ...transaction,
+                      ["amount"]: "",
+                      // ["splitAmount"]: "",
+                      // ["divideBy"]: 1
+                    })}
                     onChange={handleChange("amount")} />
                 </Form.Group>
 
@@ -286,10 +297,16 @@ const EditTransaction = (props) => {
                       type="text"
                       placeholder="Divide by... * min 1 person required"
                       value={transaction.divideBy}
-                      onFocus={() => setTransaction({ ...transaction, ["divideBy"]: "" })}
+                      onFocus={() => setTransaction({
+                        ...transaction,
+                        ["divideBy"]: ""
+                      })}
                       onChange={handleChange("divideBy")} />
+                    <Button
+                      className="splitBtn"
+                      onClick={splitAmount}>Split</Button>
                   </div>
-                  <p>Amount per person is : $ {transaction.splitAmount}</p>
+                  {/* <p>Amount per person is : $ {transaction.splitAmount}</p> */}
                 </Form.Group>
               </Container>
 
