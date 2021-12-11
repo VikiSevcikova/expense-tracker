@@ -27,9 +27,9 @@ export default function RecentTransaction() {
   }, [allTran]);
 
   return (
-    <div className="recent-transactions">
+    <>
       <h5>RecentTransaction</h5>
-
+      <Row className={`recent-transactions-wrapper ${recentTransaction.length === 0 && 'align-items-center'}`}>
       {(recentTransaction.length === 0) && 
         <h5>No Transaction</h5>
       }
@@ -55,6 +55,7 @@ export default function RecentTransaction() {
             </Row>
           );
         })}
-    </div>
+      </Row>
+    </>
   );
 }

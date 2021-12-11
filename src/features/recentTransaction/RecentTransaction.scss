@@ -11,9 +11,9 @@
     margin-bottom: 0.4rem;
 }
 
-.recent-transactions{
+.recent-transactions-wrapper{
     height: auto;
     @include media-breakpoint-up(lg) {
-        height: 36vh;
+        height: 32vh;
     }
   }

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showAlert } from "../alertMessage/alertMessageSlice";
 import { removeUser, selectUser } from "../userProfile/userSlice";
 import ThemeChanger from "../themeChanger/ThemeChanger";
+import { selectTheme } from "../themeChanger/themeChangerSlice";
 
 export default function Navbar() {
   //router
@@ -19,6 +20,8 @@ export default function Navbar() {
   //redux
   const dispatch = useDispatch();
   const { user } = useSelector(selectUser);
+  const { mode } = useSelector(selectTheme);
+  const logo = "/images/et-logo.png";
 
   const [menuOnClick, setMenuOnClick] = useState(false);
 
@@ -51,15 +54,15 @@ export default function Navbar() {
         <h1 className="et-title">Expense Trackify</h1>
         <Nav.Item className="nav-logo">
           <Image
-            src="/images/et-logo.png"
+            src={logo}
             alt="expense_tracker_logo"
             className=" w-100"
           />
         </Nav.Item>
         <div className="nav-icon">
-          <Nav.Item className="nav-logo">
+          <Nav.Item className="nav-logo nav-link">
             <Image
-              src="/images/et-logo.png"
+              src={logo}
               alt="expense_tracker_logo"
               className=" w-100"
             />
@@ -73,7 +76,7 @@ export default function Navbar() {
             <p>Transactions</p>
           </Link>
           <Link to="/account" className="navBtn">
-            {/* {
+            {
               user?.avatar ? 
                 <Image
                 src={user.avatar}
@@ -81,10 +84,9 @@ export default function Navbar() {
                 className="avatar"
                 roundedCircle
               />
-              : */}
-
+              :
                 <MdOutlineAccountCircle size={50} />
-            {/* } */}
+            }
             <p>Account</p>
           </Link>
           <Nav.Item className="nav-logo">
@@ -99,15 +101,15 @@ export default function Navbar() {
       <div
         className={menuOnClick ? "nav-dropdown__active" : "nav-dropdown"}
       >
-        <Nav.Link href="/" className="navBtn">
+        <Link to="/" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
           <RiProfileLine size={50} />
           <p>Dashboard</p>
-        </Nav.Link>
-        <Nav.Link href="/alltransaction" className="navBtn">
+        </Link>
+        <Link to="/alltransaction" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
           <AiOutlineTransaction size={50} />
           <p>Transactions</p>
-        </Nav.Link>
-        <Nav.Link href="/account" className="navBtn">
+        </Link>
+        <Link to="/account" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
           {
             user?.avatar ?
               <Image
@@ -120,10 +122,10 @@ export default function Navbar() {
               <MdOutlineAccountCircle size={50} />
           }
           <p>Account</p>
-        </Nav.Link>
-        <Nav.Item className="nav-logo">
+        </Link>
+        <Nav.Link className="navBtn nav-link">
           <ThemeChanger />
-        </Nav.Item>
+        </Nav.Link>
         <Nav.Link className="navBtn" onClick={handleLogout}>
           <MdLogout size={50} />
           <p>Logout</p>

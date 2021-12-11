@@ -7,9 +7,6 @@ import { selectUser } from "../userProfile/userSlice";
 import { rateConverter } from "../../utils/CurrencyLabel";
 import "./ExpenseChart.scss";
 import CategoryIcon from "../categoryIcon/CategoryIcon";
-
-import { Chart } from "chart.js";
-
 import { AiFillAccountBook } from "react-icons/ai";
 import * as ReactIcons from "react-icons/all";
 import { Col } from "react-bootstrap";
@@ -89,7 +86,6 @@ export default function ExpenseChart() {
     }, 0);
     return Math.round((amount / totalExpense) * 100);
   };
-  // ===============================================================================================
 
   const legendLabels = function (chart) {
     let data = chart.data;
@@ -99,10 +95,10 @@ export default function ExpenseChart() {
 
     return data.labels.map((label, i) => {
       return {
-        text: `${label}: ${symbol}${data.datasets[0].data[i]} (${percentage(data.datasets[0].data[i])}%)`,
-  //  ${(
-  //    <CategoryIcon size={20} id={data.labels.indexOf(label)} type={label} />
-  //  )}`,
+        text: `${label} ${percentage(data.datasets[0].data[i])}%
+   ${(
+     <CategoryIcon size={20} id={data.labels.indexOf(label)} type={label} />
+   )}`,
         fillStyle: color[i],
       };
     });
@@ -183,31 +179,7 @@ export default function ExpenseChart() {
         },
       },
     },
-
-    // legend: false,
-    // legendCallback: function (chart) {
-    //   console.log(chart);
-    // },
   };
-
-  // const plugins = [
-  //   {
-  //     beforeInit: function (chart, args, options) {
-  //       console.log(chart);
-
-  //       const ul = document.createElement("ul");
-  //       chart.data.labels.forEach((label, i) => {
-  //         ul.innerHTML += `
-  //             <li>
-  //               <span style="background-color: ${chart.data.datasets[0].backgroundColor[i]}">${chart.data.datasets[0].data[i]}</span>
-  //               ${label}
-  //             </li>
-  //           `;
-  //       });
-  //       return document.getElementById("js-legend").appendChild(ul);
-  //     },
-  //   },
-  // ];
 
   const config = {
     responsive: true,
@@ -291,49 +263,9 @@ export default function ExpenseChart() {
     },
   };
 
-  // var options = {
-  //   plugins: {
-  //     legend: {
-  //       display: false,
-  //     },
-  //   },
-  // };
-
-  // const context = document.querySelector("#chart-idd");
-  // const chart = new Chart(context, {
-  //   type: "doughnut",
-  //   data,
-  //   options,
-  //   plugins: [
-  //     {
-  //       beforeInit: function (chart, args, options) {
-  //         // Make sure we're applying the legend to the right chart
-  //         console.log(chart);
-  //         if (chart.canvas.id === "chart-idd") {
-  //           const ul = document.createElement("ul");
-  //           chart.data.labels.forEach((label, i) => {
-  //             ul.innerHTML += `
-  //             <li>
-  //               <span style="background-color: ${chart.data.datasets[0].backgroundColor[i]}">
-  //                 ${chart.data.datasets[0].data[i]}
-  //               </span>
-  //               ${label}
-  //             </li>
-  //           `;
-  //           });
-  //           return document.getElementById("js-legend").appendChild(ul);
-  //         }
-  //         return;
-  //       },
-  //     },
-  //   ],
-  // });
-
   return (
     <div className="chart">
       <h5>ExpenseChart</h5>
-      {/* <div id="legend-id"></div>
-      <canvas id="chart-idd"></canvas> */}
       <div className="chart-wrapper">
       {data.labels.length !== 0 ? (
         <Doughnut
@@ -341,7 +273,6 @@ export default function ExpenseChart() {
           height="inherit"
           data={data}
           options={mobile ? mobileConfig : medium ? config : desktopConfig}
-          // plugins={plugins}
         />
       ) : (
         <Doughnut height="inherit" width="inherit" data={noData} options={nodataConfig} />

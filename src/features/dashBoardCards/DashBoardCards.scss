@@ -5,13 +5,9 @@
   flex-direction: column;
   justify-content: center;
   @include media-breakpoint-up(xl) {
-    height: 100vh;
+    min-height: 100vh;
   }
 }
-
-// .row_wrapper{
-//   // margin-right:  15px;
-// }
 
 .box_wrapper {
   background-color: $bgColorTR;
@@ -33,9 +29,6 @@
   }
   &--top {
     z-index: 2;
-  }
-  canvas {
-    height: 100px;
   }
   h2 {
     position: absolute;
@@ -74,32 +67,4 @@
     text-align: center;
     margin: 0 1rem;
   }
-}
-
-.box_wrapperr {
-  background-color: $bgColorTR;
-  box-shadow: $boxShadowDark;
-  padding: 1rem;
-  border-radius: 30px;
-  filter: $dropShadowDark;
-  margin: 0.5rem auto;
-  min-height: 100px;
-  // height: 50vh;
-  // height: 505px;
-  canvas {
-    height: 100px;
-  }
-  .wrapper-top-row {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    margin: 0 1rem;
-  }
-}
-
-.top {
-  z-index: 1;
 }
