@@ -9,10 +9,6 @@
   }
 }
 
-// .row_wrapper{
-//   // margin-right:  15px;
-// }
-
 .box_wrapper {
   background-color: $bgColorTR;
   box-shadow: $boxShadowDark;
@@ -33,9 +29,6 @@
   }
   &--top {
     z-index: 2;
-  }
-  canvas {
-    // height: 100%;
   }
   h2 {
     position: absolute;

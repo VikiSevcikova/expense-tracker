@@ -6,11 +6,12 @@ import InputField from "../inputField/InputField";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUser } from "../userProfile/userSlice";
 import { getUser } from "../../utils/utils";
 import { showAlert } from "../alertMessage/alertMessageSlice";
 import GoogleLoginBtn from "../googleLogin/GoogleLoginBtn";
+import { selectTheme } from "../themeChanger/themeChangerSlice";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -22,6 +23,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
   //redux
   const dispatch = useDispatch();
+  const { mode } = useSelector(selectTheme);
+  const logo = mode === 'dark' ? "/images/et-logo.png" : "/images/et-logo-g.png";
 
   const handleSubmit = async (values) => {
     try{
@@ -52,7 +55,7 @@ const LoginForm = () => {
     <>
       <Row className="mb-4 align-items-center">
         <Col xs={3}>
-          <Image src="/images/et-logo.png" alt="expense_tracker_logo" fluid />
+          <Image src={logo} alt="expense_tracker_logo" fluid />
         </Col>
         <Col xs={9} className="justify-content-start align-items-center">
           <h1 className="m-0 text-start">Login to the app<span className="accent-color">.</span></h1>
