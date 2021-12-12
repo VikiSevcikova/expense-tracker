@@ -99,14 +99,10 @@ const Filter = () => {
                 </Button>
               </Col>
             </Row>
-
             <Row className="dateRangeFilter">
               <Calendar />
             </Row>
-
             <Row className="buttons">
-              <BsCalendarDateFill />
-              <MdPayment />
               <MdLibraryAdd
                 className="addNewBtn"
                 onClick={() => handleShow("add")} />

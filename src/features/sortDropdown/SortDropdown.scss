@@ -2,8 +2,11 @@
 
 .sortDropdown {
   display: inline-block;
+  .dropdown-item {
+    color: $txtColor2;
+  }
   button {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     height: 20px;
     line-height: 100%;
     background-color: transparent;
@@ -20,6 +23,15 @@
     }
     &:hover {
       color: $accentColor1 !important;
+    }
+    @include media-breakpoint-up(lg) {
+      margin-left: 1rem;
+    }
+    @include media-breakpoint-up(xl) {
+      margin-left: 1rem;
+    }
+    @include media-breakpoint-up(xxl) {
+      margin-left: 1rem;
     }
   }
 }
