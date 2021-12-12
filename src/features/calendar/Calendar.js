@@ -16,10 +16,9 @@ const Calendar = (props) => {
 
   //redux
   const dispatch = useDispatch();
-  const { token,currency } = useSelector(selectUser);
+  const { token, currency } = useSelector(selectUser);
   const { startDate, endDate, isFilterCleared } = useSelector(selectCalendar);
   const { allTran } = useSelector(transactionListSelector);
-console.log(allTran)
   const [calendar, setCalendar] = useState([dateFromString(startDate), dateFromString(endDate)]);
 
   useEffect(() => {

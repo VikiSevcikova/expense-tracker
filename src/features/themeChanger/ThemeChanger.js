@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Form,
 } from 'react-bootstrap';
-import "./ThemeChanger.scss"
+import "./ThemeChanger.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTheme, setTheme } from './themeChangerSlice';
 

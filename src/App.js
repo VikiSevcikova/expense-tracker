@@ -20,8 +20,6 @@ const App = () => {
   const { user, token } = useSelector(selectUser);
   const theme = useSelector(selectTheme);
 
-  console.log("App,js", theme);
-
   useEffect(() => {
     const loadUser = async () => {
       try {

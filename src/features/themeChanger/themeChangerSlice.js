@@ -3,10 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 export const themeChangerSlice = createSlice({
   name: 'theme',
   initialState: {
-    mode: "dark"
+    mode: localStorage.theme === undefined ? "dark" : localStorage.getItem("theme")
   },
   reducers: {
     setTheme: (state, action) => {
+      localStorage.setItem("theme", action.payload);
       return { ...state, mode: action.payload };
     }
   }
