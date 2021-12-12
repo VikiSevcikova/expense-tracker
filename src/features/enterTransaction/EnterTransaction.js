@@ -80,7 +80,6 @@ const EditTransaction = (props) => {
     if (transaction.divideBy === "" || transaction.amount === "" || transaction.divideBy === "0" || isNaN(transaction.divideBy) || isNaN(transaction.amount)) {
       return; // invalid format, do nothing
     } else if ((transaction.divideBy !== 1 && transaction.splitAmount === 0) || (transaction.amount !== 0)) {
-      console.log("I am here in useEffect");
       calcSplitAmount();
     }
   }, [transaction.divideBy, transaction.amount]);
