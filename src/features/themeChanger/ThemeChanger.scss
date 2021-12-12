@@ -1,6 +1,11 @@
 @import "../../utils/component";
 
 .themeChangeSwitch {
+  @include media-breakpoint-down(sm) {
+    border: 0.2rem solid $txtColor1;
+    border-top: none;
+    padding: 0.3rem;
+  }
   .themeChanger {
     input {
       height: 20px;

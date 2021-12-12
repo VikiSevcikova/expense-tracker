@@ -77,14 +77,14 @@ export default function Navbar() {
           </Link>
           <Link to="/account" className="navBtn">
             {
-              user?.avatar ? 
+              user?.avatar ?
                 <Image
-                src={user.avatar}
-                alt="profile_image"
-                className="avatar"
-                roundedCircle
-              />
-              :
+                  src={user.avatar}
+                  alt="profile_image"
+                  className="avatar"
+                  roundedCircle
+                />
+                :
                 <MdOutlineAccountCircle size={50} />
             }
             <p>Account</p>
@@ -101,15 +101,15 @@ export default function Navbar() {
       <div
         className={menuOnClick ? "nav-dropdown__active" : "nav-dropdown"}
       >
-        <Link to="/" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
+        <Link to="/" className="navBtn nav-link" onClick={() => setMenuOnClick(false)}>
           <RiProfileLine size={50} />
           <p>Dashboard</p>
         </Link>
-        <Link to="/alltransaction" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
+        <Link to="/alltransaction" className="navBtn nav-link" onClick={() => setMenuOnClick(false)}>
           <AiOutlineTransaction size={50} />
           <p>Transactions</p>
         </Link>
-        <Link to="/account" className="navBtn nav-link" onClick={()=>setMenuOnClick(false)}>
+        <Link to="/account" className="navBtn nav-link" onClick={() => setMenuOnClick(false)}>
           {
             user?.avatar ?
               <Image
@@ -123,9 +123,10 @@ export default function Navbar() {
           }
           <p>Account</p>
         </Link>
-        <Nav.Link className="navBtn nav-link">
+        {/* <Nav.Link className="navBtn nav-link">
           <ThemeChanger />
-        </Nav.Link>
+        </Nav.Link> */}
+        <ThemeChanger />
         <Nav.Link className="navBtn" onClick={handleLogout}>
           <MdLogout size={50} />
           <p>Logout</p>

@@ -89,8 +89,6 @@ export default function ExpenseChart() {
 
   const legendLabels = function (chart) {
     let data = chart.data;
-    console.log(data);
-    console.log(data.labels.indexOf("Food & Beverage"));
     const color = data.datasets[0].backgroundColor;
 
     return data.labels.map((label, i) => {
