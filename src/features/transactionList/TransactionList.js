@@ -14,7 +14,9 @@ import {
   MdOutlineCategory,
   MdAttachMoney,
   MdCheckBoxOutlineBlank,
+  MdPayment
 } from "react-icons/md";
+import { BsCalendarDateFill } from "react-icons/bs";
 import Paging from '../pagination/Paging';
 import moment from "moment";
 import SortDropdown from '../sortDropdown/SortDropdown';
@@ -103,14 +105,29 @@ const TransactionList = () => {
                   <thead className="tableTitle">
                     <tr>
                       <th><MdCheckBoxOutlineBlank /></th>
-                      <th
-                        className="title"          >
-                        <MdOutlineCategory />
-                        Category
-                        <SortDropdown
-                          tranList={tranList}
-                          sortOrder="alphabet"
-                          sortBy="paymentMethod" />
+                      <th className="title">
+                        Transactions
+                        <div>
+                          <MdOutlineCategory />
+                          <SortDropdown
+                            tranList={tranList}
+                            sortOrder="alphabet"
+                            sortBy="categoryName" />
+                        </div>
+                        <div>
+                          <MdPayment />
+                          <SortDropdown
+                            tranList={tranList}
+                            sortOrder="alphabet"
+                            sortBy="paymentMethod" />
+                        </div>
+                        <div>
+                          <BsCalendarDateFill />
+                          <SortDropdown
+                            tranList={tranList}
+                            sortOrder="date"
+                            sortBy="date" />
+                        </div>
                       </th>
                       <th
                         className="titleAmount" >
