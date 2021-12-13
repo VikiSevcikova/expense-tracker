@@ -12,11 +12,8 @@ const ThemeChanger = () => {
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
 
-  console.log(theme.mode);
-
   //method
   const changeTheme = () => {
-    console.log("onchange click");
     theme.mode === "dark" ? dispatch(setTheme("light")) : dispatch(setTheme("dark"));
   };
 
