@@ -4,12 +4,7 @@ import { Doughnut } from "react-chartjs-2";
 import useMedia from "use-media";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
 import { selectUser } from "../userProfile/userSlice";
-import { rateConverter } from "../../utils/CurrencyLabel";
 import "./ExpenseChart.scss";
-import CategoryIcon from "../categoryIcon/CategoryIcon";
-import { AiFillAccountBook } from "react-icons/ai";
-import * as ReactIcons from "react-icons/all";
-import { Col } from "react-bootstrap";
 
 export default function ExpenseChart() {
   const mobile = useMedia({ maxWidth: 767 });
@@ -95,10 +90,9 @@ export default function ExpenseChart() {
 
     return data.labels.map((label, i) => {
       return {
-        text: `${label} ${percentage(data.datasets[0].data[i])}%
-   ${(
-     <CategoryIcon size={20} id={data.labels.indexOf(label)} type={label} />
-   )}`,
+        text: `${label}: ${symbol}${data.datasets[0].data[i]} - ${percentage(
+          data.datasets[0].data[i]
+        )}%`,
         fillStyle: color[i],
       };
     });
@@ -187,18 +181,18 @@ export default function ExpenseChart() {
     plugins: {
       legend: {
         display: true,
-        position: "right",
+        position: "bottom",
         labels: {
           color: "white",
           font: {
             family: "Josefin Sans, sans-serif",
-            size: 8,
+            size: 16,
           },
         },
       },
       tooltip: {
-        boxWidth: 10,
-        boxHeight: 10,
+        boxWidth: 30,
+        boxHeight: 30,
         bodyFont: {
           size: 16,
           family: "Josefin Sans, sans-serif",
@@ -211,6 +205,7 @@ export default function ExpenseChart() {
           },
         },
       },
+     
     },
   };
 
@@ -227,7 +222,22 @@ export default function ExpenseChart() {
 
           font: {
             family: "Josefin Sans, sans-serif",
-            size: 12,
+            size: 16,
+          },
+        },
+      },
+      tooltip: {
+        boxWidth: 30,
+        boxHeight: 30,
+        bodyFont: {
+          size: 16,
+          family: "Josefin Sans, sans-serif",
+        },
+        callbacks: {
+          label: function (item) {
+            return `${item.label}: ${symbol}${
+              item.dataset.data[item.dataIndex]
+            }`;
           },
         },
       },
@@ -267,18 +277,22 @@ export default function ExpenseChart() {
     <div className="chart">
       <h5>ExpenseChart</h5>
       <div className="chart-wrapper">
-      {data.labels.length !== 0 ? (
-        <Doughnut
-          width="inherit"
-          height="inherit"
-          data={data}
-          options={mobile ? mobileConfig : medium ? config : desktopConfig}
-        />
-      ) : (
-        <Doughnut height="inherit" width="inherit" data={noData} options={nodataConfig} />
-      )}
+        {data.labels.length !== 0 ? (
+          <Doughnut
+            width="inherit"
+            height="inherit"
+            data={data}
+            options={mobile ? mobileConfig : medium ? config : desktopConfig}
+          />
+        ) : (
+          <Doughnut
+            height="inherit"
+            width="inherit"
+            data={noData}
+            options={nodataConfig}
+          />
+        )}
       </div>
-
     </div>
   );
 }
