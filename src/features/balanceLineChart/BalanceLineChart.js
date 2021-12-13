@@ -141,14 +141,22 @@ export default function BalanceLineChart() {
     plugins: {
       legend: {
         display: false,
+        
       },
     },
     scales: {
       x: {
-        color: "white",
+        // color: "white",
+        ticks: {
+          color: "white", // this here
+        },
       },
+      
       y: {
         color: "white",
+        ticks: {
+          color: "white", // this here
+        },
       },
     },
   };
