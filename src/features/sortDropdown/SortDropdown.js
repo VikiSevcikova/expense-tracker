@@ -44,7 +44,6 @@ const SortDropdown = (props) => {
         }
         break;
       case "date":
-        console.log(props.tranList);
         if (order === "asc") {
           sortedTran = props.tranList.slice().sort((a, b) => (new Date(a[`${sortBy}`]) - new Date(b[`${sortBy}`])));
         } else {

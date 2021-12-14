@@ -49,36 +49,10 @@ export const userSlice = createSlice({
       state.isAuth = false;
       state.token = null;
     },
-    // setCurrency: (state, action) => {
-    //   const symbol = CurrencyLabel.find((currency) => {
-    //     return currency.name === action.payload;
-    //   });
-
-    //   return {
-    //     ...state,
-    //     currency: {
-    //       ...state.currency,
-    //       name: action.payload,
-    //       symbol: symbol.symbol,
-    //     },
-    //   };
-    // },
-    // setRate: (state, action) => {
-    //   return {
-    //     ...state,
-    //     currency: {
-    //       ...state.currency,
-    //       preRate: state.currency.rate,
-    //       rate: action.payload,
-    //     },
-    //   };
-    // },
     setRate: (state, action) => {
       const symbol = CurrencyLabel.find((currency) => {
             return currency.name === action.payload.name;
           });
-          // console.log(`set rate: pre rate${action.payload.rate}`)
-
       return {
         ...state,
         currency: {

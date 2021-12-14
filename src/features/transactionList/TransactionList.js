@@ -37,8 +37,6 @@ const TransactionList = () => {
   //method
   //when the component is mounted
   useEffect(() => {
-    console.log("TRANSACTION LIST CHANGED");
-    console.log(transactionList.convertedTran)
     transactionList.filteredTran.length !== 0 ?
       setTranList(transactionList.filteredTran) :
       setTranList(transactionList.convertedTran);
@@ -130,8 +128,8 @@ const TransactionList = () => {
                       </th>
                       <th
                         className="titleAmount" >
-                        <MdAttachMoney />
-                        <SortDropdown
+                        <p>{user.currency.symbol}</p>
+                        < SortDropdown
                           tranList={tranList}
                           sortOrder="number"
                           sortBy="amount" />
@@ -233,7 +231,7 @@ const TransactionList = () => {
                         <td>{elem.paymentMethod}</td>
                         <td>{elem.description}</td>
                         {elem.transactionType === "expense" ?
-                          <td className="negativeAmount">-{user.currency.symbol}{elem.hasOwnProperty("splitAmount") && elem.splitAmount !== 0 ? elem.splitAmount : elem.amount}</td> :
+                          <td className="negativeAmount">-{user.currency.symbol}{elem.amount}</td> :
                           <td>{user.currency.symbol}{elem.amount}</td>}
                       </tr>
                     ))}

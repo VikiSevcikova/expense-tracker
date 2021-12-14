@@ -30,7 +30,6 @@ const Paging = (props) => {
   //when allTran or filteredTran is changed, recalculate the number of pages
   //When pageNum is changed, update the state
   useEffect(() => {
-    console.log(props.tranList)
     const currentPageTranList = props.tranList.slice(indexOfFirstTran, indexOfLastTran);
     dispatch(getCurrentPageTransaction(currentPageTranList));
   }, [props.tranList, currentPageNum]);
