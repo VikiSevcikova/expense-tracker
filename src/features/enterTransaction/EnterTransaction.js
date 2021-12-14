@@ -97,7 +97,7 @@ const EditTransaction = (props) => {
           [prop]: e.target.value
         }
       );
-    }else{
+    } else {
       setTransaction({ ...transaction, [prop]: e.target.value });
     }
   };
@@ -125,7 +125,7 @@ const EditTransaction = (props) => {
         }));
         return;
       } else {
-        const tran = { ...transaction, amount: Math.round(transaction.amount / currency.rate)};
+        const tran = { ...transaction, amount: Math.round(transaction.amount / currency.rate) };
         let response;
         props.operationType === "edit" ?
           //send data to backend - edit tran

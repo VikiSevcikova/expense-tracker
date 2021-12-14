@@ -65,6 +65,9 @@
         }
         .titleAmount {
           text-align: right;
+          p {
+            display:inline;
+          }
         }
         .sortIcon {
           margin-left: 0.5rem;
