@@ -9,7 +9,7 @@ import "./ExpenseChart.scss";
 export default function ExpenseChart() {
   const mobile = useMedia({ maxWidth: 767 });
   const medium = useMedia({ maxWidth: 1200 });
-  const { allTran } = useSelector(transactionListSelector);
+  const { convertedTran } = useSelector(transactionListSelector);
   const { currency } = useSelector(selectUser);
   const symbol = currency.symbol;
 
@@ -33,7 +33,7 @@ export default function ExpenseChart() {
   ];
 
   // Filter all transaction and push to the list
-  allTran.filter((tran) => {
+  convertedTran.filter((tran) => {
     dataList.forEach((list) => {
       if (
         list.name === tran.categoryName &&
