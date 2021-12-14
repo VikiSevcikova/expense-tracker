@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import alertReducer from '../features/alertMessage/alertMessageSlice';
 import userReducer from '../features/userProfile/userSlice';
 import transactionListReducer from "../features/transactionList/transactionListSlice";

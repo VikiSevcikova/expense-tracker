@@ -40,9 +40,11 @@ const TransactionList = () => {
   //method
   //when the component is mounted
   useEffect(() => {
+    console.log("TRANSACTION LIST CHANGED");
+    console.log(transactionList.convertedTran)
     transactionList.filteredTran.length !== 0 ?
       setTranList(transactionList.filteredTran) :
-      setTranList(transactionList.allTran);
+      setTranList(transactionList.convertedTran);
   }, [transactionList]);
 
   //Checkbox control
