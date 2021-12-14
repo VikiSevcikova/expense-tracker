@@ -18,9 +18,10 @@ export default function Currency() {
       try {
         const base = await Convert().from("CAD").fetch();
         const rate = await base.amount(1).to(currency.name);
+        // set currency rate
         dispatch(setRate({...currency,rate:rate}));
+        // set current and previous convert rate
         dispatch(convertRate({rate:rate, preRate:currency.preRate}))
-        // dispatch(getBalance({amount:allTran,rate:rate,preRate:currency.preRate}))
       } catch (err) {
         console.log(err);
       }

@@ -13,6 +13,7 @@ export default function ExpenseChart() {
   const { currency } = useSelector(selectUser);
   const symbol = currency.symbol;
 
+  // Array to store the transaction record by catagory
   const dataList = [
     { name: "Food & Beverage", trans: [] },
     { name: "Shopping", trans: [] },
@@ -31,9 +32,7 @@ export default function ExpenseChart() {
     { name: "Salary", trans: [] },
   ];
 
-  // make it more dynamic
-  // get categories and create array from the list
-
+  // Filter all transaction and push to the list
   allTran.filter((tran) => {
     dataList.forEach((list) => {
       if (
@@ -43,9 +42,10 @@ export default function ExpenseChart() {
         list.trans.push(tran);
       }
     });
+    return tran
   });
 
-  // Filter out the lists if no transaction
+  // Filter and delete the lists if no transaction
   const dataCatagory = dataList.filter((label) => {
     return label.trans.length !== 0;
   });
@@ -55,6 +55,7 @@ export default function ExpenseChart() {
     return label.name;
   });
 
+  // An array of expense amount in different catagory
   const catagoryAmount = dataCatagory.map((label) => {
     const trans = label.trans.map((tran) => {
       return tran.amount;
@@ -62,11 +63,10 @@ export default function ExpenseChart() {
     const sumTrans = trans.reduce((a, b) => {
       return a + b;
     });
-
-    // exchange rates
     return sumTrans;
   });
 
+  // Calculate the percentage for each expense
   const percentage = (amount) => {
     const totalExpense = catagoryAmount.reduce((a, b) => {
       return a + b;
@@ -74,6 +74,10 @@ export default function ExpenseChart() {
     return Math.round((amount / totalExpense) * 100);
   };
 
+  // =====================================================================================
+  // Chartjs
+
+  // Genarate Chart legend labels
   const legendLabels = function (chart) {
     let data = chart.data;
     const color = data.datasets[0].backgroundColor;
@@ -88,6 +92,7 @@ export default function ExpenseChart() {
     });
   };
 
+  // Chartjs data (when it's no data)
   const noData = {
     labels: ["no data"],
     datasets: [
@@ -103,11 +108,11 @@ export default function ExpenseChart() {
     ],
   };
 
+  // Chartjs data
   const data = {
     labels: catagorylabel,
     datasets: [
       {
-        // labels: chartLabel,
         data: catagoryAmount,
         backgroundColor: [
           "#a1bfa3",
@@ -131,6 +136,7 @@ export default function ExpenseChart() {
     ],
   };
 
+  // Chart config for desktop view
   const desktopConfig = {
     responsive: true,
     maintainAspectRatio: false,
@@ -165,6 +171,7 @@ export default function ExpenseChart() {
     },
   };
 
+  // Chart config for normal view
   const config = {
     responsive: true,
     maintainAspectRatio: false,
@@ -195,10 +202,10 @@ export default function ExpenseChart() {
           },
         },
       },
-     
     },
   };
 
+  // Chart config for mobile
   const mobileConfig = {
     responsive: true,
     maintainAspectRatio: false,
@@ -234,6 +241,7 @@ export default function ExpenseChart() {
     },
   };
 
+  // Chart config for no data
   const nodataConfig = {
     responsive: true,
     maintainAspectRatio: false,

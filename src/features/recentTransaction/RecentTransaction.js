@@ -39,7 +39,9 @@ export default function RecentTransaction() {
               <Col xs={2}>
                 <CategoryIcon size={20} id={transaction.categoryId} type={transaction.transactionType} />
               </Col>
-              <Col xs={3}>{moment(transaction.date).format("YY-MM-DD")}</Col>
+              <Col xs={3}>
+              {moment.utc(transaction.date).local().format('YY-MM-DD')}
+                </Col>
               <Col xs={4}>
                 <p className="description">{transaction.description}</p>
               </Col>

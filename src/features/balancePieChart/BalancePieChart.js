@@ -22,8 +22,9 @@ export default function BalancePieChart() {
       let total = 0;
       array.forEach((transaction) => {
         if (transaction.transactionType === type) {
-          total += transaction.amount;
+         total += transaction.amount;
         }
+        return total
       });
       return total;
     };

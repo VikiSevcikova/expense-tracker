@@ -11,6 +11,7 @@
 }
 
 .recent-transactions-wrapper{   
+    font-size: 12px;
     height: auto;
     @include media-breakpoint-up(lg) {
         height: 32vh;
