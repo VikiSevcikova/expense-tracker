@@ -39,7 +39,7 @@ const SortDropdown = (props) => {
           sortedTran = expense.concat(income);
         } else {
           expense = props.tranList.filter(e => e.transactionType === "expense").sort((a, b) => (a[`${sortBy}`] - (b[`${sortBy}`])));
-          income = props.tranList.ter(e => e.transactionType === "income").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
+          income = props.tranList.filter(e => e.transactionType === "income").sort((a, b) => (b[`${sortBy}`] - (a[`${sortBy}`])));
           sortedTran = income.concat(expense);
         }
         break;

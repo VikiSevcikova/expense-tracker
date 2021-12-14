@@ -11,10 +11,7 @@ export default function ExpenseChart() {
   const medium = useMedia({ maxWidth: 1200 });
   const { allTran } = useSelector(transactionListSelector);
   const { currency } = useSelector(selectUser);
-  const rate = currency.rate;
   const symbol = currency.symbol;
-
-  // console.log(allTran);
 
   const dataList = [
     { name: "Food & Beverage", trans: [] },
@@ -58,10 +55,6 @@ export default function ExpenseChart() {
     return label.name;
   });
 
-  // const chartLabel = dataCatagory.map((label) => {
-  //   return label.name
-  // });
-
   const catagoryAmount = dataCatagory.map((label) => {
     const trans = label.trans.map((tran) => {
       return tran.amount;
@@ -71,7 +64,6 @@ export default function ExpenseChart() {
     });
 
     // exchange rates
-    // return rateConverter(sumTrans, rate);
     return sumTrans;
   });
 
