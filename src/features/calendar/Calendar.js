@@ -6,7 +6,7 @@ import moment from "moment";
 import { selectCalendar } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { calendarActions } from "./calendarSlice";
-import { getAllTransaction, getBalance, filterTransaction, transactionListSelector } from "../transactionList/transactionListSlice";
+import { getAllTransaction, filterTransaction } from "../transactionList/transactionListSlice";
 import axios from "axios";
 import { selectUser } from "../userProfile/userSlice";
 import { dateFromString, getHeaderConfig, stringifyDate } from "../../utils/utils";
@@ -18,9 +18,8 @@ const Calendar = (props) => {
 
   //redux
   const dispatch = useDispatch();
-  const { token, currency } = useSelector(selectUser);
+  const { token } = useSelector(selectUser);
   const { startDate, endDate, isFilterCleared } = useSelector(selectCalendar);
-  const { allTran } = useSelector(transactionListSelector);
   const [calendar, setCalendar] = useState([dateFromString(startDate), dateFromString(endDate)]);
 
   useEffect(() => {
@@ -47,7 +46,7 @@ const Calendar = (props) => {
       dateFromString(initialDateRange.endDate)
     ]);//reset display calendar
     dispatch(calendarActions.setDateRange(initialDateRange)); //clear date range filter
-  }, [isFilterCleared]);
+  }, [isFilterCleared,dispatch]);
 
   useEffect(() => {
 

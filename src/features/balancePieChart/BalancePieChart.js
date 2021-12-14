@@ -4,7 +4,6 @@ import { Pie } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
 import { selectUser } from "../userProfile/userSlice";
-import { rateConverter } from "../../utils/CurrencyLabel";
 
 import useMedia from "use-media";
 
@@ -13,22 +12,19 @@ export default function BalancePieChart() {
 
   //redux
   const { currency } = useSelector(selectUser);
-  const { balance } = useSelector(transactionListSelector);
   const { allTran } = useSelector(transactionListSelector);
-  const rate = currency.rate;
   const symbol = currency.symbol;
   const [income,setIncome] = useState()
   const [expense,setExpense] = useState()
-
-  console.log(allTran);
 
   useEffect(() => {
     const getTransactionTotal = (array, type) => {
       let total = 0;
       array.map((transaction) => {
         if (transaction.transactionType === type) {
-          total += transaction.amount;
+         total += transaction.amount;
         }
+        return total
       });
       return total;
     };

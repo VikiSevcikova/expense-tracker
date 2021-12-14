@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { showAlert } from "../alertMessage/alertMessageSlice";
 import { removeUser, selectUser } from "../userProfile/userSlice";
 import ThemeChanger from "../themeChanger/ThemeChanger";
-import { selectTheme } from "../themeChanger/themeChangerSlice";
 
 export default function Navbar() {
   //router
@@ -20,7 +19,7 @@ export default function Navbar() {
   //redux
   const dispatch = useDispatch();
   const { user } = useSelector(selectUser);
-  const { mode } = useSelector(selectTheme);
+ 
   const logo = "/images/et-logo.png";
 
   const [menuOnClick, setMenuOnClick] = useState(false);

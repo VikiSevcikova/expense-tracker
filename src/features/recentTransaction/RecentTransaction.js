@@ -3,10 +3,10 @@ import "./RecentTransaction.scss";
 import { Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
-import { selectCategoryIcon } from "../categoryIcon/categoryIconSlice";
 import CategoryIcon from "../categoryIcon/CategoryIcon";
 import {selectUser} from "../userProfile/userSlice";
 import {rateConverter} from "../../utils/CurrencyLabel";
+import moment from "moment";
 
 export default function RecentTransaction() {
 
@@ -41,7 +41,9 @@ export default function RecentTransaction() {
               <Col xs={2}>
                 <CategoryIcon size={20} id={transaction.categoryId} type={transaction.transactionType} />
               </Col>
-              <Col xs={3}>{transaction.date.substring(2, 10)}</Col>
+              <Col xs={3}>
+              {moment.utc(transaction.date).local().format('YY-MM-DD')}
+                </Col>
               <Col xs={4}>
                 <p className="description">{transaction.description}</p>
               </Col>

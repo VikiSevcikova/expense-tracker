@@ -103,22 +103,8 @@ export default function BalanceLineChart() {
   useEffect(() => {
     const [dates, data] = getData();
     setChartData({ dates, data });
+    
   }, [allTran]);
-
-  const MONTHS = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   const data = {
     labels: chartData.dates,

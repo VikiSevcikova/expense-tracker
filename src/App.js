@@ -17,7 +17,7 @@ import { selectTheme } from "./features/themeChanger/themeChangerSlice";
 
 const App = () => {
   const dispatch = useDispatch();
-  const { user, token } = useSelector(selectUser);
+  const { token } = useSelector(selectUser);
   const theme = useSelector(selectTheme);
 
   useEffect(() => {
