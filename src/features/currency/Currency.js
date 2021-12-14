@@ -13,8 +13,6 @@ export default function Currency() {
   const { currency } = useSelector(selectUser);
   const { allTran } = useSelector(transactionListSelector);
 
-// console.log(currency)
-
   useEffect(() => {
     const updateRates = async () => {
       try {

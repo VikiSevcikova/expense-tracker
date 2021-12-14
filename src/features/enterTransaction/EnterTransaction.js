@@ -253,8 +253,6 @@ const EditTransaction = (props) => {
                     onFocus={() => setTransaction({
                       ...transaction,
                       ["amount"]: "",
-                      // ["splitAmount"]: "",
-                      // ["divideBy"]: 1
                     })}
                     onChange={handleChange("amount")} />
                 </Form.Group>

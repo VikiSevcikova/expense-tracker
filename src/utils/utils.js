@@ -8,19 +8,19 @@ export const getHeaderConfig = (token) => {
     }
   };
   return config;
-}
+};
 
-export const getUser =  async (token) => {
+export const getUser = async (token) => {
   const { data } = await axios.get("/users/me", getHeaderConfig(token));
   return data;
-}
+};
 
 // Date to ISO string converter
 export const stringifyDate = (date) => {
   return date.toISOString();
 };
 
-  // ISO string to Date converter
+// ISO string to Date converter
 export const dateFromString = (date) => {
   return new Date(date);
 };

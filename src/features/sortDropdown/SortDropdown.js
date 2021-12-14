@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./SortDropdown.scss";
 import {
   DropdownButton,
@@ -7,8 +7,13 @@ import {
 import { BsSortUpAlt, BsSortDown, BsSortAlphaDown, BsSortAlphaDownAlt, BsSortNumericUpAlt, BsSortNumericDown } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { filterTransaction } from '../transactionList/transactionListSlice';
+import * as ReactIcons from "react-icons/all";
 
 const SortDropdown = (props) => {
+
+  //mobile and tablet view : sorting dropdown
+  const icon = React.createElement(ReactIcons[props.iconName]);
+  const [show, setShow] = useState("none");
 
   //redux
   const dispatch = useDispatch();
@@ -50,61 +55,81 @@ const SortDropdown = (props) => {
         break;
     }
     dispatch(filterTransaction(sortedTran));
+    //for mobile and tablet view, close dropdown
+    setShow("none");
+  };
+
+  //dropdown items 
+  const changeIcon = () => {
+    switch (props.sortOrder) {
+      case "alphabet":
+        return (
+          <>
+            <Dropdown.Item
+              onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")}>
+              <BsSortAlphaDown className="sortIcon" />
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
+              <BsSortAlphaDownAlt className="sortIcon" />
+            </Dropdown.Item>
+          </>
+        );
+      case "number":
+        return (
+          <>
+            <Dropdown.Item
+              onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")} >
+              <BsSortNumericDown className="sortIcon" />
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
+              <BsSortNumericUpAlt className="sortIcon" />
+            </Dropdown.Item>
+          </>
+        );
+      case "date":
+        return (
+          <>
+            <Dropdown.Item
+              onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")}>
+              <BsSortDown className="sortIcon" />
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
+              <BsSortUpAlt className="sortIcon" />
+            </Dropdown.Item>
+          </>
+        );
+      default:
+        break;
+    }
   };
 
   return (
     <>
-      <DropdownButton
-        className="sortDropdown"
-        variant="secondary"
-      >
-        {/* Self-invoking function : to change icon */}
-        {(() => {
-          switch (props.sortOrder) {
-            case "alphabet":
-              return (
-                <>
-                  <Dropdown.Item
-                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")}>
-                    <BsSortAlphaDown className="sortIcon" />
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
-                    <BsSortAlphaDownAlt className="sortIcon" />
-                  </Dropdown.Item>
-                </>
-              );
-            case "number":
-              return (
-                <>
-                  <Dropdown.Item
-                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")} >
-                    <BsSortNumericDown className="sortIcon" />
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
-                    <BsSortNumericUpAlt className="sortIcon" />
-                  </Dropdown.Item>
-                </>
-              );
-            case "date":
-              return (
-                <>
-                  <Dropdown.Item
-                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "asc")}>
-                    <BsSortDown className="sortIcon" />
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => sortTransaction(props.sortOrder, props.sortBy, "desc")}>
-                    <BsSortUpAlt className="sortIcon" />
-                  </Dropdown.Item>
-                </>
-              );
-            default:
-              break;
-          }
-        })()}
-      </DropdownButton>
+      {props.iconName ?
+        ////// Mobile and Tablet view
+        <div
+          className="sortDropdown"
+          onClick={() => show === "none" ? setShow("block") : setShow("none")}>
+          {icon}
+          {/* to change dropdown icon */}
+          <div
+            className='dropdowns'
+            style={{ display: show }}>
+            {changeIcon()}
+          </div>
+        </div> :
+        ////// Laptop and Desktop view
+        <DropdownButton
+          className="sortDropdown"
+          variant="secondary"
+        >
+          {/* to change dropdown icon */}
+          {changeIcon()}
+        </DropdownButton>
+      }
     </>
   );
 };

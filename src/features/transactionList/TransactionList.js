@@ -11,12 +11,9 @@ import {
 } from 'react-bootstrap';
 import "./TransactionList.scss";
 import {
-  MdOutlineCategory,
   MdAttachMoney,
   MdCheckBoxOutlineBlank,
-  MdPayment
 } from "react-icons/md";
-import { BsCalendarDateFill } from "react-icons/bs";
 import Paging from '../pagination/Paging';
 import moment from "moment";
 import SortDropdown from '../sortDropdown/SortDropdown';
@@ -103,32 +100,32 @@ const TransactionList = () => {
             {!(isLG || isXL || isXXL) ? (
               <>
                 {/* Mobile view */}
+                <h4>Transactions</h4>
                 <Table className="transactionList">
                   <thead className="tableTitle">
                     <tr>
                       <th><MdCheckBoxOutlineBlank /></th>
                       <th className="title">
-                        Transactions
                         <div>
-                          <MdOutlineCategory />
                           <SortDropdown
                             tranList={tranList}
                             sortOrder="alphabet"
-                            sortBy="categoryName" />
+                            sortBy="categoryName"
+                            iconName="MdOutlineCategory" />
                         </div>
                         <div>
-                          <MdPayment />
                           <SortDropdown
                             tranList={tranList}
                             sortOrder="alphabet"
-                            sortBy="paymentMethod" />
+                            sortBy="paymentMethod"
+                            iconName="MdPayment" />
                         </div>
                         <div>
-                          <BsCalendarDateFill />
                           <SortDropdown
                             tranList={tranList}
                             sortOrder="date"
-                            sortBy="date" />
+                            sortBy="date"
+                            iconName="BsCalendarDateFill" />
                         </div>
                       </th>
                       <th

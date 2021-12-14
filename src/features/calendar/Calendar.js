@@ -11,8 +11,10 @@ import axios from "axios";
 import { selectUser } from "../userProfile/userSlice";
 import { dateFromString, getHeaderConfig, stringifyDate } from "../../utils/utils";
 import { showAlert } from "../alertMessage/alertMessageSlice";
+import useMedia from "use-media";
 
 const Calendar = (props) => {
+  const mobile = useMedia({ maxWidth: 580 });
 
   //redux
   const dispatch = useDispatch();
@@ -83,7 +85,7 @@ const Calendar = (props) => {
         popperClassName="picker-popper"
         className={`dateFilter ${props.className}`}
         dateFormat="yyyy/MM/dd"
-        monthsShown={2}
+        monthsShown={mobile ? 1: 2}
         selected={calendar[0]}
         onChange={(update) => setCalendar(update)}
         startDate={calendar[0]}

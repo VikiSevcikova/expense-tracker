@@ -1,10 +1,24 @@
 @import "../../utils/component";
 
 .transactionListContainer {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  justify-content: center;
+  @include media-breakpoint-up(lg) {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: center;
+  }
+  @include media-breakpoint-up(xl) {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: center;
+  }
+  @include media-breakpoint-up(xxl) {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: center;
+  }
   margin: 1rem auto;
   margin-top: 1rem;
   background-color: $bgColorTR;
@@ -13,6 +27,9 @@
   border-radius: 30px;
   filter: $dropShadowDark;
   min-height: 50vh;
+  h4 {
+    text-align: center;
+  }
   .transactionList {
     color: $txtColor1;
     .tableTitle {
