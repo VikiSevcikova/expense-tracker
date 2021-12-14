@@ -49,7 +49,6 @@ export const userSlice = createSlice({
       state.isAuth = false;
       state.token = null;
     },
-
     setRate: (state, action) => {
       const symbol = CurrencyLabel.find((currency) => {
             return currency.name === action.payload.name;

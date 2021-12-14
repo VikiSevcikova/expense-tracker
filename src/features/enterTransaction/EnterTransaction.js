@@ -28,6 +28,7 @@ const EditTransaction = (props) => {
   const dispatch = useDispatch();
   const { token } = useSelector(selectUser);
   const { categories } = useSelector(selectCategoryIcon);
+  const { currency } = useSelector(selectUser);
   const theme = useSelector(selectTheme);
 
   //private state
@@ -124,12 +125,13 @@ const EditTransaction = (props) => {
         }));
         return;
       } else {
+        const tran = { ...transaction, amount: Math.round(transaction.amount / currency.rate) };
         let response;
         props.operationType === "edit" ?
           //send data to backend - edit tran
-          response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, transaction, getHeaderConfig(token)) :
+          response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, tran, getHeaderConfig(token)) :
           //send data to backend - add new
-          response = await axios.post("/alltransaction/add", transaction, getHeaderConfig(token));
+          response = await axios.post("/alltransaction/add", tran, getHeaderConfig(token));
 
         if (response.statusText !== "OK") {
           throw response.statusText;
@@ -246,13 +248,11 @@ const EditTransaction = (props) => {
                   <Form.Label>Enter an Amount * (only number accepted)</Form.Label>
                   <Form.Control
                     required type="text"
-                    placeholder="$"
+                    placeholder={currency.symbol}
                     value={transaction.amount}
                     onFocus={() => setTransaction({
                       ...transaction,
                       ["amount"]: "",
-                      // ["splitAmount"]: "",
-                      // ["divideBy"]: 1
                     })}
                     onChange={handleChange("amount")} />
                 </Form.Group>

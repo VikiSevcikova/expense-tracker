@@ -2,6 +2,27 @@
 
 .sortDropdown {
   display: inline-block;
+  &:hover {
+    color: $accentColor1 !important;
+  }
+  .dropdowns {
+    display: block;
+    position: absolute;
+    inset: 45px auto auto 80px;
+    transform: translate3d(12px, 23px, 0px);
+    z-index: 1000;
+    min-width: 10rem;
+    padding: 0.5rem 0px;
+    margin: 0px;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #00000026;
+    border-radius: 0.25rem;
+  }
   .dropdown-item {
     color: $txtColor2;
   }

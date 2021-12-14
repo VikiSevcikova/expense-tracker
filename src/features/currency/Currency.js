@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setRate, selectUser } from "../userProfile/userSlice";
-import {convertRate } from "../transactionList/transactionListSlice";
+import {convertRate, transactionListSelector} from "../transactionList/transactionListSlice";
 import currencyLabel from "../../utils/CurrencyLabel";
 import "./Currency.scss";
 
@@ -11,6 +11,7 @@ import { Convert } from "easy-currencies";
 export default function Currency() {
   const dispatch = useDispatch();
   const { currency } = useSelector(selectUser);
+  const { allTran } = useSelector(transactionListSelector);
 
   useEffect(() => {
     const updateRates = async () => {
@@ -26,7 +27,7 @@ export default function Currency() {
       }
     };
     updateRates();
-  }, [currency.name, dispatch]);
+  }, [currency.name, allTran, dispatch]);
 
   const currencyOnChange = (e) => {
     dispatch(setRate({...currency,name:e,preRate:currency.rate}));

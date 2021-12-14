@@ -36,7 +36,7 @@ const GoogleLoginBtn = () => {
     const responseErrorGoogle = (response) => {
         dispatch(
             showAlert({
-              message: "Sorry, something went wrong on the server side",
+              message: "Couldn't login with Google",
               variant: "danger",
             })
           );

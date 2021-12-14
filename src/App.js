@@ -12,13 +12,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./utils/utils";
 import { removeUser, selectUser, setUser } from "./features/userProfile/userSlice";
 import { hideAlert, showAlert } from "./features/alertMessage/alertMessageSlice";
+import { transactionListSelector, convertRate } from './features/transactionList/transactionListSlice';
 import { getAll } from "./features/categoryIcon/categoryIconSlice";
 import { selectTheme } from "./features/themeChanger/themeChangerSlice";
 
 const App = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector(selectUser);
+  const { token, currency } = useSelector(selectUser);
+  const { allTran } = useSelector(transactionListSelector);
   const theme = useSelector(selectTheme);
+
+  useEffect(()=>{
+    dispatch(convertRate({rate:currency.rate}))
+  },[currency.rate, allTran, dispatch]);
 
   useEffect(() => {
     const loadUser = async () => {

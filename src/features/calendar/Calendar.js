@@ -34,6 +34,7 @@ const Calendar = (props) => {
 
   //clear filter on transaction list
   useEffect(() => {
+    if(!isFilterCleared) return;
     // toggle state
     const initialStartOfMonth = new Date(moment(new Date()).startOf("month").startOf("day"));
     const initialEndOfMonth = new Date(moment(new Date()).endOf("day"));
@@ -46,7 +47,7 @@ const Calendar = (props) => {
       dateFromString(initialDateRange.endDate)
     ]);//reset display calendar
     dispatch(calendarActions.setDateRange(initialDateRange)); //clear date range filter
-  }, [isFilterCleared,dispatch]);
+  }, [isFilterCleared, dispatch]);
 
   useEffect(() => {
 

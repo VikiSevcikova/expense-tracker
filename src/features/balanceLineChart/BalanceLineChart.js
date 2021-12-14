@@ -1,82 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./BalanceLineChart.scss";
 import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
-import {
-  transactionListSelector,
-} from "../transactionList/transactionListSlice";
+import { transactionListSelector } from "../transactionList/transactionListSlice";
 import { selectCalendar } from "../calendar/calendarSlice";
 import moment from "moment";
 
 export default function BalanceLineChart() {
-  const { allTran } = useSelector(transactionListSelector);
+  const { convertedTran } = useSelector(transactionListSelector);
   const { startDate, endDate } = useSelector(selectCalendar);
   const [chartData, setChartData] = useState({ dates: [], data: [] });
 
-  const getData = () => {
-    const start = moment(startDate).endOf('day');
-    const end = moment(endDate).endOf('day');
-    const days = end.diff(start, "days");
-    if (days > 90) {
-      //show by months
-      return groupData(start, end, 1);
-    } else if (days > 30 && days <= 90) {
-      //show by 3 weeks
-      return groupData(start, end, 3);
-    } else {
-      //show by days
-      return groupData(start, end);
-    }
-  };
-
-  const groupData = (start, end, range) => {
-    let dates = [];
-    let data = [];
-    let amount = 0;
-    while ((start.isBefore(end) && range !== 1) || (start.isSameOrBefore(end) && !start.isSame(end, 'month') && range === 1)) {
-      amount = allTran
-        .filter(
-          (t) =>
-            isInRange(start, t.date, range) && end.isAfter(moment(t.date))
-        )
-        .reduce(
-          (pv, cv) => {
+  const groupData = useCallback(
+    (start, end, range) => {
+      let dates = [];
+      let data = [];
+      let amount = 0;
+      while (
+        (start.isBefore(end) && range !== 1) ||
+        (start.isSameOrBefore(end) &&
+          !start.isSame(end, "month") &&
+          range === 1)
+      ) {
+        //first run the dates array is empty,
+        //but we can check if there are any transactions with the start date and add the sum to the data array
+        //next run it checks if the start date is same of after the transaction date, because the start date is one day / range ahead
+        //and we sum up the transactions that are before the start date
+        amount = convertedTran
+          .filter(
+            (t) =>
+              isInRange(start, t.date, range) && end.isAfter(moment(t.date))
+          )
+          .reduce((pv, cv) => {
             if (cv.transactionType === "income") {
               return pv + cv.amount;
             } else {
               return pv - cv.amount;
             }
-          },
-          0
-        );
-      data.push(amount);
-      getFormatedDate(start, dates, range);
-    }
-
-    getFormatedDate(end, dates, range);
-    amount = allTran
-      .filter(
-        (t) => isInRange(end, t.date, range)
-      )
-      .reduce(
-        (pv, cv) => {
+          }, 0);
+        data.push(amount);
+        //adds the start date inside the dates array and changes the start date based on the range
+        getFormatedDate(start, dates, range);
+      }
+      //get the last date seperately, so it is correct
+      getFormatedDate(end, dates, range);
+      amount = convertedTran
+        .filter((t) => isInRange(end, t.date, range))
+        .reduce((pv, cv) => {
           if (cv.transactionType === "income") {
             return pv + cv.amount;
           } else {
             return pv - cv.amount;
           }
-        },
-        0
-      );
-    data.push(amount);
-    return [dates, data];
-  };
+        }, 0);
+      data.push(amount);
+      return [dates, data];
+    },
+    [convertedTran]
+  );
 
+  //checks
   const isInRange = (start, date, range) => {
-    if(range === 1){
-      return start.isSameOrAfter(moment(date), 'month') 
-    }else{
-      return start.isSameOrAfter(moment(date))
+    if (range === 1) {
+      return start.isSameOrAfter(moment(date), "month");
+    } else {
+      return start.isSameOrAfter(moment(date));
     }
   };
 
@@ -100,11 +88,26 @@ export default function BalanceLineChart() {
     }
   };
 
+  const getData = useCallback(() => {
+    const start = moment(startDate).endOf("day");
+    const end = moment(endDate).endOf("day");
+    const days = end.diff(start, "days");
+    if (days > 90) {
+      //show by months
+      return groupData(start, end, 1);
+    } else if (days > 30 && days <= 90) {
+      //show by 3 weeks
+      return groupData(start, end, 3);
+    } else {
+      //show by days
+      return groupData(start, end);
+    }
+  }, [startDate, endDate, groupData]);
+
   useEffect(() => {
     const [dates, data] = getData();
     setChartData({ dates, data });
-    
-  }, [allTran]);
+  }, [convertedTran, getData]);
 
   const data = {
     labels: chartData.dates,
@@ -127,17 +130,15 @@ export default function BalanceLineChart() {
     plugins: {
       legend: {
         display: false,
-        
       },
     },
     scales: {
       x: {
-        // color: "white",
         ticks: {
           color: "white", // this here
         },
       },
-      
+
       y: {
         color: "white",
         ticks: {

@@ -12,7 +12,7 @@ export default function BalancePieChart() {
 
   //redux
   const { currency } = useSelector(selectUser);
-  const { allTran } = useSelector(transactionListSelector);
+  const { convertedTran } = useSelector(transactionListSelector);
   const symbol = currency.symbol;
   const [income,setIncome] = useState()
   const [expense,setExpense] = useState()
@@ -20,7 +20,7 @@ export default function BalancePieChart() {
   useEffect(() => {
     const getTransactionTotal = (array, type) => {
       let total = 0;
-      array.map((transaction) => {
+      array.forEach((transaction) => {
         if (transaction.transactionType === type) {
          total += transaction.amount;
         }
@@ -28,9 +28,9 @@ export default function BalancePieChart() {
       });
       return total;
     };
-    setIncome(Math.round(getTransactionTotal(allTran, "income")*10)/10)
-    setExpense(Math.round(getTransactionTotal(allTran, "expense")*10)/10)
-  },[allTran]);
+    setIncome(getTransactionTotal(convertedTran, "income"))
+    setExpense(getTransactionTotal(convertedTran, "expense"))
+  },[convertedTran]);
 
   const data = {
     labels: [`Expense`, `Income`],

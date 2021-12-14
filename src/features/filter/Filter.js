@@ -11,9 +11,7 @@ import {
   Row,
   Button
 } from 'react-bootstrap';
-import { BsCalendarDateFill } from "react-icons/bs";
 import {
-  MdPayment,
   MdModeEdit,
   MdDelete,
   MdLibraryAdd
