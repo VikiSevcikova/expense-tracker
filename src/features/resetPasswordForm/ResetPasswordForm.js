@@ -34,7 +34,7 @@ const ResetPasswordForm = () => {
   
   const handleSubmit = async (values) => {
     try {
-      const { data } = await axios.post(`${process.env.SERVER_URL}/auth/reset-password/${userId}/${token}`, {password: values.password});
+      const { data } = await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/reset-password/${userId}/${token}`, {password: values.password});
       dispatch(
         showAlert({
           message: data.message,

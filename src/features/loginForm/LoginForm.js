@@ -32,7 +32,7 @@ const LoginForm = () => {
         email: values.email,
         password: values.password,
       };
-      const { data } = await axios.post(`${process.env.SERVER_URL}/auth/login`, formData);
+      const { data } = await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/login`, formData);
       dispatch(setToken(data.token));
   
       const { user } = await getUser(data.token);

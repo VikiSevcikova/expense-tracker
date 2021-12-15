@@ -42,7 +42,7 @@ const DeleteConfirmation = (props) => {
       case "transaction":
         //send data to backend - delete single tran
         try {
-          const response = await axios.delete(`${process.env.SERVER_URL}/alltransaction/delete/${id}`, getHeaderConfig(token));
+          const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/alltransaction/delete/${id}`, getHeaderConfig(token));
 
           if (response.statusText !== "OK") {
             throw response.statusText;
@@ -83,7 +83,7 @@ const DeleteConfirmation = (props) => {
       case "userAccount":
         //send data to backend - delete single tran
         try {
-          const response = await axios.delete(`${process.env.SERVER_URL}/users/delete`, getHeaderConfig(token));
+          const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/users/delete`, getHeaderConfig(token));
 
           if (response.statusText !== "OK") {
             throw response.statusText;

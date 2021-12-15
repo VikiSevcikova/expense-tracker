@@ -39,7 +39,7 @@ const RegistrationForm = () => {
         email: values.email,
         password: values.password,
       };
-      const { data } = await axios.post(`${process.env.SERVER_URL}/auth/register`, formData);
+      const { data } = await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/register`, formData);
 
       localStorage.setItem("ET-token", data.token);
 
