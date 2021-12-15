@@ -24,7 +24,7 @@ const ForgotPasswordForm = () => {
 
   const handleSubmit = async (values) => {
     try {
-      await axios.post("/auth/reset-password", values);
+      await axios.post(`${process.env.SERVER_URL}/auth/reset-password`, values);
       setSubmitted(true);
     } catch (error) {
       dispatch(
