@@ -129,9 +129,9 @@ const EditTransaction = (props) => {
         let response;
         props.operationType === "edit" ?
           //send data to backend - edit tran
-          response = await axios.post(`/alltransaction/update/${props.checkedItem._id}`, tran, getHeaderConfig(token)) :
+          response = await axios.post(`${process.env.SERVER_URL}/alltransaction/update/${props.checkedItem._id}`, tran, getHeaderConfig(token)) :
           //send data to backend - add new
-          response = await axios.post("/alltransaction/add", tran, getHeaderConfig(token));
+          response = await axios.post(`${process.env.SERVER_URL}/alltransaction/add`, tran, getHeaderConfig(token));
 
         if (response.statusText !== "OK") {
           throw response.statusText;

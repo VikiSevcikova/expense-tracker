@@ -13,7 +13,6 @@
     "cloudinary-react": "^1.7.0",
     "easy-currencies": "^1.7.0",
     "formik": "^2.2.9",
-    "js-cookie": "^3.0.1",
     "moment": "^2.29.1",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",

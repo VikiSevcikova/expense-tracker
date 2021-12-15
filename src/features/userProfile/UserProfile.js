@@ -1,3 +1,4 @@
+import config from 'config';
 import React, { useState } from 'react';
 import "./UserProfile.scss";
 import {
@@ -54,7 +55,7 @@ const UserProfile = () => {
     if (values.name !== user.username) {
       try {
         const response = await axios.post(
-          `/users/edit`,
+          `${process.env.SERVER_URL}/users/edit`,
           {
             username: values.name
           },

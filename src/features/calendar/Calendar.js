@@ -58,7 +58,7 @@ const Calendar = (props) => {
 
       try {
         const res = await axios.get(
-          `/transaction?startdate=${startDate}&enddate=${endDate}`,
+          `${process.env.SERVER_URL}/transaction?startdate=${startDate}&enddate=${endDate}`,
           getHeaderConfig(token)
         );
 

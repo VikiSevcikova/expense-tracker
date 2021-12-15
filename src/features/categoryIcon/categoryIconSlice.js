@@ -5,7 +5,7 @@ import { showAlert } from "../alertMessage/alertMessageSlice";
 
 export const getAll = createAsyncThunk('categoryIcon/getAll', async (token, {dispatch, rejectWithValue}) => {
     try{
-      const { data } = await axios.get("/category/all", getHeaderConfig(token));
+      const { data } = await axios.get(`${process.env.SERVER_URL}/category/all`, getHeaderConfig(token));
       return data.categories;
     }catch(error){
       dispatch(
