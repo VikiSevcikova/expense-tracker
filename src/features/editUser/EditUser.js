@@ -71,7 +71,7 @@ const EditUser = (props) => {
       //send data to backend
       try {
         const response = await axios.post(
-          `${process.env.SERVER_URL}/users/edit`,
+          `${process.env.REACT_APP_SERVER_URL}/users/edit`,
           {
             password: password.newPassword
           },
@@ -126,7 +126,7 @@ const EditUser = (props) => {
       //send data to backend
       try {
         const response = await axios.post(
-          `${process.env.SERVER_URL}/users/edit`,
+          `${process.env.REACT_APP_SERVER_URL}/users/edit`,
           {
             avatar: imageData.secure_url
           },

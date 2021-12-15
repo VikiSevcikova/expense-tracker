@@ -54,7 +54,7 @@ const UserProfile = () => {
     if (values.name !== user.username) {
       try {
         const response = await axios.post(
-          `${process.env.SERVER_URL}/users/edit`,
+          `${process.env.REACT_APP_SERVER_URL}/users/edit`,
           {
             username: values.name
           },

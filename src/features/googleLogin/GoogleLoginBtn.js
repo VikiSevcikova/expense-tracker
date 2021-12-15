@@ -14,7 +14,7 @@ const GoogleLoginBtn = () => {
 
     const responseSuccessGoogle = async (response) => {
         try{
-            const {data} = await axios.post(`${process.env.SERVER_URL}/auth/google-login`, {tokenId: response.tokenId})
+            const {data} = await axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/google-login`, {tokenId: response.tokenId})
             dispatch(setToken(data.token));
         
             const { user } = await getUser(data.token);

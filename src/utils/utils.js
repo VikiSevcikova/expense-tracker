@@ -11,7 +11,7 @@ export const getHeaderConfig = (token) => {
 };
 
 export const getUser = async (token) => {
-  const { data } = await axios.get(`${process.env.SERVER_URL}/users/me`, getHeaderConfig(token));
+  const { data } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/users/me`, getHeaderConfig(token));
   return data;
 };
 
