@@ -34,6 +34,7 @@ const GoogleLoginBtn = () => {
     }
 
     const responseErrorGoogle = (response) => {
+        console.log(response)
         dispatch(
             showAlert({
               message: "Couldn't login with Google",
