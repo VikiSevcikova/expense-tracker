@@ -287,7 +287,7 @@ export default function ExpenseChart() {
   return (
     <div className="chart">
       <h5>ExpenseChart</h5>
-      <div className="chart-wrapper-expense" style={{minHeight:`${height}vh`}}>
+      <div className="chart-wrapper" style={{minHeight:`${height}vh`}}>
         {data.labels.length !== 0 ? (
           <Doughnut
             width="inherit"
