@@ -274,7 +274,7 @@ export default function ExpenseChart() {
   console.log(data);
 
   useEffect(() => {
-    if (data.datasets[0].data.length > 3) {
+    if (data.datasets[0].data.length > 3 && mobile) {
       let line = 0;
       console.log(`more than 3`);
       line = (data.datasets[0].data.length - 3) * 8 +32
