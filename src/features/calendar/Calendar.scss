@@ -9,23 +9,20 @@
     padding: 0.3rem;
     width: 100%;
     text-align: center;
+
+    @media only screen and (max-width: 576px) {
+      font-size: 0.8rem;
+    }
+
     &:focus {
       outline: none;
       border: 0.1rem solid $accentColor1 !important;
     }
   }
-  // .dashboard {
-  //   filter: $dropShadowDark;
-  //   border: none;
-  //   background-color: $bgColorTR;
-  //   height: 60px;
-  // }
 }
 
-
-
 .picker-popper {
-  .react-datepicker-popper{
+  .react-datepicker-popper {
     z-index: 2;
   }
   .react-datepicker__day--selected,

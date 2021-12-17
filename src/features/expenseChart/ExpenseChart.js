@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Doughnut } from "react-chartjs-2";
+import { Doughnut, Line } from "react-chartjs-2";
 import useMedia from "use-media";
 import { transactionListSelector } from "../transactionList/transactionListSlice";
 import { selectUser } from "../userProfile/userSlice";
@@ -12,6 +12,7 @@ export default function ExpenseChart() {
   const { convertedTran } = useSelector(transactionListSelector);
   const { currency } = useSelector(selectUser);
   const symbol = currency.symbol;
+  const [height, setHeight] = useState(32)
 
   // Array to store the transaction record by catagory
   const dataList = [
@@ -42,7 +43,7 @@ export default function ExpenseChart() {
         list.trans.push(tran);
       }
     });
-    return tran
+    return tran;
   });
 
   // Filter and delete the lists if no transaction
@@ -120,15 +121,15 @@ export default function ExpenseChart() {
           "#d9dcd1",
           "#f2f1c5",
           "#e4d7a3",
-          "#a1bfa3",
-          "#78a1a3",
-          "#d9dcd1",
-          "#f2f1c5",
-          "#e4d7a3",
-          "#a1bfa3",
-          "#78a1a3",
-          "#d9dcd1",
-          "#f2f1c5",
+          "#ede9dc",
+          "#c0c5c5",
+          "#8f9da5",
+          "#677485",
+          "#c3c3c3",
+          "#f1eee3",
+          "#a68069",
+          "#d4b595",
+          "#ded2c5",
         ],
         hoverOffset: 4,
         borderWidth: 0,
@@ -270,11 +271,23 @@ export default function ExpenseChart() {
       },
     },
   };
+  console.log(data);
+
+  useEffect(() => {
+    if (data.datasets[0].data.length > 3) {
+      let line = 0;
+      console.log(`more than 3`);
+      line = (data.datasets[0].data.length - 3) * 8 +32
+      setHeight(line)
+    }
+  });
+
+  console.log(height);
 
   return (
     <div className="chart">
       <h5>ExpenseChart</h5>
-      <div className="chart-wrapper">
+      <div className="chart-wrapper-expense" style={{minHeight:`${height}vh`}}>
         {data.labels.length !== 0 ? (
           <Doughnut
             width="inherit"
